@@ -1,4 +1,53 @@
 {
   "schemaVersion": 1,
-  "photos": []
+  "photos": [
+    {
+      "id": "admin-31209c15-969a-4046-a422-7db6e762040b",
+      "roomId": "72BC",
+      "src": "images/rooms/admin-31209c15-969a-4046-a422-7db6e762040b.webp",
+      "kind": "interior",
+      "source": "管理者追加",
+      "width": 1440,
+      "height": 811,
+      "sha256": "10454de2d8a55a4516726545285d6097a7c15565d0c34e766a8a0c51b0584696",
+      "bytes": 119870,
+      "addedAt": "2026-11-05T09:16:31.772Z"
+    },
+    {
+      "id": "admin-6f4b0026-1e16-4a3c-ba0d-79fa3b9eef14",
+      "roomId": "72BC",
+      "src": "images/rooms/admin-6f4b0026-1e16-4a3c-ba0d-79fa3b9eef14.webp",
+      "kind": "interior",
+      "source": "管理者追加",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "d830208d135abc67c8b8dbd30301d89cbfc23c00279358093ef22684f5d4998e",
+      "bytes": 178146,
+      "addedAt": "2026-11-05T09:16:31.865Z"
+    },
+    {
+      "id": "admin-316a8b56-f67e-44ab-8e6e-870b8f3d46e7",
+      "roomId": "72BC",
+      "src": "images/rooms/admin-316a8b56-f67e-44ab-8e6e-870b8f3d46e7.webp",
+      "kind": "interior",
+      "source": "管理者追加",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "506301bd8508dbf9d79caacb950c7f3b2df860e055959041c4b539da56a9fde8",
+      "bytes": 117010,
+      "addedAt": "2026-11-05T09:16:31.933Z"
+    },
+    {
+      "id": "admin-8b10fc09-31e2-4cbd-8e96-0d620f60410f",
+      "roomId": "72BC",
+      "src": "images/rooms/admin-8b10fc09-31e2-4cbd-8e96-0d620f60410f.webp",
+      "kind": "interior",
+      "source": "管理者追加",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "ec6294029239d99bbd473afb4c96d0945122768758d83a85f9acf4729ec2544d",
+      "bytes": 179382,
+      "addedAt": "2026-11-05T09:16:32.014Z"
+    }
+  ]
 }
