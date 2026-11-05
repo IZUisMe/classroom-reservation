@@ -1,6 +1,6 @@
 // Publish only administrator photo data; application source edits need a normal review/commit.
 import { spawnSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -34,13 +34,25 @@ export async function verifyPublishedPhotos(manifest, fetcher = fetch) {
   }
   return manifest.photos.length;
 }
+export async function verifyPublishedGallery(rooms, fetcher = fetch) {
+  const response = await fetcher(`${site}data/rooms.json?verify=${Date.now()}`, { cache: 'no-store', signal: AbortSignal.timeout(30_000) });
+  if (!response.ok) throw new Error(`公開ギャラリーを確認できません (${response.status})`);
+  const published = await response.json();
+  if (!Array.isArray(published) || published.length !== rooms.length) throw new Error('公開教室一覧が一致しません。');
+  for (const room of rooms) {
+    const actual = published.find(item => item.id === room.id);
+    if (!actual || JSON.stringify((actual.gallery || []).map(image => image.sourceId)) !== JSON.stringify((room.gallery || []).map(image => image.sourceId))) throw new Error(`写真の並び順・削除が反映されていません: ${room.name}`);
+  }
+  return rooms.reduce((count, room) => count + (room.gallery?.length || 0), 0);
+}
 export async function publish() {
-  const dataFiles = ['public/data/admin-photos.json', 'public/data/rooms.json', 'public/data/photo-sources.json'];
+  const dataFiles = ['public/data/admin-photos.json', 'public/data/rooms.json', 'public/data/photo-sources.json', 'public/data/photo-edits.json'];
   const remote = run('git', ['remote', 'get-url', 'origin'], true);
   if (!/^https:\/\/github\.com\/IZUisMe\/classroom-reservation(?:\.git)?\/?$/i.test(remote)) throw new Error('公開先が設定と異なります。Gitのoriginを確認してください。');
   if (run('git', ['branch', '--show-current'], true) !== 'main') throw new Error('mainブランチへ切り替えてください。');
-  const snapshot = readFileSync(dataFiles[0], 'utf8');
-  const manifest = JSON.parse(snapshot);
+  const snapshots = new Map(dataFiles.map(file => [file, readFileSync(file, 'utf8')]));
+  const manifest = JSON.parse(snapshots.get(dataFiles[0]));
+  const expectedRooms = JSON.parse(snapshots.get('public/data/rooms.json'));
   if (manifest.schemaVersion !== 1 || !Array.isArray(manifest.photos)) throw new Error('写真台帳の形式が不正です。');
   const photoFiles = manifest.photos.map(photo => {
     if (!/^images\/rooms\/admin-[0-9a-f-]+\.webp$/i.test(photo.src)) throw new Error('管理者写真の保存先が不正です。');
@@ -53,9 +65,10 @@ export async function publish() {
   console.log('\n[1/6] GitHub認証を確認しています…');
   run(gh, ['auth', 'status', '--hostname', 'github.com']);
   console.log('\n[2/6] 写真データとアプリを検査しています…');
-  run(process.execPath, ['--test', 'tests/model.test.mjs', 'tests/assets.test.mjs', 'tests/admin.test.mjs', 'tests/publish.test.mjs']);
+  const testFiles = readdirSync('tests').filter(name => name.endsWith('.test.mjs')).sort().map(name => `tests/${name}`);
+  run(process.execPath, ['--test', ...testFiles]);
   run(process.execPath, ['tools/build.mjs']);
-  if (readFileSync(dataFiles[0], 'utf8') !== snapshot) throw new Error('公開準備中に写真が追加されました。追加を終えてから、もう一度実行してください。');
+  if (dataFiles.some(file => readFileSync(file, 'utf8') !== snapshots.get(file))) throw new Error('公開準備中に写真データが更新されました。編集を終えてから、もう一度実行してください。');
   console.log('\n[3/6] 写真の変更を保存しています…');
   run('git', ['add', '--', ...allowed]);
   const changed = run('git', ['diff', '--cached', '--name-only'], true);
@@ -79,7 +92,8 @@ export async function publish() {
   run(gh, ['run', 'watch', String(runId), '--repo', repo, '--exit-status', '--interval', '5']);
   console.log('\n[6/6] 公開サイトの写真を確認しています…');
   const count = await verifyPublishedPhotos(manifest);
-  console.log(`\n公開が完了しました。管理者追加写真 ${count} 枚の反映を確認しました。\n${site}\nブラウザで再読み込みしてください。`);
+  const visible = await verifyPublishedGallery(expectedRooms);
+  console.log(`\n公開が完了しました。管理者追加写真 ${count} 枚、公開ギャラリー ${visible} 枚の追加・並び順・削除を確認しました。\n${site}\nブラウザで再読み込みしてください。`);
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try { await publish(); }

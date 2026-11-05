@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { readFile, writeFile, rename, unlink, mkdir, open } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
+import { applyGalleryEdits, emptyPhotoEdits, galleryRoomState, validateGalleryUpdate, GalleryError } from './photo_gallery_edits.mjs';
 
 export const ADMIN_LIMITS = Object.freeze({ maxFileBytes: 4 * 1024 * 1024, maxBodyBytes: 6 * 1024 * 1024, maxWidth: 1440, maxHeight: 1080, maxPixels: 1440 * 1080 });
 const ADMIN_ID = /^admin-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
@@ -57,7 +58,7 @@ export function validateManifest(manifest, rooms) {
 }
 
 /** Pure, repeatable merge. Original-source missing records remain as history. */
-export function applyAdminPhotos({ rooms, sources, manifest }) {
+export function applyAdminPhotos({ rooms, sources, manifest, edits = emptyPhotoEdits() }) {
   if (!Array.isArray(rooms) || !Array.isArray(sources?.photos)) throw new AdminError('教室・写真データの形式が不正です。', 500);
   const resultRooms = clone(rooms);
   const resultSources = clone(sources);
@@ -94,7 +95,8 @@ export function applyAdminPhotos({ rooms, sources, manifest }) {
     interiorMissing: resultRooms.filter(room => !room.images.interior).map(room => room.id),
     exteriorAvailable: resultRooms.filter(room => !!room.images.exterior).length,
   });
-  return { rooms: resultRooms, sources: resultSources, manifest: cleanManifest };
+  const overlaid = applyGalleryEdits({ rooms: resultRooms, sources: resultSources, edits });
+  return { ...overlaid, manifest: cleanManifest };
 }
 
 const jsonBytes = value => Buffer.from(JSON.stringify(value, null, 2) + '\n');
@@ -126,20 +128,21 @@ async function lockStore(store) {
   await handle.writeFile(JSON.stringify({ pid: process.pid }));
   return async () => { await handle.close(); await unlink(lockPath).catch(() => {}); };
 }
-const DATA_FILES = ['rooms.json', 'photo-sources.json', 'admin-photos.json'];
+const DATA_FILES = ['rooms.json', 'photo-sources.json', 'admin-photos.json', 'photo-edits.json'];
 async function recoverLocked(store) {
   const journalPath = resolve(store.state, 'transaction.json');
   const raw = await optionalRead(journalPath);
   if (!raw) return false;
   const journal = JSON.parse(raw);
-  if (journal.version !== 1 || !Array.isArray(journal.before) || journal.before.length !== 3 || !ADMIN_ID.test(journal.imageId)) throw new AdminError('回復用記録が不正です。管理用サーバーを停止して確認してください。', 500);
-  for (let i = 0; i < DATA_FILES.length; i++) {
+  const legacy = journal.version === 1;
+  const count = legacy ? 3 : 4;
+  if ((!legacy && journal.version !== 2) || !Array.isArray(journal.before) || journal.before.length !== count || !(ADMIN_ID.test(journal.imageId) || (!legacy && journal.imageId === null)) || journal.before.some(value => value !== null && (typeof value !== 'string' || Buffer.from(value, 'base64').toString('base64') !== value))) throw new AdminError('回復用記録が不正です。管理用サーバーを停止して確認してください。', 500);
+  for (let i = 0; i < count; i++) {
     const file = resolve(store.data, DATA_FILES[i]);
     if (journal.before[i] === null) await unlink(file).catch(error => { if (error.code !== 'ENOENT') throw error; });
-    else if (typeof journal.before[i] === 'string') await atomicWrite(file, Buffer.from(journal.before[i], 'base64'));
-    else throw new AdminError('回復用記録が不正です。', 500);
+    else await atomicWrite(file, Buffer.from(journal.before[i], 'base64'));
   }
-  await unlink(resolve(store.images, `${journal.imageId}.webp`)).catch(error => { if (error.code !== 'ENOENT') throw error; });
+  if (journal.imageId) await unlink(resolve(store.images, `${journal.imageId}.webp`)).catch(error => { if (error.code !== 'ENOENT') throw error; });
   await unlink(journalPath);
   return true;
 }
@@ -148,8 +151,38 @@ export async function recoverAdminPhotoTransaction(projectRoot) {
   const release = await lockStore(store);
   try { return await recoverLocked(store); } finally { await release(); }
 }
+async function mutateStore(projectRoot, mutate, hooks = {}) {
+  const store = paths(projectRoot);
+  const release = await lockStore(store);
+  let journalWritten = false;
+  try {
+    await recoverLocked(store);
+    const before = await Promise.all(DATA_FILES.map(name => optionalRead(resolve(store.data, name))));
+    if (!before[0] || !before[1]) throw new AdminError('教室・写真データが見つかりません。', 500);
+    const state = { rooms: JSON.parse(before[0].toString('utf8')), sources: JSON.parse(before[1].toString('utf8')), manifest: before[2] ? JSON.parse(before[2].toString('utf8')) : { schemaVersion: 1, photos: [] }, edits: before[3] ? JSON.parse(before[3].toString('utf8')) : emptyPhotoEdits() };
+    const { merged, image, result } = await mutate(state);
+    const journalPath = resolve(store.state, 'transaction.json');
+    await atomicWrite(journalPath, jsonBytes({ version: 2, imageId: image?.id || null, before: before.map(value => value?.toString('base64') ?? null) }));
+    journalWritten = true;
+    if (image) { await mkdir(store.images, { recursive: true }); await writeFile(resolve(store.images, `${image.id}.webp`), image.bytes, { flag: 'wx' }); }
+    const after = [merged.rooms, merged.sources, merged.manifest, merged.edits];
+    for (let i = 0; i < DATA_FILES.length; i++) {
+      await hooks.beforeReplace?.(i, DATA_FILES[i]);
+      await atomicWrite(resolve(store.data, DATA_FILES[i]), jsonBytes(after[i]));
+    }
+    await unlink(journalPath);
+    journalWritten = false;
+    return result;
+  } catch (error) {
+    if (journalWritten) {
+      try { await recoverLocked(store); }
+      catch { throw new AdminError('更新に失敗し、回復処理が必要です。管理用サーバーを再起動してください。', 500); }
+    }
+    throw error;
+  } finally { await release(); }
+}
 
-/** Commit image + three canonical JSON files; roll back on failure or next start. */
+/** Commit image + four canonical JSON files; old version-1 journals remain recoverable. */
 export async function addAdminPhoto(projectRoot, payload, hooks = {}) {
   if (!payload || typeof payload.roomId !== 'string' || !['interior', 'exterior'].includes(payload.kind) || typeof payload.image?.data !== 'string') throw new AdminError('教室・写真の種類・画像を指定してください。');
   const base64 = payload.image.data;
@@ -158,41 +191,25 @@ export async function addAdminPhoto(projectRoot, payload, hooks = {}) {
   if (bytes.toString('base64') !== base64) throw new AdminError('画像データの形式が不正です。');
   const dimensions = inspectWebP(bytes);
   if (payload.image.width !== dimensions.width || payload.image.height !== dimensions.height) throw new AdminError('画像の寸法が一致しません。');
-  const store = paths(projectRoot);
-  const release = await lockStore(store);
-  let imagePath;
-  let journalWritten = false;
-  try {
-    await recoverLocked(store);
-    const before = await Promise.all(DATA_FILES.map(name => optionalRead(resolve(store.data, name))));
-    if (!before[0] || !before[1]) throw new AdminError('教室・写真データが見つかりません。', 500);
-    const rooms = JSON.parse(before[0].toString('utf8'));
-    const sources = JSON.parse(before[1].toString('utf8'));
-    if (!rooms.some(room => room.id === payload.roomId)) throw new AdminError('登録されていない教室です。');
-    const manifest = before[2] ? JSON.parse(before[2].toString('utf8')) : { schemaVersion: 1, photos: [] };
+  return mutateStore(projectRoot, state => {
+    if (!state.rooms.some(room => room.id === payload.roomId)) throw new AdminError('登録されていない教室です。');
     const id = `admin-${randomUUID()}`;
     const photo = { id, roomId: payload.roomId, src: `images/rooms/${id}.webp`, kind: payload.kind, source: '管理者追加', ...dimensions, sha256: createHash('sha256').update(bytes).digest('hex'), bytes: bytes.length, addedAt: new Date().toISOString() };
-    manifest.photos.push(photo);
-    const merged = applyAdminPhotos({ rooms, sources, manifest });
-    await mkdir(store.images, { recursive: true });
-    imagePath = resolve(store.images, `${id}.webp`);
-    await writeFile(imagePath, bytes, { flag: 'wx' });
-    const journalPath = resolve(store.state, 'transaction.json');
-    await atomicWrite(journalPath, jsonBytes({ version: 1, imageId: id, before: before.map(value => value?.toString('base64') ?? null) }));
-    journalWritten = true;
-    const after = [merged.rooms, merged.sources, merged.manifest];
-    for (let i = 0; i < DATA_FILES.length; i++) {
-      await hooks.beforeReplace?.(i, DATA_FILES[i]);
-      await atomicWrite(resolve(store.data, DATA_FILES[i]), jsonBytes(after[i]));
-    }
-    await unlink(journalPath);
-    journalWritten = false;
-    return { photo, room: { id: payload.roomId, name: merged.rooms.find(room => room.id === payload.roomId).name }, summary: merged.sources.summary };
-  } catch (error) {
-    if (journalWritten) {
-      try { await recoverLocked(store); }
-      catch { throw new AdminError('更新に失敗し、回復処理が必要です。管理用サーバーを再起動してください。', 500); }
-    } else if (imagePath) await unlink(imagePath).catch(() => {});
-    throw error;
-  } finally { await release(); }
+    state.manifest.photos.push(photo);
+    const merged = applyAdminPhotos(state);
+    const room = merged.rooms.find(room => room.id === payload.roomId);
+    return { merged, image: { id, bytes }, result: { photo, room: galleryRoomState(room, merged.sources, merged.edits), summary: merged.sources.summary } };
+  }, hooks);
+}
+export async function updatePhotoGallery(projectRoot, payload, hooks = {}) {
+  return mutateStore(projectRoot, state => {
+    if (!payload || !state.rooms.some(room => room.id === payload.roomId)) throw new GalleryError('登録されていない教室です。');
+    const current = applyAdminPhotos(state);
+    const room = current.rooms.find(room => room.id === payload.roomId);
+    const edit = validateGalleryUpdate(payload, room, current.sources, current.edits);
+    current.edits.rooms[payload.roomId] = edit;
+    const merged = applyAdminPhotos(current);
+    const updated = merged.rooms.find(room => room.id === payload.roomId);
+    return { merged, result: { room: galleryRoomState(updated, merged.sources, merged.edits), summary: merged.sources.summary } };
+  }, hooks);
 }

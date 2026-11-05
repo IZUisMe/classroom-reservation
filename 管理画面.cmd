@@ -1,11 +1,7 @@
 @echo off
-chcp 65001 >nul
 setlocal
 cd /d "%~dp0"
-set "NODE=%USERPROFILE%\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\node\bin\node.exe"
-if not exist "%NODE%" set "NODE=node"
-echo 教室写真の管理画面を起動します。
-echo http://127.0.0.1:4174 をブラウザで開いてください。
-echo このPC専用です。停止は Ctrl+C です。
-"%NODE%" tools\admin-server.mjs
+"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoLogo -NoProfile -NoExit -ExecutionPolicy Bypass -File "%~dp0tools\launch.ps1" -Mode admin
+echo.
+echo The launcher has ended. Review the message above before closing.
 pause

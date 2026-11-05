@@ -1,15 +1,7 @@
 @echo off
-chcp 65001 >nul
 setlocal
 cd /d "%~dp0"
-set "NODE=%USERPROFILE%\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\node\bin\node.exe"
-if not exist "%NODE%" set "NODE=node"
-if not exist "dist\index.html" (
-  echo アプリのビルドがありません。READMEの手順を確認してください。
-  pause
-  exit /b 1
-)
-echo 教室予約アプリを起動します。
-echo 表示されたURLをブラウザで開いてください。停止は Ctrl+C です。
-"%NODE%" tools\serve.mjs
+"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoLogo -NoProfile -NoExit -ExecutionPolicy Bypass -File "%~dp0tools\launch.ps1" -Mode app
+echo.
+echo The launcher has ended. Review the message above before closing.
 pause

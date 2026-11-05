@@ -13,7 +13,14 @@ assert admin['schemaVersion']==1
 admin_lookup={p['id']:p for p in admin['photos']}
 assert len(admin_lookup)==len(admin['photos'])
 expected_photo_count=164+len(admin_lookup)
-missing_interiors=[rid for rid in ['22A','22F','72D','72A','72BC'] if not any(p['roomId']==rid and p['kind']=='interior' for p in admin['photos'])]
+from photo_gallery_edits import apply_gallery_edits
+edits_path=ROOT/'public/data/photo-edits.json'
+edits=read('public/data/photo-edits.json') if edits_path.exists() else {'schemaVersion':1,'rooms':{}}
+expected_rooms,expected_data,normalized_edits=apply_gallery_edits(rooms,data,edits)
+expected_by_room={room['id']:room for room in expected_rooms}
+hidden_ids={sid for edit in normalized_edits['rooms'].values() for sid in edit['hidden']}
+expected_visible_count=expected_photo_count-len(hidden_ids)
+missing_interiors=[room['id'] for room in expected_rooms if room['images']['interior'] is None]
 lookup={p['id']:p for p in data['photos']}
 assert len(lookup)==len(data['photos'])
 wb=load_workbook(ROOT/data['sources']['xlsx'],data_only=False); ws=wb['教室データベース']
@@ -107,36 +114,32 @@ with zipfile.ZipFile(ROOT/data['sources']['xlsx']) as z:
         verified+=1
 
 referenced=[]
+legacy=sum(lookup[f'{room["id"]}-{kind}']['status']=='available' for room in workbook_rooms for kind in ['interior','exterior'])
 for room in rooms:
+    expected=expected_by_room[room['id']]
+    assert [photo['sourceId'] for photo in room['gallery']]==[photo['sourceId'] for photo in expected['gallery']]
     for kind in ['interior','exterior']:
-        img=room['images'][kind]; source=lookup[f'{room["id"]}-{kind}']
-        assert source['roomId']==room['id']
+        img=room['images'][kind]
+        first=next((photo for photo in room['gallery'] if photo['kind']==kind),None)
         if img is None:
-            assert source['status']=='missing' and room['photoStatus'][kind]=='missing'
+            assert first is None and room['photoStatus'][kind]=='missing'
         else:
-            original=source
             source=lookup[img['sourceId']]
             assert source['roomId']==room['id'] and source['kind']==kind
             assert source['status']=='available' and room['photoStatus'][kind]=='available'
-            if original['status']=='available':
-                assert source['id']==original['id']
-            else:
-                first=next(p for p in admin['photos'] if p['roomId']==room['id'] and p['kind']==kind)
-                assert source['sourceType']=='admin' and source['id']==first['id']
+            assert first and img['sourceId']==first['sourceId']
             assert img['src']==source['webp']['src']
             assert img['source']==source['source'] and img.get('page')==source.get('page')
-            assert source['id'] in [g['sourceId'] for g in room['gallery']]
-            if room['source'].get('xlsx') and source['sourceType']!='admin': legacy+=1
     assert len({g['sourceId'] for g in room['gallery']})==len(room['gallery'])
     for image in room['gallery']:
         source=lookup[image['sourceId']]
-        assert source['roomId']==room['id']
+        assert source['roomId']==room['id'] and image['sourceId'] not in hidden_ids
         assert image['kind'] in ['interior','exterior']
         for key in ['src','width','height']: assert image[key]==source['webp'][key]
         assert image['source']==source['source'] and image.get('page')==source.get('page')
         referenced.append(image['sourceId'])
 assert verified==expected_photo_count and legacy==47 and workbook_verified==16
-assert len(referenced)==expected_photo_count and set(referenced)=={s['id'] for s in available}
+assert len(referenced)==expected_visible_count and set(referenced)=={s['id'] for s in available}-hidden_ids
 assert [r['id'] for r in rooms if not r['images']['interior']]==missing_interiors
 assert {r['id'] for r in data['pdfOnlyRooms']}=={'21A','22H','33J'}
 assert all(r['status']=='included' for r in data['pdfOnlyRooms'])
@@ -160,12 +163,14 @@ assert summary['interiorAvailable']==42-len(missing_interiors)
 assert summary['interiorMissing']==missing_interiors
 assert summary['exteriorAvailable']==sum(r['images']['exterior'] is not None for r in rooms)
 assert summary['adminPhotographs']==len(admin_lookup)
-assert summary['galleryPhotoCount']==summary['webpCount']==expected_photo_count
+assert summary['galleryPhotoCount']==expected_visible_count
+assert summary.get('hiddenPhotoCount',0)==len(hidden_ids)
+assert summary['webpCount']==expected_photo_count
 assert len([p for p in data['photos'] if p['id'] in {f'{r["id"]}-{kind}' for r in rooms for kind in ['interior','exterior']}])==84
 assert len(data['photos'])==198+len(admin_lookup)
 for source in data['sourceFiles']:
     assert hashlib.sha256((ROOT/source['file']).read_bytes()).hexdigest()==source['sha256']
-report={'roomCount':42,'primaryPhotoSlots':84,'originalWorkbookRoomCount':37,'addedPdfRooms':['33J','21A','22H'],'addedUserRooms':['72A','72BC'],'photoRecords':len(data['photos']),'galleryPhotos':expected_photo_count,'webpCount':expected_photo_count,'adminPhotographs':len(admin_lookup),'workbookOriginalsByteIdentical':16,'legacyPrimaryPhotosMaintained':47,'pdfPhotosAdded':148,'pdfPhotographOccurrencesCovered':148,'excludedPdfSymbols':6,'allEmbeddedOccurrencesClassified':154,'allCommentsPreserved':True,'pdfTitleMatches':37,'missingInteriors':missing_interiors,'webpBytes':sum(s['webp']['bytes'] for s in available),'metadataConflicts':mapping['metadataConflicts'],'passed':True}
+report={'roomCount':42,'primaryPhotoSlots':84,'originalWorkbookRoomCount':37,'addedPdfRooms':['33J','21A','22H'],'addedUserRooms':['72A','72BC'],'photoRecords':len(data['photos']),'galleryPhotos':expected_visible_count,'hiddenPhotoCount':len(hidden_ids),'webpCount':expected_photo_count,'adminPhotographs':len(admin_lookup),'workbookOriginalsByteIdentical':16,'legacyPrimaryPhotosMaintained':47,'pdfPhotosAdded':148,'pdfPhotographOccurrencesCovered':148,'excludedPdfSymbols':6,'allEmbeddedOccurrencesClassified':154,'allCommentsPreserved':True,'pdfTitleMatches':37,'missingInteriors':missing_interiors,'webpBytes':sum(s['webp']['bytes'] for s in available),'metadataConflicts':mapping['metadataConflicts'],'passed':True}
 (ROOT/'inspection/room-data-validation.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 
 doc=['# 教室・全写真の出典整理','','## 概要','',
@@ -180,11 +185,13 @@ f'- 室内写真あり{42-len(missing_interiors)}／42室。**'+('・'.join(miss
 '- 学生ホールp34は図の左下にも写真があるため、右側だけを選ぶ位置閾値で除外しない。',
 '- 原H列コメントは37室すべて原文維持。PDF新規3室に推測コメント・設備を追加しない。',
 '', '## 後方互換スキーマ','',
-'- [教室JSON](<../public/data/rooms.json>) は42件の配列。従来の `images.interior/exterior`・`photoStatus`・既存47代表画像のパス/IDを維持。',
+'- [教室JSON](<../public/data/rooms.json>) は42件の配列。従来の `images.interior/exterior`・`photoStatus` の形と元写真のパス/IDを維持。代表写真は表示中galleryで同じkindの先頭を採用。',
 '- [ユーザー追加マニフェスト](<../public/data/custom-rooms.json>) は `schemaVersion:1, rooms:[room]`。72A・72BCを永続保存し、全体生成・gallery再生成のどちらでも最終段でマージする。',
 '- ユーザー追加室は `source.type:user-provided`・`addedFromUser:true`・`xlsx:null`・`pdfPages:[]`・`pdfLabel:null`。所在地根拠も `user-provided`。マニフェストの初期状態は `capacity/equipment` と両代表写真がnull、`gallery:[]`、両 `photoStatus` がmissing。',
-'- [管理者写真マニフェスト](<../public/data/admin-photos.json>) は `schemaVersion:1, photos:[{id,roomId,src,kind,source,width,height,sha256,bytes,addedAt}]`。IDは `admin-UUID`、保存先は `images/rooms/admin-UUID.webp`、出典は `管理者追加`。再生成時にファイルのSHA-256・寸法を検証してマージし、元資料の写真と区別。写真がない代表枠のみ最初の追加写真で補い、既存代表写真は差し替えない。',
-'- 各roomへ `gallery:[{src,kind,source,page,sourceId,width,height}]` を追加。kindはinterior/exterior。写真なしの教室は空配列。',
+'- [管理者写真マニフェスト](<../public/data/admin-photos.json>) は `schemaVersion:1, photos:[{id,roomId,src,kind,source,width,height,sha256,bytes,addedAt}]`。IDは `admin-UUID`、保存先は `images/rooms/admin-UUID.webp`、出典は `管理者追加`。再生成時にファイルのSHA-256・寸法を検証してマージし、元資料の写真と区別。表示順・除外の編集は最後のoverlayで反映し、表示中の先頭同kind写真を代表にする。元写真は削除しない。',
+'- 各roomへ `gallery:[{src,kind,source,page,sourceId,width,height}]` を追加。kindはinterior/exterior。非表示の写真はgalleryからだけ除外し、元WebPとavailable出典台帳は保持。',
+'- [写真編集台帳](<../public/data/photo-edits.json>) は `schemaVersion:1, rooms:{roomId:{order:[全sourceId],hidden:[sourceId]}}`。元資料・追加写真を共に並べ替え・非破壊除外・復元でき、再生成でも最後に適用する。新しい写真は既存orderの末尾へ追加。',
+f'- 表示写真 {expected_visible_count} 点、非表示 {len(hidden_ids)} 点。`galleryPhotoCount`は表示数、`hiddenPhotoCount`は除外数、`webpCount`は元ファイル総数を数える。',
 '- galleryは従来の代表写真を先に、その後PDFの残り写真をページの上から左→右順に追加。同じPDF画像を代表とgalleryで二重登録しない。',
 '- [出典台帳](<../public/data/photo-sources.json>) schemaVersion2。各写真に原画像SHA-256、xref、物理ページ、配置座標/変換行列、WebPのSHA-256・寸法を記録。',
 '- 歴史的な `pdfOnlyRooms` 配列は削除せず、3室すべて `status:included` に更新。',

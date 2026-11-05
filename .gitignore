@@ -12,6 +12,8 @@ tools/python-deps/
 tools/font-deps/
 tools/github-cli/
 tools/admin/.state/
+__pycache__/
+*.pyc
 assets/
 *.xlsx
 !public/templates/application.xlsx

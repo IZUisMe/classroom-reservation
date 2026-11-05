@@ -247,8 +247,17 @@ ledger['sources']['admin']='public/data/admin-photos.json'
 ledger['policy']+=' 管理者追加写真は独立マニフェストから復元し、原資料の写真とは区別。'
 ledger['policy']+=' ユーザー指定の72A・72BCは独立した追加マニフェストから登録し、写真・定員は未提供のまま。'
 ledger['summary'].update({'roomCount':42,'primaryPhotoSlots':84,'originalWorkbookRoomCount':37,'addedPdfRooms':['33J','21A','22H'],'addedUserRooms':[room['id'] for room in custom_rooms],'existingPhotosPreserved':16,'interiorAvailable':sum(room['images']['interior'] is not None for room in rooms),'interiorMissing':[r['id'] for r in rooms if not r['images']['interior']],'exteriorAvailable':sum(room['images']['exterior'] is not None for room in rooms),'pdfInteriorAdded':148,'legacyPdfInteriorAdded':31,'pdfPhotographs':148,'adminPhotographs':len(admin_photos),'galleryPhotoCount':len(available),'webpCount':len(available),'webpBytes':sum(record['webp']['bytes'] for record in available),'excludedPdfSymbols':6,'pdfRotationAppliedCount':rotated})
+# Apply the persisted non-destructive order/exclusion overlay only after every
+# source/admin photo has been rebuilt; hidden WebP and source records stay intact.
+from photo_gallery_edits import apply_gallery_edits
+edits_path=ROOT/'public/data/photo-edits.json'
+edits=load('public/data/photo-edits.json') if edits_path.exists() else {'schemaVersion':1,'rooms':{}}
+rooms,ledger,edits=apply_gallery_edits(rooms,ledger,edits)
+ledger['sources']['edits']='public/data/photo-edits.json'
+ledger['policy']+=' 並び替え・非表示はphoto-edits.jsonの非破壊編集として最後に適用し、元画像と出典記録は保持。'
 dump('public/data/rooms.json',rooms)
 dump('public/data/photo-sources.json',ledger)
+dump('public/data/photo-edits.json',edits)
 dump('inspection/room-pdf-mapping.json',mapping)
 dump('inspection/room-gallery-classification.json',{'source':'roomlist.pdf','pageCount':40,'classroomPages':37,'photographCount':148,'excludedSymbolCount':6,'items':classified})
 dump('inspection/extraction-summary.json',ledger['summary'])
