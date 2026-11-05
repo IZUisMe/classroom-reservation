@@ -10,4 +10,7 @@ echo 写真の掲載許可と、写り込んだ人物・個人情報を確認し
 choice /C YN /M "公開を開始しますか"
 if errorlevel 2 exit /b 0
 "%NODE%" tools\publish.mjs
+set "RESULT=%ERRORLEVEL%"
+echo.
 pause
+exit /b %RESULT%

@@ -1,0 +1,2 @@
+# Windows launchers must retain CRLF even after checkout on another platform.
+*.cmd text eol=crlf
