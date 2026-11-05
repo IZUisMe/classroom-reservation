@@ -1,0 +1,198 @@
+import { createHash, randomUUID } from 'node:crypto';
+import { readFile, writeFile, rename, unlink, mkdir, open } from 'node:fs/promises';
+import { resolve, dirname } from 'node:path';
+
+export const ADMIN_LIMITS = Object.freeze({ maxFileBytes: 4 * 1024 * 1024, maxBodyBytes: 6 * 1024 * 1024, maxWidth: 1440, maxHeight: 1080, maxPixels: 1440 * 1080 });
+const ADMIN_ID = /^admin-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+const adminPhoto = photo => typeof photo?.sourceId === 'string' && photo.sourceId.startsWith('admin-');
+const clone = value => structuredClone(value);
+export class AdminError extends Error { constructor(message, status = 400) { super(message); this.status = status; } }
+
+/** Parse still WebP headers, reject metadata/animation, and enforce canvas bounds. */
+export function inspectWebP(input) {
+  const bytes = Buffer.from(input);
+  if (bytes.length < 20 || bytes.length > ADMIN_LIMITS.maxFileBytes) throw new AdminError('WebP画像は4MB以内にしてください。');
+  if (bytes.toString('ascii', 0, 4) !== 'RIFF' || bytes.toString('ascii', 8, 12) !== 'WEBP' || bytes.readUInt32LE(4) + 8 !== bytes.length) throw new AdminError('WebP画像の形式が正しくありません。');
+  let offset = 12;
+  let extended;
+  let dimensions;
+  let imageChunks = 0;
+  while (offset < bytes.length) {
+    if (offset + 8 > bytes.length) throw new AdminError('WebP画像が途中で切れています。');
+    const type = bytes.toString('ascii', offset, offset + 4);
+    const length = bytes.readUInt32LE(offset + 4);
+    const start = offset + 8;
+    const end = start + length;
+    if (end > bytes.length || end + (length & 1) > bytes.length) throw new AdminError('WebP画像のチャンクが不正です。');
+    if (type === 'VP8X') {
+      if (length !== 10 || extended || bytes[start] & 0x2e) throw new AdminError('アニメーション・メタデータ付きの画像は使用できません。');
+      extended = { width: bytes.readUIntLE(start + 4, 3) + 1, height: bytes.readUIntLE(start + 7, 3) + 1 };
+    } else if (type === 'VP8 ') {
+      if (length < 10 || (bytes[start] & 1) || !bytes.subarray(start + 3, start + 6).equals(Buffer.from([0x9d, 0x01, 0x2a]))) throw new AdminError('WebP画像の本体が不正です。');
+      dimensions = { width: bytes.readUInt16LE(start + 6) & 0x3fff, height: bytes.readUInt16LE(start + 8) & 0x3fff }; imageChunks++;
+    } else if (type === 'VP8L') {
+      if (length < 5 || bytes[start] !== 0x2f) throw new AdminError('WebP画像の本体が不正です。');
+      const bits = bytes.readUInt32LE(start + 1);
+      if (bits >>> 29) throw new AdminError('未対応のWebP形式です。');
+      dimensions = { width: (bits & 0x3fff) + 1, height: ((bits >>> 14) & 0x3fff) + 1 }; imageChunks++;
+    } else if (type !== 'ALPH') throw new AdminError('メタデータ等を含まないWebP画像に変換してください。');
+    offset = end + (length & 1);
+  }
+  if (offset !== bytes.length || imageChunks !== 1 || !dimensions) throw new AdminError('静止WebP画像を指定してください。');
+  if (extended && (extended.width !== dimensions.width || extended.height !== dimensions.height)) throw new AdminError('WebP画像の寸法が一致しません。');
+  const { width, height } = dimensions;
+  if (!width || !height || width > ADMIN_LIMITS.maxWidth || height > ADMIN_LIMITS.maxHeight || width * height > ADMIN_LIMITS.maxPixels) throw new AdminError('画像は最大1440×1080以内にしてください。');
+  return dimensions;
+}
+
+export function validateManifest(manifest, rooms) {
+  if (!manifest || manifest.schemaVersion !== 1 || !Array.isArray(manifest.photos)) throw new AdminError('管理写真台帳の形式が不正です。', 500);
+  const roomIds = new Set(rooms.map(room => room.id));
+  const ids = new Set();
+  return { schemaVersion: 1, photos: manifest.photos.map(photo => {
+    if (!photo || !ADMIN_ID.test(photo.id) || ids.has(photo.id) || !roomIds.has(photo.roomId) || !['interior', 'exterior'].includes(photo.kind) || photo.src !== `images/rooms/${photo.id}.webp` || photo.source !== '管理者追加' || !/^[a-f0-9]{64}$/.test(photo.sha256) || !Number.isInteger(photo.bytes) || photo.bytes < 20 || photo.bytes > ADMIN_LIMITS.maxFileBytes || !Number.isInteger(photo.width) || !Number.isInteger(photo.height) || photo.width < 1 || photo.height < 1 || photo.width > 1440 || photo.height > 1080 || !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(photo.addedAt) || !Number.isFinite(Date.parse(photo.addedAt))) throw new AdminError('管理写真台帳に不正な項目があります。', 500);
+    ids.add(photo.id);
+    return Object.fromEntries(['id', 'roomId', 'src', 'kind', 'source', 'width', 'height', 'sha256', 'bytes', 'addedAt'].map(key => [key, photo[key]]));
+  }) };
+}
+
+/** Pure, repeatable merge. Original-source missing records remain as history. */
+export function applyAdminPhotos({ rooms, sources, manifest }) {
+  if (!Array.isArray(rooms) || !Array.isArray(sources?.photos)) throw new AdminError('教室・写真データの形式が不正です。', 500);
+  const resultRooms = clone(rooms);
+  const resultSources = clone(sources);
+  const cleanManifest = validateManifest(manifest, resultRooms);
+  for (const room of resultRooms) {
+    room.gallery = (room.gallery || []).filter(photo => !adminPhoto(photo));
+    room.images ||= { interior: null, exterior: null };
+    room.photoStatus ||= {};
+    for (const kind of ['interior', 'exterior']) {
+      if (adminPhoto(room.images[kind])) {
+        const original = room.gallery.find(photo => photo.kind === kind);
+        room.images[kind] = original ? { src: original.src, source: original.source, ...(original.page ? { page: original.page } : {}), sourceId: original.sourceId } : null;
+      }
+    }
+  }
+  resultSources.photos = resultSources.photos.filter(photo => photo.sourceType !== 'admin' && !String(photo.id || '').startsWith('admin-'));
+  for (const photo of cleanManifest.photos) {
+    const room = resultRooms.find(room => room.id === photo.roomId);
+    const image = { src: photo.src, kind: photo.kind, source: photo.source, sourceId: photo.id, width: photo.width, height: photo.height };
+    room.gallery.push(image);
+    if (!room.images[photo.kind]) room.images[photo.kind] = { src: photo.src, source: photo.source, sourceId: photo.id };
+    resultSources.photos.push({ id: photo.id, roomId: photo.roomId, roomName: room.name, kind: photo.kind, status: 'available', sourceType: 'admin', source: photo.source, addedAt: photo.addedAt, webp: { src: photo.src, sha256: photo.sha256, bytes: photo.bytes, width: photo.width, height: photo.height } });
+  }
+  for (const room of resultRooms) for (const kind of ['interior', 'exterior']) room.photoStatus[kind] = room.images[kind] ? 'available' : 'missing';
+  const available = new Map(resultSources.photos.filter(photo => photo.status === 'available' && photo.webp).map(photo => [photo.webp.src, photo.webp]));
+  resultSources.summary ||= {};
+  Object.assign(resultSources.summary, {
+    roomCount: resultRooms.length,
+    adminPhotographs: cleanManifest.photos.length,
+    galleryPhotoCount: resultRooms.reduce((sum, room) => sum + room.gallery.length, 0),
+    webpCount: available.size,
+    webpBytes: [...available.values()].reduce((sum, photo) => sum + photo.bytes, 0),
+    interiorAvailable: resultRooms.filter(room => !!room.images.interior).length,
+    interiorMissing: resultRooms.filter(room => !room.images.interior).map(room => room.id),
+    exteriorAvailable: resultRooms.filter(room => !!room.images.exterior).length,
+  });
+  return { rooms: resultRooms, sources: resultSources, manifest: cleanManifest };
+}
+
+const jsonBytes = value => Buffer.from(JSON.stringify(value, null, 2) + '\n');
+const optionalRead = async file => { try { return await readFile(file); } catch (error) { if (error.code === 'ENOENT') return null; throw error; } };
+async function atomicWrite(file, data) {
+  const temp = `${file}.${randomUUID()}.tmp`;
+  await writeFile(temp, data, { flag: 'wx' });
+  try { await rename(temp, file); } catch (error) { await unlink(temp).catch(() => {}); throw error; }
+}
+function paths(root) {
+  const projectRoot = resolve(root);
+  return { projectRoot, state: resolve(projectRoot, 'tools/admin/.state'), data: resolve(projectRoot, 'public/data'), images: resolve(projectRoot, 'public/images/rooms') };
+}
+async function lockStore(store) {
+  await mkdir(store.state, { recursive: true });
+  const lockPath = resolve(store.state, 'write.lock');
+  let handle;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try { handle = await open(lockPath, 'wx'); break; }
+    catch (error) {
+      if (error.code !== 'EEXIST') throw error;
+      let stale = false;
+      try { const lock = JSON.parse(await readFile(lockPath, 'utf8')); try { process.kill(lock.pid, 0); } catch (check) { stale = check.code === 'ESRCH'; } } catch { /* Do not delete a lock of unknown ownership. */ }
+      if (!stale) throw new AdminError('写真データを別の処理が更新中です。少し待ってから再試行してください。', 409);
+      await unlink(lockPath);
+    }
+  }
+  if (!handle) throw new AdminError('写真データのロックを取得できません。', 409);
+  await handle.writeFile(JSON.stringify({ pid: process.pid }));
+  return async () => { await handle.close(); await unlink(lockPath).catch(() => {}); };
+}
+const DATA_FILES = ['rooms.json', 'photo-sources.json', 'admin-photos.json'];
+async function recoverLocked(store) {
+  const journalPath = resolve(store.state, 'transaction.json');
+  const raw = await optionalRead(journalPath);
+  if (!raw) return false;
+  const journal = JSON.parse(raw);
+  if (journal.version !== 1 || !Array.isArray(journal.before) || journal.before.length !== 3 || !ADMIN_ID.test(journal.imageId)) throw new AdminError('回復用記録が不正です。管理用サーバーを停止して確認してください。', 500);
+  for (let i = 0; i < DATA_FILES.length; i++) {
+    const file = resolve(store.data, DATA_FILES[i]);
+    if (journal.before[i] === null) await unlink(file).catch(error => { if (error.code !== 'ENOENT') throw error; });
+    else if (typeof journal.before[i] === 'string') await atomicWrite(file, Buffer.from(journal.before[i], 'base64'));
+    else throw new AdminError('回復用記録が不正です。', 500);
+  }
+  await unlink(resolve(store.images, `${journal.imageId}.webp`)).catch(error => { if (error.code !== 'ENOENT') throw error; });
+  await unlink(journalPath);
+  return true;
+}
+export async function recoverAdminPhotoTransaction(projectRoot) {
+  const store = paths(projectRoot);
+  const release = await lockStore(store);
+  try { return await recoverLocked(store); } finally { await release(); }
+}
+
+/** Commit image + three canonical JSON files; roll back on failure or next start. */
+export async function addAdminPhoto(projectRoot, payload, hooks = {}) {
+  if (!payload || typeof payload.roomId !== 'string' || !['interior', 'exterior'].includes(payload.kind) || typeof payload.image?.data !== 'string') throw new AdminError('教室・写真の種類・画像を指定してください。');
+  const base64 = payload.image.data;
+  if (!base64.length || base64.length > Math.ceil(ADMIN_LIMITS.maxFileBytes / 3) * 4 || base64.length % 4 || !/^[A-Za-z0-9+/]*={0,2}$/.test(base64)) throw new AdminError('画像データの形式またはサイズが不正です。');
+  const bytes = Buffer.from(base64, 'base64');
+  if (bytes.toString('base64') !== base64) throw new AdminError('画像データの形式が不正です。');
+  const dimensions = inspectWebP(bytes);
+  if (payload.image.width !== dimensions.width || payload.image.height !== dimensions.height) throw new AdminError('画像の寸法が一致しません。');
+  const store = paths(projectRoot);
+  const release = await lockStore(store);
+  let imagePath;
+  let journalWritten = false;
+  try {
+    await recoverLocked(store);
+    const before = await Promise.all(DATA_FILES.map(name => optionalRead(resolve(store.data, name))));
+    if (!before[0] || !before[1]) throw new AdminError('教室・写真データが見つかりません。', 500);
+    const rooms = JSON.parse(before[0].toString('utf8'));
+    const sources = JSON.parse(before[1].toString('utf8'));
+    if (!rooms.some(room => room.id === payload.roomId)) throw new AdminError('登録されていない教室です。');
+    const manifest = before[2] ? JSON.parse(before[2].toString('utf8')) : { schemaVersion: 1, photos: [] };
+    const id = `admin-${randomUUID()}`;
+    const photo = { id, roomId: payload.roomId, src: `images/rooms/${id}.webp`, kind: payload.kind, source: '管理者追加', ...dimensions, sha256: createHash('sha256').update(bytes).digest('hex'), bytes: bytes.length, addedAt: new Date().toISOString() };
+    manifest.photos.push(photo);
+    const merged = applyAdminPhotos({ rooms, sources, manifest });
+    await mkdir(store.images, { recursive: true });
+    imagePath = resolve(store.images, `${id}.webp`);
+    await writeFile(imagePath, bytes, { flag: 'wx' });
+    const journalPath = resolve(store.state, 'transaction.json');
+    await atomicWrite(journalPath, jsonBytes({ version: 1, imageId: id, before: before.map(value => value?.toString('base64') ?? null) }));
+    journalWritten = true;
+    const after = [merged.rooms, merged.sources, merged.manifest];
+    for (let i = 0; i < DATA_FILES.length; i++) {
+      await hooks.beforeReplace?.(i, DATA_FILES[i]);
+      await atomicWrite(resolve(store.data, DATA_FILES[i]), jsonBytes(after[i]));
+    }
+    await unlink(journalPath);
+    journalWritten = false;
+    return { photo, room: { id: payload.roomId, name: merged.rooms.find(room => room.id === payload.roomId).name }, summary: merged.sources.summary };
+  } catch (error) {
+    if (journalWritten) {
+      try { await recoverLocked(store); }
+      catch { throw new AdminError('更新に失敗し、回復処理が必要です。管理用サーバーを再起動してください。', 500); }
+    } else if (imagePath) await unlink(imagePath).catch(() => {});
+    throw error;
+  } finally { await release(); }
+}

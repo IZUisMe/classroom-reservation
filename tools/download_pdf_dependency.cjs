@@ -1,0 +1,6 @@
+const https = require('node:https');
+const fs = require('node:fs');
+const path = require('node:path');
+const crypto = require('node:crypto');
+function get(url){ return new Promise((resolve,reject)=>https.get(url,res=>{if(res.statusCode>=300&&res.statusCode<400)return get(res.headers.location).then(resolve,reject);if(res.statusCode!==200)return reject(new Error('HTTP '+res.statusCode));const chunks=[];res.on('data',x=>chunks.push(x));res.on('end',()=>resolve(Buffer.concat(chunks)));res.on('error',reject)}).on('error',reject)); }
+(async()=>{const meta=JSON.parse((await get('https://pypi.org/pypi/PyMuPDF/json')).toString());const file=meta.urls.find(x=>x.filename.includes('win_amd64')&&x.filename.includes('abi3'));if(!file)throw new Error('No compatible ABI3 Windows wheel'); console.log('Downloading',file.filename,file.size); const bytes=await get(file.url);const digest=crypto.createHash('sha256').update(bytes).digest('hex');if(digest!==file.digests.sha256)throw new Error('Hash mismatch');const dest=path.join(__dirname,file.filename);fs.writeFileSync(dest,bytes);fs.writeFileSync(path.join(__dirname,'pdf-dependency.json'),JSON.stringify({package:'PyMuPDF',version:meta.info.version,file:file.filename,url:file.url,sha256:digest},null,2)); console.log('Saved',dest,bytes.length,digest);})().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "page": {"width":595.303937007874,"height":841.889763779528,"orientation":"portrait","paper":"A4"},
+  "coordinateSystem":"PDF points, bottom-left origin; bounds measured from LibreOffice Kit exported vector lines",
+  "fields": {
+    "issueYear":{"source":"Y1:Z1","x":410.064,"y":775.8,"width":27.153,"height":12.126,"size":9.3,"minSize":8,"label":"発行年"},
+    "issueMonth":{"source":"AB1","x":450.793,"y":775.8,"width":13.577,"height":12.126,"size":9.3,"minSize":8,"label":"発行月"},
+    "issueDay":{"source":"AD1","x":478.527,"y":775.8,"width":14.156,"height":12.126,"size":9.3,"minSize":8,"label":"発行日"},
+    "organization":{"source":"V14:AF15","x":369.335,"y":596.325,"width":151.661,"height":23.673,"size":9.3,"minSize":8,"wrap":true,"label":"団体名"},
+    "studentId":{"source":"X17:AF18","x":396.488,"y":564.295,"width":124.508,"height":23.673,"size":9.3,"minSize":8,"label":"学籍番号"},
+    "name":{"source":"X20:AF21","x":396.488,"y":532.265,"width":124.508,"height":23.673,"size":9.3,"minSize":8,"wrap":true,"label":"学生責任者氏名"},
+    "phone":{"source":"X22:AF22 (former separated number cells)","x":396.488,"y":518.319,"width":124.508,"height":13.946,"size":9.3,"minSize":8,"label":"携帯番号"},
+    "purpose":{"source":"H34:AF35","x":168.929,"y":372.747,"width":352.067,"height":20.918,"size":10.2,"minSize":8,"wrap":true,"label":"使用目的"}
+  },
+  "table": {
+    "sourceRows":[42,43,44,45,46,47,48,49,50],
+    "rowTops":[307.29,279.399,251.507,223.616,195.725,167.834,139.943,112.051,84.16],
+    "rowBottoms":[279.399,251.507,223.616,195.725,167.834,139.943,112.051,84.16,56.269],
+    "columns": {
+      "date":{"sourceColumns":"A:G","x":73.893,"width":95.036,"size":9.3,"minSize":8,"label":"日付"},
+      "time":{"sourceColumns":"H:O","x":168.929,"width":118.946,"size":9.3,"minSize":8,"label":"時間"},
+      "place":{"sourceColumns":"P:T","x":287.875,"width":67.883,"size":9.3,"minSize":8,"wrap":true,"label":"場所"},
+      "people":{"sourceColumns":"U:W","x":355.758,"width":40.73,"size":9.3,"minSize":8,"label":"人員"},
+      "external":{"sourceColumns":"X:AB","x":396.488,"width":67.882,"size":9.3,"minSize":8,"wrap":true,"label":"学外参加者"},
+      "remarks":{"sourceColumns":"AC:AF","x":464.37,"width":56.626,"size":9.3,"minSize":8,"wrap":true,"label":"備考"}
+    }
+  }
+}

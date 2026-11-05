@@ -1,0 +1,42 @@
+import assert from 'node:assert/strict';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { createApplicationPdf, validatePdfText, PdfTextError } from '../src/pdf.js';
+import { PDFDocument } from 'pdf-lib';
+import fontkit from '@pdf-lib/fontkit';
+const preparedFont = fontkit.create(await readFile('public/fonts/NotoSansJP-Regular.ttf'));
+assert(preparedFont.loca.offsets.every(offset => offset % 2 === 0), 'Run prepare_pdf_font.py: odd glyf offsets corrupt fontkit short-loca subsets');
+const originalFetch = globalThis.fetch;
+globalThis.fetch = async path => {
+  const file = await readFile(`public/${String(path).replace(/^\//, '')}`);
+  return new Response(file, { status: 200 });
+};
+const rooms = [{ id:'32C', name:'32C教室' }, {id:'long', name:'横浜キャンパス学生ホール多目的スペース'}];
+const entry = {date:'2026-11-05',start:'18:30',end:'20:00',roomId:'32C',people:'5',external:'なし',remarks:'特になし'};
+const data = {organization:'デジタルコンテンツ研究会',purpose:'デジタルコンテンツ研究会にて、イラスト班の対面活動を実施する',issueDate:'2026-11-05',profile:{name:'山田 太郎',studentId:'1234567',phone:'090-1234-5678',emailTo:'',emailCc:'',role:''},entries:[entry]};
+await mkdir('tools/pdf-test-output', {recursive:true});
+for (const count of [1,9]) {
+ const example = structuredClone(data);
+ example.entries = Array.from({length:count},(_,i)=>({...entry,date:`2026-11-${String(i+5).padStart(2,'0')}`}));
+ const errors=await validatePdfText(example,rooms); assert.deepEqual(errors,[]);
+ const bytes=await createApplicationPdf(example,rooms);
+ const pdf=await PDFDocument.load(bytes,{updateMetadata:false});
+ assert.equal(pdf.getPageCount(),1);assert.equal(pdf.getAuthor(),'');assert.equal(pdf.getCreator(),'Classroom application');
+ assert(Math.abs(pdf.getPage(0).getWidth()-595.3)<.1);
+ await writeFile(`tools/pdf-test-output/application-${count}.pdf`,bytes);
+ console.log(`${count} row PDF: ${bytes.length} bytes; one A4 page, clean metadata`);
+}
+const wrapped=structuredClone(data);
+wrapped.purpose='イラスト班・プログラミング班・動画班が合同で、作品制作や今後の活動方針について話し合い、対面で制作活動を実施する。';
+wrapped.entries=[{...entry,roomId:'long',remarks:'備品の位置は使用後に元に戻す',external:'東京都市大学の卒業生'}];
+assert.deepEqual(await validatePdfText(wrapped,rooms),[]);
+await writeFile('tools/pdf-test-output/application-wrapped.pdf',await createApplicationPdf(wrapped,rooms));
+console.log('Long purpose/place/remarks: wrapped within original fields');
+const overflow=structuredClone(data);overflow.purpose='長い目的'.repeat(200);
+assert((await validatePdfText(overflow,rooms)).some(error=>error.field==='purpose'));
+await assert.rejects(createApplicationPdf(overflow,rooms),PdfTextError);
+const unsupported=structuredClone(data);unsupported.profile.name='山田🦄';
+assert((await validatePdfText(unsupported,rooms)).some(error=>error.field==='profile.name'));
+const ten=structuredClone(data);ten.entries=Array.from({length:10},()=>({...entry}));
+await assert.rejects(createApplicationPdf(ten,rooms),PdfTextError);
+console.log('Overflow, missing glyphs and >9 rows: refused, not clipped');
+globalThis.fetch = originalFetch;

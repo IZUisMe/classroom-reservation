@@ -1,0 +1,3745 @@
+[
+  {
+    "id": "31A",
+    "name": "31A教室",
+    "displayName": "31A教室(3号館1階)",
+    "building": "3",
+    "floor": "1",
+    "code": "A",
+    "description": "",
+    "comment": "",
+    "capacity": 300,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/31a-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 5,
+        "sourceId": "31A-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 2,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        5
+      ],
+      "pdfLabel": "31A教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 300,
+        "individualPage": 5,
+        "individualPageCapacity": 300,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/31a-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 5,
+        "sourceId": "31A-interior",
+        "width": 337,
+        "height": 248
+      },
+      {
+        "src": "images/rooms/31a-pdf-p05-i05.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 5,
+        "sourceId": "31A-pdf-p05-i05",
+        "width": 341,
+        "height": 251
+      },
+      {
+        "src": "images/rooms/31a-pdf-p05-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 5,
+        "sourceId": "31A-pdf-p05-i04",
+        "width": 327,
+        "height": 247
+      },
+      {
+        "src": "images/rooms/31a-pdf-p05-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 5,
+        "sourceId": "31A-pdf-p05-i03",
+        "width": 327,
+        "height": 247
+      },
+      {
+        "src": "images/rooms/31a-pdf-p05-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 5,
+        "sourceId": "31A-pdf-p05-i01",
+        "width": 323,
+        "height": 431
+      },
+      {
+        "src": "images/rooms/31a-pdf-p05-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 5,
+        "sourceId": "31A-pdf-p05-i02",
+        "width": 323,
+        "height": 431
+      }
+    ]
+  },
+  {
+    "id": "31B",
+    "name": "31B教室",
+    "displayName": "31B教室(3号館1階)",
+    "building": "3",
+    "floor": "1",
+    "code": "B",
+    "description": "",
+    "comment": "",
+    "capacity": 134,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/31b-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 6,
+        "sourceId": "31B-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 3,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        6
+      ],
+      "pdfLabel": "31B教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 134,
+        "individualPage": 6,
+        "individualPageCapacity": 134,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/31b-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 6,
+        "sourceId": "31B-interior",
+        "width": 346,
+        "height": 254
+      },
+      {
+        "src": "images/rooms/31b-pdf-p06-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 6,
+        "sourceId": "31B-pdf-p06-i04",
+        "width": 344,
+        "height": 254
+      },
+      {
+        "src": "images/rooms/31b-pdf-p06-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 6,
+        "sourceId": "31B-pdf-p06-i01",
+        "width": 327,
+        "height": 247
+      },
+      {
+        "src": "images/rooms/31b-pdf-p06-i05.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 6,
+        "sourceId": "31B-pdf-p06-i05",
+        "width": 165,
+        "height": 431
+      },
+      {
+        "src": "images/rooms/31b-pdf-p06-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 6,
+        "sourceId": "31B-pdf-p06-i02",
+        "width": 323,
+        "height": 431
+      }
+    ]
+  },
+  {
+    "id": "31C",
+    "name": "31C教室",
+    "displayName": "31C教室(3号館1階)",
+    "building": "3",
+    "floor": "1",
+    "code": "C",
+    "description": "",
+    "comment": "",
+    "capacity": 134,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/31c-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 7,
+        "sourceId": "31C-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 4,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        7
+      ],
+      "pdfLabel": "31C教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 134,
+        "individualPage": 7,
+        "individualPageCapacity": 134,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/31c-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 7,
+        "sourceId": "31C-interior",
+        "width": 381,
+        "height": 279
+      },
+      {
+        "src": "images/rooms/31c-pdf-p07-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 7,
+        "sourceId": "31C-pdf-p07-i03",
+        "width": 379,
+        "height": 279
+      },
+      {
+        "src": "images/rooms/31c-pdf-p07-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 7,
+        "sourceId": "31C-pdf-p07-i01",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/31c-pdf-p07-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 7,
+        "sourceId": "31C-pdf-p07-i02",
+        "width": 362,
+        "height": 272
+      }
+    ]
+  },
+  {
+    "id": "31D",
+    "name": "31D教室",
+    "displayName": "31D教室(3号館1階)",
+    "building": "3",
+    "floor": "1",
+    "code": "D",
+    "description": "",
+    "comment": "",
+    "capacity": 77,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/31d-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 8,
+        "sourceId": "31D-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 5,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        8
+      ],
+      "pdfLabel": "31D教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 77,
+        "individualPage": 8,
+        "individualPageCapacity": 77,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/31d-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 8,
+        "sourceId": "31D-interior",
+        "width": 377,
+        "height": 287
+      },
+      {
+        "src": "images/rooms/31d-pdf-p08-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 8,
+        "sourceId": "31D-pdf-p08-i04",
+        "width": 381,
+        "height": 282
+      },
+      {
+        "src": "images/rooms/31d-pdf-p08-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 8,
+        "sourceId": "31D-pdf-p08-i01",
+        "width": 548,
+        "height": 402
+      },
+      {
+        "src": "images/rooms/31d-pdf-p08-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 8,
+        "sourceId": "31D-pdf-p08-i02",
+        "width": 391,
+        "height": 521
+      }
+    ]
+  },
+  {
+    "id": "31E",
+    "name": "31E教室",
+    "displayName": "31E教室(3号館1階)",
+    "building": "3",
+    "floor": "1",
+    "code": "E",
+    "description": "",
+    "comment": "",
+    "capacity": 60,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/31e-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 9,
+        "sourceId": "31E-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 6,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        9
+      ],
+      "pdfLabel": "31E教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 60,
+        "individualPage": 9,
+        "individualPageCapacity": 60,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/31e-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 9,
+        "sourceId": "31E-interior",
+        "width": 329,
+        "height": 247
+      },
+      {
+        "src": "images/rooms/31e-pdf-p09-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 9,
+        "sourceId": "31E-pdf-p09-i01",
+        "width": 344,
+        "height": 253
+      },
+      {
+        "src": "images/rooms/31e-pdf-p09-i05.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 9,
+        "sourceId": "31E-pdf-p09-i05",
+        "width": 342,
+        "height": 254
+      },
+      {
+        "src": "images/rooms/31e-pdf-p09-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 9,
+        "sourceId": "31E-pdf-p09-i02",
+        "width": 327,
+        "height": 247
+      },
+      {
+        "src": "images/rooms/31e-pdf-p09-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 9,
+        "sourceId": "31E-pdf-p09-i03",
+        "width": 355,
+        "height": 474
+      }
+    ]
+  },
+  {
+    "id": "31F",
+    "name": "31F教室",
+    "displayName": "31F教室(3号館1階)",
+    "building": "3",
+    "floor": "1",
+    "code": "F",
+    "description": "",
+    "comment": "",
+    "capacity": 41,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/31f-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 10,
+        "sourceId": "31F-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 7,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        10
+      ],
+      "pdfLabel": "31F教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 41,
+        "individualPage": 10,
+        "individualPageCapacity": 41,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/31f-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 10,
+        "sourceId": "31F-interior",
+        "width": 379,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/31f-pdf-p10-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 10,
+        "sourceId": "31F-pdf-p10-i02",
+        "width": 376,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/31f-pdf-p10-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 10,
+        "sourceId": "31F-pdf-p10-i01",
+        "width": 430,
+        "height": 573
+      },
+      {
+        "src": "images/rooms/31f-pdf-p10-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 10,
+        "sourceId": "31F-pdf-p10-i04",
+        "width": 372,
+        "height": 505
+      }
+    ]
+  },
+  {
+    "id": "32A",
+    "name": "32A教室",
+    "displayName": "32A教室(3号館2階)",
+    "building": "3",
+    "floor": "2",
+    "code": "A",
+    "description": "",
+    "comment": "",
+    "capacity": 198,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/32a-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 11,
+        "sourceId": "32A-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 8,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        11
+      ],
+      "pdfLabel": "32A教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 198,
+        "individualPage": 11,
+        "individualPageCapacity": 198,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/32a-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 11,
+        "sourceId": "32A-interior",
+        "width": 379,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32a-pdf-p11-i06.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 11,
+        "sourceId": "32A-pdf-p11-i06",
+        "width": 360,
+        "height": 277
+      },
+      {
+        "src": "images/rooms/32a-pdf-p11-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 11,
+        "sourceId": "32A-pdf-p11-i04",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32a-pdf-p11-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 11,
+        "sourceId": "32A-pdf-p11-i03",
+        "width": 362,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32a-pdf-p11-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 11,
+        "sourceId": "32A-pdf-p11-i02",
+        "width": 323,
+        "height": 431
+      },
+      {
+        "src": "images/rooms/32a-pdf-p11-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 11,
+        "sourceId": "32A-pdf-p11-i01",
+        "width": 360,
+        "height": 272
+      }
+    ]
+  },
+  {
+    "id": "32B",
+    "name": "32B教室",
+    "displayName": "32B教室(3号館2階)",
+    "building": "3",
+    "floor": "2",
+    "code": "B",
+    "description": "",
+    "comment": "オススメの教室",
+    "capacity": 89,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/32b-interior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32B-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/32b-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32B-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 9,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        12
+      ],
+      "pdfLabel": "32B教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 89,
+        "individualPage": 12,
+        "individualPageCapacity": 89,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/32b-interior.webp",
+        "kind": "interior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32B-interior",
+        "width": 1440,
+        "height": 811
+      },
+      {
+        "src": "images/rooms/32b-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32B-exterior",
+        "width": 1440,
+        "height": 1080
+      },
+      {
+        "src": "images/rooms/32b-pdf-p12-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 12,
+        "sourceId": "32B-pdf-p12-i04",
+        "width": 339,
+        "height": 289
+      },
+      {
+        "src": "images/rooms/32b-pdf-p12-i05.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 12,
+        "sourceId": "32B-pdf-p12-i05",
+        "width": 364,
+        "height": 289
+      },
+      {
+        "src": "images/rooms/32b-pdf-p12-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 12,
+        "sourceId": "32B-pdf-p12-i03",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32b-pdf-p12-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 12,
+        "sourceId": "32B-pdf-p12-i01",
+        "width": 180,
+        "height": 501
+      },
+      {
+        "src": "images/rooms/32b-pdf-p12-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 12,
+        "sourceId": "32B-pdf-p12-i02",
+        "width": 391,
+        "height": 521
+      }
+    ]
+  },
+  {
+    "id": "32C",
+    "name": "32C教室",
+    "displayName": "32C教室(3号館2階)",
+    "building": "3",
+    "floor": "2",
+    "code": "C",
+    "description": "",
+    "comment": "",
+    "capacity": 20,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/32c-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 13,
+        "sourceId": "32C-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/32c-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32C-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 10,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        13
+      ],
+      "pdfLabel": "32C教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 20,
+        "individualPage": 13,
+        "individualPageCapacity": 20,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/32c-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 13,
+        "sourceId": "32C-interior",
+        "width": 481,
+        "height": 361
+      },
+      {
+        "src": "images/rooms/32c-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32C-exterior",
+        "width": 1440,
+        "height": 1080
+      },
+      {
+        "src": "images/rooms/32c-pdf-p13-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 13,
+        "sourceId": "32C-pdf-p13-i02",
+        "width": 479,
+        "height": 359
+      }
+    ]
+  },
+  {
+    "id": "32D",
+    "name": "32D教室",
+    "displayName": "32D教室(3号館2階)",
+    "building": "3",
+    "floor": "2",
+    "code": "D",
+    "description": "",
+    "comment": "",
+    "capacity": 89,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/32d-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 14,
+        "sourceId": "32D-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/32d-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32D-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 11,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        14
+      ],
+      "pdfLabel": "32D教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 89,
+        "individualPage": 14,
+        "individualPageCapacity": 89,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/32d-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 14,
+        "sourceId": "32D-interior",
+        "width": 354,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/32d-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32D-exterior",
+        "width": 1440,
+        "height": 1080
+      },
+      {
+        "src": "images/rooms/32d-pdf-p14-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 14,
+        "sourceId": "32D-pdf-p14-i04",
+        "width": 358,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/32d-pdf-p14-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 14,
+        "sourceId": "32D-pdf-p14-i03",
+        "width": 362,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32d-pdf-p14-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 14,
+        "sourceId": "32D-pdf-p14-i01",
+        "width": 176,
+        "height": 451
+      },
+      {
+        "src": "images/rooms/32d-pdf-p14-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 14,
+        "sourceId": "32D-pdf-p14-i02",
+        "width": 355,
+        "height": 474
+      }
+    ]
+  },
+  {
+    "id": "32E",
+    "name": "32E教室",
+    "displayName": "32E教室(3号館2階)",
+    "building": "3",
+    "floor": "2",
+    "code": "E",
+    "description": "",
+    "comment": "",
+    "capacity": 20,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/32e-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 15,
+        "sourceId": "32E-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 12,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        15
+      ],
+      "pdfLabel": "32E教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 20,
+        "individualPage": 15,
+        "individualPageCapacity": 20,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/32e-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 15,
+        "sourceId": "32E-interior",
+        "width": 529,
+        "height": 397
+      },
+      {
+        "src": "images/rooms/32e-pdf-p15-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 15,
+        "sourceId": "32E-pdf-p15-i02",
+        "width": 527,
+        "height": 397
+      }
+    ]
+  },
+  {
+    "id": "32F",
+    "name": "32F教室",
+    "displayName": "32F教室(3号館2階)",
+    "building": "3",
+    "floor": "2",
+    "code": "F",
+    "description": "",
+    "comment": "",
+    "capacity": 77,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/32f-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 16,
+        "sourceId": "32F-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/32f-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32F-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 13,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        16
+      ],
+      "pdfLabel": "32F教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 77,
+        "individualPage": 16,
+        "individualPageCapacity": 77,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/32f-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 16,
+        "sourceId": "32F-interior",
+        "width": 347,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/32f-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32F-exterior",
+        "width": 1440,
+        "height": 1080
+      },
+      {
+        "src": "images/rooms/32f-pdf-p16-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 16,
+        "sourceId": "32F-pdf-p16-i04",
+        "width": 378,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/32f-pdf-p16-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 16,
+        "sourceId": "32F-pdf-p16-i02",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32f-pdf-p16-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 16,
+        "sourceId": "32F-pdf-p16-i01",
+        "width": 430,
+        "height": 573
+      }
+    ]
+  },
+  {
+    "id": "32G",
+    "name": "32G教室",
+    "displayName": "32G教室(3号館2階)",
+    "building": "3",
+    "floor": "2",
+    "code": "G",
+    "description": "",
+    "comment": "",
+    "capacity": 77,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/32g-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 17,
+        "sourceId": "32G-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/32g-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32G-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 14,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        17
+      ],
+      "pdfLabel": "32G教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 77,
+        "individualPage": 17,
+        "individualPageCapacity": 77,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/32g-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 17,
+        "sourceId": "32G-interior",
+        "width": 324,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/32g-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32G-exterior",
+        "width": 1440,
+        "height": 1080
+      },
+      {
+        "src": "images/rooms/32g-pdf-p17-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 17,
+        "sourceId": "32G-pdf-p17-i04",
+        "width": 358,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/32g-pdf-p17-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 17,
+        "sourceId": "32G-pdf-p17-i02",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32g-pdf-p17-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 17,
+        "sourceId": "32G-pdf-p17-i01",
+        "width": 430,
+        "height": 573
+      }
+    ]
+  },
+  {
+    "id": "32H",
+    "name": "32H教室",
+    "displayName": "32H教室(3号館2階)",
+    "building": "3",
+    "floor": "2",
+    "code": "H",
+    "description": "",
+    "comment": "",
+    "capacity": 154,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/32h-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 18,
+        "sourceId": "32H-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 15,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        18
+      ],
+      "pdfLabel": "32H教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 154,
+        "individualPage": 18,
+        "individualPageCapacity": 154,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/32h-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 18,
+        "sourceId": "32H-interior",
+        "width": 347,
+        "height": 295
+      },
+      {
+        "src": "images/rooms/32h-pdf-p18-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 18,
+        "sourceId": "32H-pdf-p18-i03",
+        "width": 359,
+        "height": 289
+      },
+      {
+        "src": "images/rooms/32h-pdf-p18-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 18,
+        "sourceId": "32H-pdf-p18-i02",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32h-pdf-p18-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 18,
+        "sourceId": "32H-pdf-p18-i01",
+        "width": 362,
+        "height": 272
+      }
+    ]
+  },
+  {
+    "id": "32I",
+    "name": "32I教室",
+    "displayName": "32I教室(3号館2階)",
+    "building": "3",
+    "floor": "2",
+    "code": "I",
+    "description": "",
+    "comment": "arteの根城。多分厳しい。",
+    "capacity": 58,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/32i-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 19,
+        "sourceId": "32I-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 16,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        19
+      ],
+      "pdfLabel": "32I教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 58,
+        "individualPage": 19,
+        "individualPageCapacity": 60,
+        "status": "conflict",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/32i-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 19,
+        "sourceId": "32I-interior",
+        "width": 339,
+        "height": 289
+      },
+      {
+        "src": "images/rooms/32i-pdf-p19-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 19,
+        "sourceId": "32I-pdf-p19-i03",
+        "width": 378,
+        "height": 289
+      },
+      {
+        "src": "images/rooms/32i-pdf-p19-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 19,
+        "sourceId": "32I-pdf-p19-i02",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32i-pdf-p19-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 19,
+        "sourceId": "32I-pdf-p19-i01",
+        "width": 430,
+        "height": 573
+      }
+    ]
+  },
+  {
+    "id": "32J",
+    "name": "32J教室",
+    "displayName": "32J教室(3号館2階)",
+    "building": "3",
+    "floor": "2",
+    "code": "J",
+    "description": "",
+    "comment": "",
+    "capacity": 53,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/32j-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 20,
+        "sourceId": "32J-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/32j-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32J-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 17,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        20
+      ],
+      "pdfLabel": "32J教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 53,
+        "individualPage": 20,
+        "individualPageCapacity": 51,
+        "status": "conflict",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/32j-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 20,
+        "sourceId": "32J-interior",
+        "width": 379,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/32j-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32J-exterior",
+        "width": 1440,
+        "height": 1080
+      },
+      {
+        "src": "images/rooms/32j-pdf-p20-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 20,
+        "sourceId": "32J-pdf-p20-i03",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32j-pdf-p20-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 20,
+        "sourceId": "32J-pdf-p20-i02",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32j-pdf-p20-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 20,
+        "sourceId": "32J-pdf-p20-i01",
+        "width": 430,
+        "height": 573
+      }
+    ]
+  },
+  {
+    "id": "32K",
+    "name": "32K教室",
+    "displayName": "32K教室(3号館2階)",
+    "building": "3",
+    "floor": "2",
+    "code": "K",
+    "description": "",
+    "comment": "",
+    "capacity": 126,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/32k-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 21,
+        "sourceId": "32K-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/32k-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32K-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 18,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        21
+      ],
+      "pdfLabel": "32K教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 126,
+        "individualPage": 21,
+        "individualPageCapacity": 126,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/32k-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 21,
+        "sourceId": "32K-interior",
+        "width": 362,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32k-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "32K-exterior",
+        "width": 1440,
+        "height": 1080
+      },
+      {
+        "src": "images/rooms/32k-pdf-p21-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 21,
+        "sourceId": "32K-pdf-p21-i04",
+        "width": 378,
+        "height": 279
+      },
+      {
+        "src": "images/rooms/32k-pdf-p21-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 21,
+        "sourceId": "32K-pdf-p21-i01",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/32k-pdf-p21-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 21,
+        "sourceId": "32K-pdf-p21-i03",
+        "width": 378,
+        "height": 279
+      }
+    ]
+  },
+  {
+    "id": "33A",
+    "name": "33A教室",
+    "displayName": "33A教室(3号館3階)",
+    "building": "3",
+    "floor": "3",
+    "code": "A",
+    "description": "",
+    "comment": "",
+    "capacity": 40,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/33a-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 22,
+        "sourceId": "33A-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 19,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        22
+      ],
+      "pdfLabel": "33A教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 40,
+        "individualPage": 22,
+        "individualPageCapacity": 42,
+        "status": "conflict",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/33a-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 22,
+        "sourceId": "33A-interior",
+        "width": 379,
+        "height": 289
+      },
+      {
+        "src": "images/rooms/33a-pdf-p22-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 22,
+        "sourceId": "33A-pdf-p22-i04",
+        "width": 376,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/33a-pdf-p22-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 22,
+        "sourceId": "33A-pdf-p22-i02",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/33a-pdf-p22-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 22,
+        "sourceId": "33A-pdf-p22-i01",
+        "width": 391,
+        "height": 521
+      }
+    ]
+  },
+  {
+    "id": "33B",
+    "name": "33B教室",
+    "displayName": "33B教室(3号館3階)",
+    "building": "3",
+    "floor": "3",
+    "code": "B",
+    "description": "",
+    "comment": "",
+    "capacity": 40,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/33b-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 23,
+        "sourceId": "33B-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 20,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        23
+      ],
+      "pdfLabel": "33B教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 40,
+        "individualPage": 23,
+        "individualPageCapacity": 41,
+        "status": "conflict",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/33b-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 23,
+        "sourceId": "33B-interior",
+        "width": 378,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/33b-pdf-p23-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 23,
+        "sourceId": "33B-pdf-p23-i04",
+        "width": 378,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/33b-pdf-p23-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 23,
+        "sourceId": "33B-pdf-p23-i02",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/33b-pdf-p23-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 23,
+        "sourceId": "33B-pdf-p23-i01",
+        "width": 362,
+        "height": 272
+      }
+    ]
+  },
+  {
+    "id": "33C",
+    "name": "33C教室",
+    "displayName": "33C教室(3号館3階)",
+    "building": "3",
+    "floor": "3",
+    "code": "C",
+    "description": "",
+    "comment": "机が長方形に並ぶ。狭い",
+    "capacity": 20,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/33c-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 24,
+        "sourceId": "33C-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/33c-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33C-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 21,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        24
+      ],
+      "pdfLabel": "33C教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 20,
+        "individualPage": 24,
+        "individualPageCapacity": 20,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/33c-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 24,
+        "sourceId": "33C-interior",
+        "width": 481,
+        "height": 361
+      },
+      {
+        "src": "images/rooms/33c-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33C-exterior",
+        "width": 1440,
+        "height": 811
+      },
+      {
+        "src": "images/rooms/33c-pdf-p24-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 24,
+        "sourceId": "33C-pdf-p24-i01",
+        "width": 481,
+        "height": 361
+      }
+    ]
+  },
+  {
+    "id": "33D",
+    "name": "33D教室",
+    "displayName": "33D教室(3号館3階)",
+    "building": "3",
+    "floor": "3",
+    "code": "D",
+    "description": "",
+    "comment": "",
+    "capacity": 20,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/33d-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 25,
+        "sourceId": "33D-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/33d-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33D-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 22,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        25
+      ],
+      "pdfLabel": "33D教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 20,
+        "individualPage": 25,
+        "individualPageCapacity": 20,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/33d-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 25,
+        "sourceId": "33D-interior",
+        "width": 529,
+        "height": 397
+      },
+      {
+        "src": "images/rooms/33d-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33D-exterior",
+        "width": 1440,
+        "height": 1080
+      },
+      {
+        "src": "images/rooms/33d-pdf-p25-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 25,
+        "sourceId": "33D-pdf-p25-i01",
+        "width": 529,
+        "height": 397
+      }
+    ]
+  },
+  {
+    "id": "33E",
+    "name": "33E教室",
+    "displayName": "33E教室(3号館3階)",
+    "building": "3",
+    "floor": "3",
+    "code": "E",
+    "description": "",
+    "comment": "",
+    "capacity": 20,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/33e-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 26,
+        "sourceId": "33E-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/33e-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33E-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 23,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        26
+      ],
+      "pdfLabel": "33E教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 20,
+        "individualPage": 26,
+        "individualPageCapacity": 20,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/33e-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 26,
+        "sourceId": "33E-interior",
+        "width": 527,
+        "height": 397
+      },
+      {
+        "src": "images/rooms/33e-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33E-exterior",
+        "width": 1440,
+        "height": 1080
+      },
+      {
+        "src": "images/rooms/33e-pdf-p26-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 26,
+        "sourceId": "33E-pdf-p26-i01",
+        "width": 529,
+        "height": 397
+      }
+    ]
+  },
+  {
+    "id": "33F",
+    "name": "33F教室",
+    "displayName": "33F教室(3号館3階)",
+    "building": "3",
+    "floor": "3",
+    "code": "F",
+    "description": "",
+    "comment": "",
+    "capacity": 20,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/33f-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 27,
+        "sourceId": "33F-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/33f-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33F-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 24,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        27
+      ],
+      "pdfLabel": "33F教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 20,
+        "individualPage": 27,
+        "individualPageCapacity": 20,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/33f-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 27,
+        "sourceId": "33F-interior",
+        "width": 529,
+        "height": 397
+      },
+      {
+        "src": "images/rooms/33f-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33F-exterior",
+        "width": 1440,
+        "height": 1080
+      },
+      {
+        "src": "images/rooms/33f-pdf-p27-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 27,
+        "sourceId": "33F-pdf-p27-i01",
+        "width": 529,
+        "height": 397
+      }
+    ]
+  },
+  {
+    "id": "33G",
+    "name": "33G教室",
+    "displayName": "33G教室(3号館3階)",
+    "building": "3",
+    "floor": "3",
+    "code": "G",
+    "description": "",
+    "comment": "",
+    "capacity": 20,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/33g-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 28,
+        "sourceId": "33G-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/33g-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33G-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 25,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        28
+      ],
+      "pdfLabel": "33G教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 20,
+        "individualPage": 28,
+        "individualPageCapacity": 40,
+        "status": "conflict",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/33g-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 28,
+        "sourceId": "33G-interior",
+        "width": 378,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/33g-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33G-exterior",
+        "width": 1440,
+        "height": 1080
+      },
+      {
+        "src": "images/rooms/33g-pdf-p28-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 28,
+        "sourceId": "33G-pdf-p28-i04",
+        "width": 378,
+        "height": 289
+      },
+      {
+        "src": "images/rooms/33g-pdf-p28-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 28,
+        "sourceId": "33G-pdf-p28-i02",
+        "width": 379,
+        "height": 289
+      },
+      {
+        "src": "images/rooms/33g-pdf-p28-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 28,
+        "sourceId": "33G-pdf-p28-i01",
+        "width": 430,
+        "height": 573
+      }
+    ]
+  },
+  {
+    "id": "33H",
+    "name": "33H教室",
+    "displayName": "33H教室(3号館3階)",
+    "building": "3",
+    "floor": "3",
+    "code": "H",
+    "description": "",
+    "comment": "ちょっと広すぎるかも",
+    "capacity": 64,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/33h-interior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33H-interior"
+      },
+      "exterior": {
+        "src": "images/rooms/33h-exterior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33H-exterior"
+      }
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "available"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 26,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        29
+      ],
+      "pdfLabel": "33H教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 64,
+        "individualPage": 29,
+        "individualPageCapacity": 64,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/33h-interior.webp",
+        "kind": "interior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33H-interior",
+        "width": 1440,
+        "height": 810
+      },
+      {
+        "src": "images/rooms/33h-exterior.webp",
+        "kind": "exterior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "33H-exterior",
+        "width": 1440,
+        "height": 1080
+      },
+      {
+        "src": "images/rooms/33h-pdf-p29-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 29,
+        "sourceId": "33H-pdf-p29-i04",
+        "width": 415,
+        "height": 319
+      },
+      {
+        "src": "images/rooms/33h-pdf-p29-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 29,
+        "sourceId": "33H-pdf-p29-i03",
+        "width": 417,
+        "height": 319
+      },
+      {
+        "src": "images/rooms/33h-pdf-p29-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 29,
+        "sourceId": "33H-pdf-p29-i02",
+        "width": 398,
+        "height": 299
+      },
+      {
+        "src": "images/rooms/33h-pdf-p29-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 29,
+        "sourceId": "33H-pdf-p29-i01",
+        "width": 430,
+        "height": 573
+      }
+    ]
+  },
+  {
+    "id": "33I",
+    "name": "33I教室",
+    "displayName": "33I教室(3号館3階)",
+    "building": "3",
+    "floor": "3",
+    "code": "I",
+    "description": "",
+    "comment": "",
+    "capacity": 204,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/33i-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 30,
+        "sourceId": "33I-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 27,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        30
+      ],
+      "pdfLabel": "33I教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 204,
+        "individualPage": 30,
+        "individualPageCapacity": 204,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/33i-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 30,
+        "sourceId": "33I-interior",
+        "width": 379,
+        "height": 290
+      },
+      {
+        "src": "images/rooms/33i-pdf-p30-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 30,
+        "sourceId": "33I-pdf-p30-i03",
+        "width": 378,
+        "height": 289
+      },
+      {
+        "src": "images/rooms/33i-pdf-p30-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 30,
+        "sourceId": "33I-pdf-p30-i02",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/33i-pdf-p30-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 30,
+        "sourceId": "33I-pdf-p30-i01",
+        "width": 430,
+        "height": 573
+      }
+    ]
+  },
+  {
+    "id": "33K",
+    "name": "33K教室",
+    "displayName": "33K教室(3号館3階)",
+    "building": "3",
+    "floor": "3",
+    "code": "K",
+    "description": "",
+    "comment": "",
+    "capacity": 126,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/33k-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 32,
+        "sourceId": "33K-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 28,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        32
+      ],
+      "pdfLabel": "33K教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 126,
+        "individualPage": 32,
+        "individualPageCapacity": 126,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/33k-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 32,
+        "sourceId": "33K-interior",
+        "width": 379,
+        "height": 289
+      },
+      {
+        "src": "images/rooms/33k-pdf-p32-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 32,
+        "sourceId": "33K-pdf-p32-i02",
+        "width": 378,
+        "height": 289
+      },
+      {
+        "src": "images/rooms/33k-pdf-p32-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 32,
+        "sourceId": "33K-pdf-p32-i04",
+        "width": 378,
+        "height": 289
+      },
+      {
+        "src": "images/rooms/33k-pdf-p32-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 32,
+        "sourceId": "33K-pdf-p32-i01",
+        "width": 362,
+        "height": 272
+      }
+    ]
+  },
+  {
+    "id": "22A",
+    "name": "22A教室",
+    "displayName": "22A教室(2号館2階)",
+    "building": "2",
+    "floor": "2",
+    "code": "A",
+    "description": "",
+    "comment": "2号館の利用は非推奨です",
+    "capacity": null,
+    "equipment": null,
+    "images": {
+      "interior": null,
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "missing",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 29,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [],
+      "pdfLabel": null,
+      "metadataEvidence": null
+    },
+    "gallery": []
+  },
+  {
+    "id": "22B",
+    "name": "22B教室",
+    "displayName": "22B教室(2号館2階)",
+    "building": "2",
+    "floor": "2",
+    "code": "B",
+    "description": "",
+    "comment": "2号館の利用は非推奨です",
+    "capacity": 100,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/22b-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 36,
+        "sourceId": "22B-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 30,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        36
+      ],
+      "pdfLabel": "22B教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 100,
+        "individualPage": 36,
+        "individualPageCapacity": 100,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/22b-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 36,
+        "sourceId": "22B-interior",
+        "width": 368,
+        "height": 253
+      },
+      {
+        "src": "images/rooms/22b-pdf-p36-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 36,
+        "sourceId": "22B-pdf-p36-i03",
+        "width": 398,
+        "height": 299
+      },
+      {
+        "src": "images/rooms/22b-pdf-p36-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 36,
+        "sourceId": "22B-pdf-p36-i02",
+        "width": 396,
+        "height": 299
+      },
+      {
+        "src": "images/rooms/22b-pdf-p36-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 36,
+        "sourceId": "22B-pdf-p36-i01",
+        "width": 473,
+        "height": 630
+      }
+    ]
+  },
+  {
+    "id": "22D",
+    "name": "22D教室",
+    "displayName": "22D教室(2号館2階)",
+    "building": "2",
+    "floor": "2",
+    "code": "D",
+    "description": "",
+    "comment": "2号館の利用は非推奨です",
+    "capacity": 40,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/22d-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 37,
+        "sourceId": "22D-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 31,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        37
+      ],
+      "pdfLabel": "22D教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 40,
+        "individualPage": 37,
+        "individualPageCapacity": 40,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/22d-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 37,
+        "sourceId": "22D-interior",
+        "width": 368,
+        "height": 239
+      },
+      {
+        "src": "images/rooms/22d-pdf-p37-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 37,
+        "sourceId": "22D-pdf-p37-i03",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/22d-pdf-p37-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 37,
+        "sourceId": "22D-pdf-p37-i02",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/22d-pdf-p37-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 37,
+        "sourceId": "22D-pdf-p37-i01",
+        "width": 430,
+        "height": 573
+      }
+    ]
+  },
+  {
+    "id": "22E",
+    "name": "22E教室",
+    "displayName": "22E教室(2号館2階)",
+    "building": "2",
+    "floor": "2",
+    "code": "E",
+    "description": "",
+    "comment": "2号館の利用は非推奨です",
+    "capacity": 40,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/22e-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 38,
+        "sourceId": "22E-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 32,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        38
+      ],
+      "pdfLabel": "22E教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 40,
+        "individualPage": 38,
+        "individualPageCapacity": 40,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/22e-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 38,
+        "sourceId": "22E-interior",
+        "width": 353,
+        "height": 270
+      },
+      {
+        "src": "images/rooms/22e-pdf-p38-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 38,
+        "sourceId": "22E-pdf-p38-i03",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/22e-pdf-p38-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 38,
+        "sourceId": "22E-pdf-p38-i02",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/22e-pdf-p38-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 38,
+        "sourceId": "22E-pdf-p38-i01",
+        "width": 430,
+        "height": 573
+      }
+    ]
+  },
+  {
+    "id": "22F",
+    "name": "22F教室",
+    "displayName": "22F教室(2号館2階)",
+    "building": "2",
+    "floor": "2",
+    "code": "F",
+    "description": "",
+    "comment": "2号館の利用は非推奨です",
+    "capacity": null,
+    "equipment": null,
+    "images": {
+      "interior": null,
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "missing",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 33,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [],
+      "pdfLabel": null,
+      "metadataEvidence": null
+    },
+    "gallery": []
+  },
+  {
+    "id": "22G",
+    "name": "22G教室",
+    "displayName": "22G教室(2号館2階)",
+    "building": "2",
+    "floor": "2",
+    "code": "G",
+    "description": "",
+    "comment": "2号館の利用は非推奨です",
+    "capacity": 132,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/22g-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 40,
+        "sourceId": "22G-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 34,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        40
+      ],
+      "pdfLabel": "22G教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 132,
+        "individualPage": 40,
+        "individualPageCapacity": 132,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/22g-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 40,
+        "sourceId": "22G-interior",
+        "width": 398,
+        "height": 297
+      },
+      {
+        "src": "images/rooms/22g-pdf-p40-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 40,
+        "sourceId": "22G-pdf-p40-i04",
+        "width": 398,
+        "height": 299
+      },
+      {
+        "src": "images/rooms/22g-pdf-p40-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 40,
+        "sourceId": "22G-pdf-p40-i02",
+        "width": 398,
+        "height": 299
+      },
+      {
+        "src": "images/rooms/22g-pdf-p40-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 40,
+        "sourceId": "22G-pdf-p40-i01",
+        "width": 323,
+        "height": 431
+      },
+      {
+        "src": "images/rooms/22g-pdf-p40-i05.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 40,
+        "sourceId": "22G-pdf-p40-i05",
+        "width": 323,
+        "height": 431
+      }
+    ]
+  },
+  {
+    "id": "student-hall",
+    "name": "学生ホール",
+    "displayName": "学生ホール(4号館2階)",
+    "building": "4",
+    "floor": "2",
+    "code": null,
+    "description": "",
+    "comment": "食堂の2階にあるスペース",
+    "capacity": null,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/student-hall-interior.webp",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "student-hall-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 35,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        34
+      ],
+      "pdfLabel": "学生ホール",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": null,
+        "individualPage": 34,
+        "individualPageCapacity": null,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/student-hall-interior.webp",
+        "kind": "interior",
+        "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "page": null,
+        "sourceId": "student-hall-interior",
+        "width": 1290,
+        "height": 1017
+      },
+      {
+        "src": "images/rooms/student-hall-pdf-p34-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 34,
+        "sourceId": "student-hall-pdf-p34-i02",
+        "width": 513,
+        "height": 353
+      },
+      {
+        "src": "images/rooms/student-hall-pdf-p34-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 34,
+        "sourceId": "student-hall-pdf-p34-i01",
+        "width": 338,
+        "height": 458
+      },
+      {
+        "src": "images/rooms/student-hall-pdf-p34-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 34,
+        "sourceId": "student-hall-pdf-p34-i04",
+        "width": 470,
+        "height": 416
+      },
+      {
+        "src": "images/rooms/student-hall-pdf-p34-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 34,
+        "sourceId": "student-hall-pdf-p34-i03",
+        "width": 545,
+        "height": 361
+      }
+    ]
+  },
+  {
+    "id": "feis-hall",
+    "name": "FEISホール",
+    "displayName": "FEISホール(3号館地下2階)",
+    "building": "3",
+    "floor": "-2",
+    "code": null,
+    "description": "",
+    "comment": "使うなこんなとこ",
+    "capacity": 270,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/feis-hall-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 4,
+        "sourceId": "feis-hall-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 36,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        4
+      ],
+      "pdfLabel": "FEISホール",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 270,
+        "individualPage": 4,
+        "individualPageCapacity": 270,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/feis-hall-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 4,
+        "sourceId": "feis-hall-interior",
+        "width": 368,
+        "height": 273
+      },
+      {
+        "src": "images/rooms/feis-hall-pdf-p04-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 4,
+        "sourceId": "feis-hall-pdf-p04-i01",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/feis-hall-pdf-p04-i06.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 4,
+        "sourceId": "feis-hall-pdf-p04-i06",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/feis-hall-pdf-p04-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 4,
+        "sourceId": "feis-hall-pdf-p04-i02",
+        "width": 362,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/feis-hall-pdf-p04-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 4,
+        "sourceId": "feis-hall-pdf-p04-i03",
+        "width": 293,
+        "height": 391
+      },
+      {
+        "src": "images/rooms/feis-hall-pdf-p04-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 4,
+        "sourceId": "feis-hall-pdf-p04-i04",
+        "width": 293,
+        "height": 391
+      },
+      {
+        "src": "images/rooms/feis-hall-pdf-p04-i05.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 4,
+        "sourceId": "feis-hall-pdf-p04-i05",
+        "width": 293,
+        "height": 391
+      }
+    ]
+  },
+  {
+    "id": "yc-hall",
+    "name": "YCホール",
+    "displayName": "YCホール(3号館5階)",
+    "building": "3",
+    "floor": "5",
+    "code": null,
+    "description": "",
+    "comment": "なに？",
+    "capacity": null,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/yc-hall-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 33,
+        "sourceId": "yc-hall-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 37,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [
+        1,
+        33
+      ],
+      "pdfLabel": "YCホール",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": null,
+        "individualPage": 33,
+        "individualPageCapacity": null,
+        "status": "confirmed",
+        "policy": "定員は2025年9月現在と明記されたPDF1ページの一覧表を採用。個別ページと異なる場合は両値を保存。設備は不確実な列対応・更新差異を避け追加しない。"
+      }
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/yc-hall-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 33,
+        "sourceId": "yc-hall-interior",
+        "width": 398,
+        "height": 299
+      },
+      {
+        "src": "images/rooms/yc-hall-pdf-p33-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 33,
+        "sourceId": "yc-hall-pdf-p33-i04",
+        "width": 398,
+        "height": 299
+      },
+      {
+        "src": "images/rooms/yc-hall-pdf-p33-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 33,
+        "sourceId": "yc-hall-pdf-p33-i03",
+        "width": 398,
+        "height": 299
+      },
+      {
+        "src": "images/rooms/yc-hall-pdf-p33-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 33,
+        "sourceId": "yc-hall-pdf-p33-i01",
+        "width": 430,
+        "height": 573
+      }
+    ]
+  },
+  {
+    "id": "72D",
+    "name": "72D教室",
+    "displayName": "72D教室",
+    "building": "7",
+    "floor": "2",
+    "code": "D",
+    "description": "",
+    "comment": "",
+    "capacity": null,
+    "equipment": null,
+    "images": {
+      "interior": null,
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "missing",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": {
+        "file": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
+        "sheet": "教室データベース",
+        "row": 39,
+        "columns": {
+          "name": "D",
+          "displayName": "E",
+          "comment": "H"
+        }
+      },
+      "pdfPages": [],
+      "pdfLabel": null,
+      "metadataEvidence": null
+    },
+    "gallery": []
+  },
+  {
+    "id": "33J",
+    "name": "33J教室",
+    "displayName": "33J教室(3号館3階)",
+    "building": "3",
+    "floor": "3",
+    "code": "J",
+    "description": "",
+    "comment": "",
+    "capacity": 12,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/33j-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 31,
+        "sourceId": "33J-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": null,
+      "pdfPages": [
+        3,
+        31
+      ],
+      "pdfLabel": "33J教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 31,
+        "table": "個別教室の定員表",
+        "asOf": null,
+        "capacity": 12,
+        "individualPage": 31,
+        "individualPageCapacity": 12,
+        "status": "confirmed",
+        "policy": "日付付き一覧表を優先。33Jは一覧に記載がないため個別ページの定員12人を採用。"
+      },
+      "locationEvidence": {
+        "source": "roomlist.pdf",
+        "page": 3,
+        "floor": "3号館3階"
+      },
+      "addedFromPdf": true
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/33j-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 31,
+        "sourceId": "33J-interior",
+        "width": 343,
+        "height": 263
+      },
+      {
+        "src": "images/rooms/33j-pdf-p31-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 31,
+        "sourceId": "33J-pdf-p31-i04",
+        "width": 344,
+        "height": 264
+      },
+      {
+        "src": "images/rooms/33j-pdf-p31-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 31,
+        "sourceId": "33J-pdf-p31-i03",
+        "width": 343,
+        "height": 263
+      },
+      {
+        "src": "images/rooms/33j-pdf-p31-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 31,
+        "sourceId": "33J-pdf-p31-i01",
+        "width": 344,
+        "height": 264
+      }
+    ]
+  },
+  {
+    "id": "21A",
+    "name": "21A教室",
+    "displayName": "21A教室(2号館1階)",
+    "building": "2",
+    "floor": "1",
+    "code": "A",
+    "description": "",
+    "comment": "",
+    "capacity": 100,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/21a-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 35,
+        "sourceId": "21A-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": null,
+      "pdfPages": [
+        1,
+        2,
+        35
+      ],
+      "pdfLabel": "21A教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 100,
+        "individualPage": 35,
+        "individualPageCapacity": 100,
+        "status": "confirmed",
+        "policy": "日付付き一覧表を優先。33Jは一覧に記載がないため個別ページの定員12人を採用。"
+      },
+      "locationEvidence": {
+        "source": "roomlist.pdf",
+        "page": 2,
+        "floor": "2号館1階"
+      },
+      "addedFromPdf": true
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/21a-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 35,
+        "sourceId": "21A-interior",
+        "width": 398,
+        "height": 299
+      },
+      {
+        "src": "images/rooms/21a-pdf-p35-i03.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 35,
+        "sourceId": "21A-pdf-p35-i03",
+        "width": 398,
+        "height": 299
+      },
+      {
+        "src": "images/rooms/21a-pdf-p35-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 35,
+        "sourceId": "21A-pdf-p35-i02",
+        "width": 398,
+        "height": 299
+      },
+      {
+        "src": "images/rooms/21a-pdf-p35-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 35,
+        "sourceId": "21A-pdf-p35-i01",
+        "width": 430,
+        "height": 573
+      }
+    ]
+  },
+  {
+    "id": "22H",
+    "name": "22H教室",
+    "displayName": "22H教室(2号館2階)",
+    "building": "2",
+    "floor": "2",
+    "code": "H",
+    "description": "",
+    "comment": "",
+    "capacity": 100,
+    "equipment": null,
+    "images": {
+      "interior": {
+        "src": "images/rooms/22h-interior.webp",
+        "source": "roomlist.pdf",
+        "page": 39,
+        "sourceId": "22H-interior"
+      },
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "available",
+      "exterior": "missing"
+    },
+    "source": {
+      "xlsx": null,
+      "pdfPages": [
+        1,
+        2,
+        39
+      ],
+      "pdfLabel": "22H教室",
+      "metadataEvidence": {
+        "source": "roomlist.pdf",
+        "page": 1,
+        "table": "教室設備機器一覧",
+        "asOf": "2025-09",
+        "capacity": 100,
+        "individualPage": 39,
+        "individualPageCapacity": 100,
+        "status": "confirmed",
+        "policy": "日付付き一覧表を優先。33Jは一覧に記載がないため個別ページの定員12人を採用。"
+      },
+      "locationEvidence": {
+        "source": "roomlist.pdf",
+        "page": 2,
+        "floor": "2号館2階"
+      },
+      "addedFromPdf": true
+    },
+    "gallery": [
+      {
+        "src": "images/rooms/22h-interior.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 39,
+        "sourceId": "22H-interior",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/22h-pdf-p39-i04.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 39,
+        "sourceId": "22H-pdf-p39-i04",
+        "width": 375,
+        "height": 256
+      },
+      {
+        "src": "images/rooms/22h-pdf-p39-i01.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 39,
+        "sourceId": "22H-pdf-p39-i01",
+        "width": 360,
+        "height": 272
+      },
+      {
+        "src": "images/rooms/22h-pdf-p39-i02.webp",
+        "kind": "interior",
+        "source": "roomlist.pdf",
+        "page": 39,
+        "sourceId": "22H-pdf-p39-i02",
+        "width": 430,
+        "height": 573
+      }
+    ]
+  },
+  {
+    "id": "72A",
+    "name": "72A教室",
+    "displayName": "72A教室(7号館2階)",
+    "building": "7",
+    "floor": "2",
+    "code": "A",
+    "description": "",
+    "comment": "",
+    "capacity": null,
+    "equipment": null,
+    "images": {
+      "interior": null,
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "missing",
+      "exterior": "missing"
+    },
+    "source": {
+      "type": "user-provided",
+      "xlsx": null,
+      "pdfPages": [],
+      "pdfLabel": null,
+      "addedFromUser": true,
+      "locationEvidence": {
+        "source": "user-provided",
+        "building": "7",
+        "floor": "2"
+      }
+    },
+    "gallery": []
+  },
+  {
+    "id": "72BC",
+    "name": "72BC教室",
+    "displayName": "72BC教室(7号館2階)",
+    "building": "7",
+    "floor": "2",
+    "code": "BC",
+    "description": "",
+    "comment": "",
+    "capacity": null,
+    "equipment": null,
+    "images": {
+      "interior": null,
+      "exterior": null
+    },
+    "photoStatus": {
+      "interior": "missing",
+      "exterior": "missing"
+    },
+    "source": {
+      "type": "user-provided",
+      "xlsx": null,
+      "pdfPages": [],
+      "pdfLabel": null,
+      "addedFromUser": true,
+      "locationEvidence": {
+        "source": "user-provided",
+        "building": "7",
+        "floor": "2"
+      }
+    },
+    "gallery": []
+  }
+]

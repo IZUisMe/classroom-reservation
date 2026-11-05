@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0017c1">
+  <meta name="description" content="学内施設使用許可願の作成">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <title>学内施設使用許可願生成マシーン（横浜キャンパス）</title>
+</head>
+<body>
+  <a class="skip-link" href="#application-form">入力へ移動</a>
+  <header class="site-header"><div class="header-inner"><h1>学内施設使用許可願生成マシーン<span class="campus">（横浜キャンパス）</span></h1></div></header>
+  <main id="main" class="container" tabindex="-1">
+    <noscript><p class="notice error">JavaScriptを有効にしてください。</p></noscript>
+    <div id="load-status" role="status">読み込み中…</div>
+    <div id="app" hidden>
+      <div id="error-summary" class="notice error" role="alert" tabindex="-1" hidden></div>
+      <div class="workspace">
+        <aside class="preview-pane" aria-label="申請書プレビュー">
+          <button type="button" id="toggle-preview" class="preview-toggle" aria-expanded="false" aria-controls="preview-body">申請書プレビュー<span aria-hidden="true">⌄</span></button>
+          <div id="preview-body" class="preview-body"><div id="application-preview" role="img" aria-label="入力内容を反映した申請書"></div><div class="preview-actions"><button type="button" id="download-pdf" class="button primary">PDFを保存</button><a id="download-again" hidden>再保存</a></div><p id="pdf-status" class="status" role="status" aria-live="polite"></p></div>
+        </aside>
+        <div class="editor-pane">
+          <form id="application-form" novalidate>
+            <section class="panel common-panel" aria-label="申請情報">
+              <div class="field-grid common-grid"><div class="field"><label for="organization">団体名 <span class="required">必須</span></label><input id="organization" name="organization" maxlength="50" required autocomplete="organization"></div><div class="field"><label for="issueDate">申請日 <span class="required">必須</span></label><input id="issueDate" name="issueDate" type="date" min="1900-01-01" max="9999-12-31" required></div></div>
+              <div class="field"><label for="purpose">使用目的</label><textarea id="purpose" name="purpose" rows="2" maxlength="500" placeholder="本会の対面活動を実施するため"></textarea></div>
+            </section>
+            <div class="entries-toolbar"><h2 id="entries-heading" tabindex="-1">日時・教室</h2><span id="entry-count" class="count" aria-label="記載件数"></span></div>
+            <div id="entries"></div>
+            <button type="button" id="add-entry" class="button secondary full">＋ 追加</button>
+            <section id="student-profile" class="panel profile-panel" aria-labelledby="student-profile-heading">
+              <h2 id="student-profile-heading">学生責任者情報の入力</h2>
+              <div class="field-grid profile-grid"><div class="field"><label for="profile-name">氏名 <span class="required">必須</span></label><input id="profile-name" name="profile-name" data-profile-key="name" maxlength="40" autocomplete="name" required></div><div class="field"><label for="profile-studentId">学籍番号 <span class="required">必須</span></label><input id="profile-studentId" name="profile-studentId" data-profile-key="studentId" maxlength="24" autocomplete="off" required></div></div>
+              <div class="field"><label for="profile-phone">携帯電話番号 <span class="required">必須</span></label><input id="profile-phone" name="profile-phone" data-profile-key="phone" type="tel" maxlength="24" autocomplete="tel" inputmode="tel" required></div>
+              <label class="checkbox-label"><input type="checkbox" id="remember-profile" checked><span>学生責任者情報をこの端末に保存</span></label><p class="hint">共有端末ではオフにしてください。</p>
+            </section>
+          </form>
+          <details class="storage-settings" id="storage-settings"><summary>保存・履歴</summary><div class="details-body"><label class="checkbox-label"><input type="checkbox" id="remember-draft" checked><span>下書き・履歴をこの端末に保存</span></label><p id="storage-status" class="status" role="status"></p><div id="history-list"></div><div class="storage-actions"><button type="button" id="reset-form" class="text-button">新規作成</button><button type="button" id="clear-local" class="text-button danger">保存データを削除</button></div></div></details>
+          <footer class="editor-footer"><a href="./data/photo-sources.json" target="_blank" rel="noopener">写真の出典</a><span>ROOMLIST 2025.09</span></footer>
+        </div>
+      </div>
+      <div class="mobile-action"><span id="mobile-count" class="count"></span><button type="button" class="button primary" id="mobile-download">PDFを保存</button></div>
+    </div>
+  </main>
+  <dialog id="photo-dialog" aria-labelledby="photo-dialog-title"><div class="dialog-heading"><h2 id="photo-dialog-title">教室写真</h2><button type="button" class="icon-button" data-close="photo-dialog" aria-label="写真を閉じる">×</button></div><div id="photo-dialog-body"></div></dialog>
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><div class="dialog-heading"><h2 id="confirm-title">確認</h2><button type="button" class="icon-button" data-close="confirm-dialog" aria-label="確認を閉じる">×</button></div><p id="confirm-text"></p><div class="dialog-actions"><button class="button secondary" value="cancel" autofocus>キャンセル</button><button id="confirm-submit" class="button primary" value="confirm">実行</button></div></form></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

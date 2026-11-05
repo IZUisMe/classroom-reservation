@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "rooms": [
+    {
+      "id": "72A",
+      "name": "72A教室",
+      "displayName": "72A教室(7号館2階)",
+      "building": "7",
+      "floor": "2",
+      "code": "A",
+      "description": "",
+      "comment": "",
+      "capacity": null,
+      "equipment": null,
+      "images": { "interior": null, "exterior": null },
+      "photoStatus": { "interior": "missing", "exterior": "missing" },
+      "source": {
+        "type": "user-provided",
+        "xlsx": null,
+        "pdfPages": [],
+        "pdfLabel": null,
+        "addedFromUser": true,
+        "locationEvidence": { "source": "user-provided", "building": "7", "floor": "2" }
+      },
+      "gallery": []
+    },
+    {
+      "id": "72BC",
+      "name": "72BC教室",
+      "displayName": "72BC教室(7号館2階)",
+      "building": "7",
+      "floor": "2",
+      "code": "BC",
+      "description": "",
+      "comment": "",
+      "capacity": null,
+      "equipment": null,
+      "images": { "interior": null, "exterior": null },
+      "photoStatus": { "interior": "missing", "exterior": "missing" },
+      "source": {
+        "type": "user-provided",
+        "xlsx": null,
+        "pdfPages": [],
+        "pdfLabel": null,
+        "addedFromUser": true,
+        "locationEvidence": { "source": "user-provided", "building": "7", "floor": "2" }
+      },
+      "gallery": []
+    }
+  ]
+}
