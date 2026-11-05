@@ -705,13 +705,11 @@
       "interior": {
         "src": "images/rooms/32b-interior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32B-interior"
       },
       "exterior": {
         "src": "images/rooms/32b-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32B-exterior"
       }
     },
@@ -752,7 +750,6 @@
         "src": "images/rooms/32b-interior.webp",
         "kind": "interior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32B-interior",
         "width": 1440,
         "height": 811
@@ -761,7 +758,6 @@
         "src": "images/rooms/32b-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32B-exterior",
         "width": 1440,
         "height": 1080
@@ -834,7 +830,6 @@
       "exterior": {
         "src": "images/rooms/32c-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32C-exterior"
       }
     },
@@ -884,7 +879,6 @@
         "src": "images/rooms/32c-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32C-exterior",
         "width": 1440,
         "height": 1080
@@ -921,7 +915,6 @@
       "exterior": {
         "src": "images/rooms/32d-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32D-exterior"
       }
     },
@@ -971,7 +964,6 @@
         "src": "images/rooms/32d-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32D-exterior",
         "width": 1440,
         "height": 1080
@@ -1108,7 +1100,6 @@
       "exterior": {
         "src": "images/rooms/32f-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32F-exterior"
       }
     },
@@ -1158,7 +1149,6 @@
         "src": "images/rooms/32f-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32F-exterior",
         "width": 1440,
         "height": 1080
@@ -1213,7 +1203,6 @@
       "exterior": {
         "src": "images/rooms/32g-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32G-exterior"
       }
     },
@@ -1263,7 +1252,6 @@
         "src": "images/rooms/32g-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32G-exterior",
         "width": 1440,
         "height": 1080
@@ -1500,7 +1488,6 @@
       "exterior": {
         "src": "images/rooms/32j-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32J-exterior"
       }
     },
@@ -1550,7 +1537,6 @@
         "src": "images/rooms/32j-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32J-exterior",
         "width": 1440,
         "height": 1080
@@ -1605,7 +1591,6 @@
       "exterior": {
         "src": "images/rooms/32k-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32K-exterior"
       }
     },
@@ -1655,7 +1640,6 @@
         "src": "images/rooms/32k-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "32K-exterior",
         "width": 1440,
         "height": 1080
@@ -1892,7 +1876,6 @@
       "exterior": {
         "src": "images/rooms/33c-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33C-exterior"
       }
     },
@@ -1942,7 +1925,6 @@
         "src": "images/rooms/33c-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33C-exterior",
         "width": 1440,
         "height": 811
@@ -1979,7 +1961,6 @@
       "exterior": {
         "src": "images/rooms/33d-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33D-exterior"
       }
     },
@@ -2029,7 +2010,6 @@
         "src": "images/rooms/33d-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33D-exterior",
         "width": 1440,
         "height": 1080
@@ -2066,7 +2046,6 @@
       "exterior": {
         "src": "images/rooms/33e-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33E-exterior"
       }
     },
@@ -2116,7 +2095,6 @@
         "src": "images/rooms/33e-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33E-exterior",
         "width": 1440,
         "height": 1080
@@ -2153,7 +2131,6 @@
       "exterior": {
         "src": "images/rooms/33f-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33F-exterior"
       }
     },
@@ -2203,7 +2180,6 @@
         "src": "images/rooms/33f-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33F-exterior",
         "width": 1440,
         "height": 1080
@@ -2240,7 +2216,6 @@
       "exterior": {
         "src": "images/rooms/33g-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33G-exterior"
       }
     },
@@ -2290,7 +2265,6 @@
         "src": "images/rooms/33g-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33G-exterior",
         "width": 1440,
         "height": 1080
@@ -2339,13 +2313,11 @@
       "interior": {
         "src": "images/rooms/33h-interior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33H-interior"
       },
       "exterior": {
         "src": "images/rooms/33h-exterior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33H-exterior"
       }
     },
@@ -2386,7 +2358,6 @@
         "src": "images/rooms/33h-interior.webp",
         "kind": "interior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33H-interior",
         "width": 1440,
         "height": 810
@@ -2395,7 +2366,6 @@
         "src": "images/rooms/33h-exterior.webp",
         "kind": "exterior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "33H-exterior",
         "width": 1440,
         "height": 1080
@@ -3080,7 +3050,6 @@
       "interior": {
         "src": "images/rooms/student-hall-interior.webp",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "student-hall-interior"
       },
       "exterior": null
@@ -3122,7 +3091,6 @@
         "src": "images/rooms/student-hall-interior.webp",
         "kind": "interior",
         "source": "【YC】学内施設使用許可願生成マシーン (2).xlsx",
-        "page": null,
         "sourceId": "student-hall-interior",
         "width": 1290,
         "height": 1017
@@ -3688,15 +3656,11 @@
     "capacity": null,
     "equipment": null,
     "images": {
-      "interior": {
-        "src": "images/rooms/admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de.webp",
-        "source": "管理者追加",
-        "sourceId": "admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de"
-      },
+      "interior": null,
       "exterior": null
     },
     "photoStatus": {
-      "interior": "available",
+      "interior": "missing",
       "exterior": "missing"
     },
     "source": {
@@ -3711,16 +3675,7 @@
         "floor": "2"
       }
     },
-    "gallery": [
-      {
-        "src": "images/rooms/admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de.webp",
-        "kind": "interior",
-        "source": "管理者追加",
-        "sourceId": "admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de",
-        "width": 496,
-        "height": 595
-      }
-    ]
+    "gallery": []
   },
   {
     "id": "72BC",

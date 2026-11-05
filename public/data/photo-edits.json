@@ -1,4 +1,13 @@
 {
   "schemaVersion": 1,
-  "rooms": {}
+  "rooms": {
+    "72A": {
+      "order": [
+        "admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de"
+      ],
+      "hidden": [
+        "admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de"
+      ]
+    }
+  }
 }

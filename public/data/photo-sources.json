@@ -14,11 +14,12 @@
       38
     ],
     "existingPhotosPreserved": 16,
-    "interiorAvailable": 39,
+    "interiorAvailable": 38,
     "interiorMissing": [
       "22A",
       "22F",
-      "72D"
+      "72D",
+      "72A"
     ],
     "exteriorAvailable": 13,
     "pdfInteriorAdded": 148,
@@ -37,10 +38,11 @@
     "legacyPdfInteriorAdded": 31,
     "pdfPhotographs": 148,
     "adminPhotographs": 5,
-    "galleryPhotoCount": 169,
+    "galleryPhotoCount": 168,
     "webpCount": 169,
     "excludedPdfSymbols": 6,
-    "pdfRotationAppliedCount": 32
+    "pdfRotationAppliedCount": 32,
+    "hiddenPhotoCount": 1
   },
   "photos": [
     {
