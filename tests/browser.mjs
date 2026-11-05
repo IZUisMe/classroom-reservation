@@ -179,7 +179,7 @@ async function checkPhotos(page, mouseDrag = false) {
   for (const index of [0, images.length - 1]) {
     const button = strip.locator('[data-action="photo"]').nth(index);
     const source = await button.locator('img').getAttribute('src');
-    assert.equal(new URL(source, origin).pathname, `/${images[index].src}`);
+    assert.equal(new URL(source, origin).pathname, new URL(images[index].src, origin.endsWith('/') ? origin : `${origin}/`).pathname);
     await button.click();
     await page.locator('#photo-dialog').waitFor({ state: 'visible' });
     assert.equal(await page.locator('#photo-dialog img').count(), 1, 'Open only the clicked full-size image');
@@ -431,7 +431,8 @@ try {
   assert.equal(await mp.locator('.entry').count(), 9); assert.equal(await mp.locator('#profile-name').inputValue(), '試験 花子');
   assert.equal(await mp.locator('#entry-0-start').inputValue(), '18:43');
   await noSpotlight(mp); await mobile.close();
-  assert.ok(allRequests.every(url => url.startsWith(`${origin}/`) || url.startsWith('blob:') || url.startsWith('data:')), 'No external network requests');
+  const requestBase = origin.endsWith('/') ? origin : `${origin}/`;
+  assert.ok(allRequests.every(url => url.startsWith(requestBase) || url.startsWith('blob:') || url.startsWith('data:')), 'No external network requests');
   assert.deepEqual(errors, [], `Browser errors: ${errors.join('\n')}`);
   await writeFile('test-results/browser-report.json', JSON.stringify({ passed: true, metrics, errors }, null, 2));
   console.log('Browser integration tests passed:', JSON.stringify(metrics));

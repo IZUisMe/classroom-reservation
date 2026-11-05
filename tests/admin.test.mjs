@@ -139,6 +139,10 @@ test('loopback API enforces Host/Origin/CSRF/type/body limits and commits UUID-o
     const serialized = JSON.stringify(await Promise.all(['rooms.json', 'photo-sources.json', 'admin-photos.json'].map(name => readJson(join(data.root, 'public/data', name)))));
     assert.ok(!serialized.includes('private-person-name')); assert.ok(!serialized.includes('do not persist'));
     assert.equal(result.summary.webpCount, 165);
+    const concurrent = await Promise.all([post(payload('R41', 'interior')), post(payload('R41', 'exterior'))]);
+    assert.deepEqual(concurrent.map(response => response.status), [201, 201]);
+    assert.equal((await readJson(join(data.root, 'public/data/admin-photos.json'))).photos.length, 3);
+    assert.equal((await readJson(join(data.root, 'public/data/photo-sources.json'))).summary.webpCount, 167);
     assert.equal((await fetch(`${base}/tools/admin/.state/transaction.json`)).status, 404);
     assert.equal((await fetch(`${base}/api/photos`, { method: 'OPTIONS' })).status, 405);
   } finally { await app.close(); await data.cleanup(); }
