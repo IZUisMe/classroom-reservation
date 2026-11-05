@@ -48,6 +48,18 @@
       "sha256": "ec6294029239d99bbd473afb4c96d0945122768758d83a85f9acf4729ec2544d",
       "bytes": 179382,
       "addedAt": "2026-11-05T09:16:32.014Z"
+    },
+    {
+      "id": "admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de",
+      "roomId": "72A",
+      "src": "images/rooms/admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de.webp",
+      "kind": "interior",
+      "source": "管理者追加",
+      "width": 496,
+      "height": 595,
+      "sha256": "2fb15808d4977a9a0312457b20ab11f794cc50bd568eade3404f3b6a918cac32",
+      "bytes": 20506,
+      "addedAt": "2026-11-05T09:36:50.670Z"
     }
   ]
 }

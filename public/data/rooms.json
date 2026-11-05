@@ -3688,11 +3688,15 @@
     "capacity": null,
     "equipment": null,
     "images": {
-      "interior": null,
+      "interior": {
+        "src": "images/rooms/admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de.webp",
+        "source": "管理者追加",
+        "sourceId": "admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de"
+      },
       "exterior": null
     },
     "photoStatus": {
-      "interior": "missing",
+      "interior": "available",
       "exterior": "missing"
     },
     "source": {
@@ -3707,7 +3711,16 @@
         "floor": "2"
       }
     },
-    "gallery": []
+    "gallery": [
+      {
+        "src": "images/rooms/admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de.webp",
+        "kind": "interior",
+        "source": "管理者追加",
+        "sourceId": "admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de",
+        "width": 496,
+        "height": 595
+      }
+    ]
   },
   {
     "id": "72BC",
