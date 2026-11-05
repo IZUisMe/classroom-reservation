@@ -8,4 +8,7 @@ const result = spawnSync(process.execPath, [resolve('node_modules/vite/bin/vite.
   stdio: 'inherit', env: { ...process.env, TEMP: temp, TMP: temp, TMPDIR: temp },
 });
 if (result.error) { console.error(result.error); process.exit(1); }
-process.exit(result.status ?? 1);
+if (result.status !== 0) {
+  console.error(`ビルドに失敗しました（Node ${process.version}）。Windowsでは起動用CMDから再実行してください。解決しない場合はNode.jsの最新24系へ更新してください。`);
+}
+process.exit(result.status === 0 ? 0 : 1);

@@ -12,6 +12,7 @@ test('Windows launchers retain CRLF without a UTF-8 BOM', async () => {
     assert.equal(text.startsWith('\uFEFF'), false, file);
     assert.equal(/(?<!\r)\n/.test(text), false, `${file} must use CRLF for cmd.exe`);
     assert.ok(text.includes('\r\n'), file);
+    assert.ok(text.indexOf('set "NODE=%USERPROFILE%') < text.indexOf('set "NODE=node"'), `${file} prefers the verified bundled runtime`);
   }
 });
 test('the actual Windows publish launcher parses and cancellation does not publish', { skip: process.platform !== 'win32' }, () => {

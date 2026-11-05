@@ -49,6 +49,7 @@ export async function publish() {
   const allowed = new Set([...dataFiles, ...photoFiles]);
   const staged = run('git', ['diff', '--cached', '--name-only'], true).split('\n').filter(Boolean);
   if (staged.some(path => !allowed.has(path))) throw new Error('写真以外のファイルがステージされています。別途コミットするか、ステージから外してください。');
+  console.log(`実行環境: Node ${process.version}`);
   console.log('\n[1/6] GitHub認証を確認しています…');
   run(gh, ['auth', 'status', '--hostname', 'github.com']);
   console.log('\n[2/6] 写真データとアプリを検査しています…');
