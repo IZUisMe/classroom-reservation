@@ -5,14 +5,129 @@
       "order": [
         "admin-fb5c25ed-22ef-4cb5-85eb-ae885a891674",
         "admin-d8370ef4-6a49-40fb-a21c-caa0e3636b63",
-        "admin-a540e6c4-5987-4efc-bc45-afa1c2e5abc6",
-        "admin-04e21d18-14dd-4446-b237-5f7f2eca4fcc"
+        "admin-04e21d18-14dd-4446-b237-5f7f2eca4fcc",
+        "admin-a540e6c4-5987-4efc-bc45-afa1c2e5abc6"
       ],
       "hidden": []
     },
     "72D": {
       "order": [],
       "hidden": []
+    },
+    "yc-hall": {
+      "order": [
+        "yc-hall-interior",
+        "yc-hall-pdf-p33-i04",
+        "yc-hall-pdf-p33-i03",
+        "yc-hall-pdf-p33-i01"
+      ],
+      "hidden": [],
+      "comment": "こんな場所あったっけ？"
+    },
+    "72BC": {
+      "order": [
+        "admin-31209c15-969a-4046-a422-7db6e762040b",
+        "admin-6f4b0026-1e16-4a3c-ba0d-79fa3b9eef14",
+        "admin-316a8b56-f67e-44ab-8e6e-870b8f3d46e7",
+        "admin-8b10fc09-31e2-4cbd-8e96-0d620f60410f"
+      ],
+      "hidden": [],
+      "comment": "見晴らしがいい、おすすめ。"
+    },
+    "32I": {
+      "order": [
+        "32I-interior",
+        "32I-pdf-p19-i03",
+        "32I-pdf-p19-i02",
+        "32I-pdf-p19-i01"
+      ],
+      "hidden": [],
+      "comment": "arteの根城。多分他の団体が取るのは厳しい。"
+    },
+    "21A": {
+      "order": [
+        "21A-interior",
+        "21A-pdf-p35-i03",
+        "21A-pdf-p35-i02",
+        "21A-pdf-p35-i01"
+      ],
+      "hidden": [],
+      "comment": "2号館の利用は非推奨です"
+    },
+    "31A": {
+      "order": [
+        "31A-interior",
+        "31A-pdf-p05-i05",
+        "31A-pdf-p05-i04",
+        "31A-pdf-p05-i03",
+        "31A-pdf-p05-i01",
+        "31A-pdf-p05-i02"
+      ],
+      "hidden": [],
+      "comment": "広すぎるだろ！"
+    },
+    "32G": {
+      "order": [
+        "32G-interior",
+        "32G-exterior",
+        "32G-pdf-p17-i04",
+        "32G-pdf-p17-i02",
+        "32G-pdf-p17-i01"
+      ],
+      "hidden": [],
+      "comment": "みんなでスクリーンを見たり、作戦会議をするのにおすすめ。"
+    },
+    "31B": {
+      "order": [
+        "31B-interior",
+        "31B-pdf-p06-i04",
+        "31B-pdf-p06-i01",
+        "31B-pdf-p06-i05",
+        "31B-pdf-p06-i02"
+      ],
+      "hidden": [],
+      "comment": "虫がいっぱい出る！危険！"
+    },
+    "31C": {
+      "order": [
+        "31C-interior",
+        "31C-pdf-p07-i03",
+        "31C-pdf-p07-i01",
+        "31C-pdf-p07-i02"
+      ],
+      "hidden": [],
+      "comment": "虫がいっぱい出る！危険！"
+    },
+    "31F": {
+      "order": [
+        "31F-interior",
+        "31F-pdf-p10-i02",
+        "31F-pdf-p10-i01",
+        "31F-pdf-p10-i04"
+      ],
+      "hidden": [],
+      "comment": "なんだこのふざけた教室は"
+    },
+    "33H": {
+      "order": [
+        "33H-interior",
+        "33H-exterior",
+        "33H-pdf-p29-i04",
+        "33H-pdf-p29-i03",
+        "33H-pdf-p29-i02",
+        "33H-pdf-p29-i01"
+      ],
+      "hidden": [],
+      "comment": "広くて使いやすい。ちょっと広すぎるかも"
+    },
+    "33E": {
+      "order": [
+        "33E-interior",
+        "33E-exterior",
+        "33E-pdf-p26-i01"
+      ],
+      "hidden": [],
+      "comment": "トイレの目の前にあり、臭い。"
     }
   },
   "deleted": [

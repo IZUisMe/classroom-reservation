@@ -7,7 +7,7 @@
     "floor": "1",
     "code": "A",
     "description": "",
-    "comment": "",
+    "comment": "広すぎるだろ！",
     "capacity": 300,
     "equipment": null,
     "images": {
@@ -116,7 +116,7 @@
     "floor": "1",
     "code": "B",
     "description": "",
-    "comment": "",
+    "comment": "虫がいっぱい出る！危険！",
     "capacity": 134,
     "equipment": null,
     "images": {
@@ -216,7 +216,7 @@
     "floor": "1",
     "code": "C",
     "description": "",
-    "comment": "",
+    "comment": "虫がいっぱい出る！危険！",
     "capacity": 134,
     "equipment": null,
     "images": {
@@ -498,7 +498,7 @@
     "floor": "1",
     "code": "F",
     "description": "",
-    "comment": "",
+    "comment": "なんだこのふざけた教室は",
     "capacity": 41,
     "equipment": null,
     "images": {
@@ -1190,7 +1190,7 @@
     "floor": "2",
     "code": "G",
     "description": "",
-    "comment": "",
+    "comment": "みんなでスクリーンを見たり、作戦会議をするのにおすすめ。",
     "capacity": 77,
     "equipment": null,
     "images": {
@@ -1384,7 +1384,7 @@
     "floor": "2",
     "code": "I",
     "description": "",
-    "comment": "arteの根城。多分厳しい。",
+    "comment": "arteの根城。多分他の団体が取るのは厳しい。",
     "capacity": 58,
     "equipment": null,
     "images": {
@@ -2033,7 +2033,7 @@
     "floor": "3",
     "code": "E",
     "description": "",
-    "comment": "",
+    "comment": "トイレの目の前にあり、臭い。",
     "capacity": 20,
     "equipment": null,
     "images": {
@@ -2306,7 +2306,7 @@
     "floor": "3",
     "code": "H",
     "description": "",
-    "comment": "ちょっと広すぎるかも",
+    "comment": "広くて使いやすい。ちょっと広すぎるかも",
     "capacity": 64,
     "equipment": null,
     "images": {
@@ -3259,7 +3259,7 @@
     "floor": "5",
     "code": null,
     "description": "",
-    "comment": "なに？",
+    "comment": "こんな場所あったっけ？",
     "capacity": null,
     "equipment": null,
     "images": {
@@ -3474,7 +3474,7 @@
     "floor": "1",
     "code": "A",
     "description": "",
-    "comment": "",
+    "comment": "2号館の利用は非推奨です",
     "capacity": 100,
     "equipment": null,
     "images": {
@@ -3697,18 +3697,18 @@
         "height": 811
       },
       {
-        "src": "images/rooms/admin-a540e6c4-5987-4efc-bc45-afa1c2e5abc6.webp",
-        "kind": "interior",
-        "source": "管理者追加",
-        "sourceId": "admin-a540e6c4-5987-4efc-bc45-afa1c2e5abc6",
-        "width": 1440,
-        "height": 811
-      },
-      {
         "src": "images/rooms/admin-04e21d18-14dd-4446-b237-5f7f2eca4fcc.webp",
         "kind": "interior",
         "source": "管理者追加",
         "sourceId": "admin-04e21d18-14dd-4446-b237-5f7f2eca4fcc",
+        "width": 1440,
+        "height": 811
+      },
+      {
+        "src": "images/rooms/admin-a540e6c4-5987-4efc-bc45-afa1c2e5abc6.webp",
+        "kind": "interior",
+        "source": "管理者追加",
+        "sourceId": "admin-a540e6c4-5987-4efc-bc45-afa1c2e5abc6",
         "width": 1440,
         "height": 811
       }
@@ -3722,7 +3722,7 @@
     "floor": "2",
     "code": "BC",
     "description": "",
-    "comment": "",
+    "comment": "見晴らしがいい、おすすめ。",
     "capacity": null,
     "equipment": null,
     "images": {
