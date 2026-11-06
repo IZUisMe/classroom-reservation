@@ -3656,11 +3656,15 @@
     "capacity": null,
     "equipment": null,
     "images": {
-      "interior": null,
+      "interior": {
+        "src": "images/rooms/admin-fb5c25ed-22ef-4cb5-85eb-ae885a891674.webp",
+        "source": "管理者追加",
+        "sourceId": "admin-fb5c25ed-22ef-4cb5-85eb-ae885a891674"
+      },
       "exterior": null
     },
     "photoStatus": {
-      "interior": "missing",
+      "interior": "available",
       "exterior": "missing"
     },
     "source": {
@@ -3675,7 +3679,40 @@
         "floor": "2"
       }
     },
-    "gallery": []
+    "gallery": [
+      {
+        "src": "images/rooms/admin-fb5c25ed-22ef-4cb5-85eb-ae885a891674.webp",
+        "kind": "interior",
+        "source": "管理者追加",
+        "sourceId": "admin-fb5c25ed-22ef-4cb5-85eb-ae885a891674",
+        "width": 1440,
+        "height": 811
+      },
+      {
+        "src": "images/rooms/admin-d8370ef4-6a49-40fb-a21c-caa0e3636b63.webp",
+        "kind": "interior",
+        "source": "管理者追加",
+        "sourceId": "admin-d8370ef4-6a49-40fb-a21c-caa0e3636b63",
+        "width": 1440,
+        "height": 811
+      },
+      {
+        "src": "images/rooms/admin-a540e6c4-5987-4efc-bc45-afa1c2e5abc6.webp",
+        "kind": "interior",
+        "source": "管理者追加",
+        "sourceId": "admin-a540e6c4-5987-4efc-bc45-afa1c2e5abc6",
+        "width": 1440,
+        "height": 811
+      },
+      {
+        "src": "images/rooms/admin-04e21d18-14dd-4446-b237-5f7f2eca4fcc.webp",
+        "kind": "interior",
+        "source": "管理者追加",
+        "sourceId": "admin-04e21d18-14dd-4446-b237-5f7f2eca4fcc",
+        "width": 1440,
+        "height": 811
+      }
+    ]
   },
   {
     "id": "72BC",

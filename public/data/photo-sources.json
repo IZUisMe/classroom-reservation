@@ -14,16 +14,15 @@
       38
     ],
     "existingPhotosPreserved": 16,
-    "interiorAvailable": 38,
+    "interiorAvailable": 39,
     "interiorMissing": [
       "22A",
       "22F",
-      "72D",
-      "72A"
+      "72D"
     ],
     "exteriorAvailable": 13,
     "pdfInteriorAdded": 148,
-    "webpBytes": 3677300,
+    "webpBytes": 4262620,
     "primaryPhotoSlots": 84,
     "originalWorkbookRoomCount": 37,
     "addedPdfRooms": [
@@ -37,9 +36,9 @@
     ],
     "legacyPdfInteriorAdded": 31,
     "pdfPhotographs": 148,
-    "adminPhotographs": 5,
-    "galleryPhotoCount": 168,
-    "webpCount": 169,
+    "adminPhotographs": 9,
+    "galleryPhotoCount": 172,
+    "webpCount": 173,
     "excludedPdfSymbols": 6,
     "pdfRotationAppliedCount": 32,
     "hiddenPhotoCount": 1
@@ -6599,6 +6598,74 @@
         "bytes": 20506,
         "width": 496,
         "height": 595
+      }
+    },
+    {
+      "id": "admin-fb5c25ed-22ef-4cb5-85eb-ae885a891674",
+      "roomId": "72A",
+      "roomName": "72A教室",
+      "kind": "interior",
+      "status": "available",
+      "sourceType": "admin",
+      "source": "管理者追加",
+      "addedAt": "2026-11-06T00:58:03.366Z",
+      "webp": {
+        "src": "images/rooms/admin-fb5c25ed-22ef-4cb5-85eb-ae885a891674.webp",
+        "sha256": "466255a280483e4fe8317e94038f7c78799a862a9ef9617b6fe75cae1be678ac",
+        "bytes": 130058,
+        "width": 1440,
+        "height": 811
+      }
+    },
+    {
+      "id": "admin-d8370ef4-6a49-40fb-a21c-caa0e3636b63",
+      "roomId": "72A",
+      "roomName": "72A教室",
+      "kind": "interior",
+      "status": "available",
+      "sourceType": "admin",
+      "source": "管理者追加",
+      "addedAt": "2026-11-06T00:58:03.423Z",
+      "webp": {
+        "src": "images/rooms/admin-d8370ef4-6a49-40fb-a21c-caa0e3636b63.webp",
+        "sha256": "875356ea0885cc3c57e4b430a8231d11f684b4d3f2bb8060aef20c79cfd95b33",
+        "bytes": 143870,
+        "width": 1440,
+        "height": 811
+      }
+    },
+    {
+      "id": "admin-a540e6c4-5987-4efc-bc45-afa1c2e5abc6",
+      "roomId": "72A",
+      "roomName": "72A教室",
+      "kind": "interior",
+      "status": "available",
+      "sourceType": "admin",
+      "source": "管理者追加",
+      "addedAt": "2026-11-06T00:58:03.474Z",
+      "webp": {
+        "src": "images/rooms/admin-a540e6c4-5987-4efc-bc45-afa1c2e5abc6.webp",
+        "sha256": "524d4e597b08f78bf3dd58a65a5bbd5dd5b743ea247cc22812d27e4069bf443a",
+        "bytes": 145932,
+        "width": 1440,
+        "height": 811
+      }
+    },
+    {
+      "id": "admin-04e21d18-14dd-4446-b237-5f7f2eca4fcc",
+      "roomId": "72A",
+      "roomName": "72A教室",
+      "kind": "interior",
+      "status": "available",
+      "sourceType": "admin",
+      "source": "管理者追加",
+      "addedAt": "2026-11-06T00:58:03.555Z",
+      "webp": {
+        "src": "images/rooms/admin-04e21d18-14dd-4446-b237-5f7f2eca4fcc.webp",
+        "sha256": "55c1c0212b3cfed5ec6d89a89b8bd80421c067dcde040a9d0e95602e41ded8b9",
+        "bytes": 165460,
+        "width": 1440,
+        "height": 811
       }
     }
   ],
