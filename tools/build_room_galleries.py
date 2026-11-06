@@ -37,6 +37,15 @@ for room in rooms:
         assert room['source'].get('type')=='user-provided'
 rooms=[room for room in rooms if room['id'] not in custom_ids]
 ledger=load('public/data/photo-sources.json')
+# A deleted primary record requires rebuilding the source catalog first. That
+# stage recreates source metadata, and the final overlay removes deleted assets.
+edits_file=ROOT/'public/data/photo-edits.json'
+persisted_edits=load('public/data/photo-edits.json') if edits_file.exists() else {}
+known_ids={photo['id'] for photo in ledger['photos']}
+if any(photo['id'] not in known_ids and re.fullmatch(r'.+-(interior|exterior)',photo['id']) for photo in persisted_edits.get('deleted', [])):
+    import runpy
+    runpy.run_path(str(ROOT/'tools/build_rooms_data.py'),run_name='__main__')
+    sys.exit(0)
 admin=load('public/data/admin-photos.json')
 assert admin['schemaVersion']==1
 admin_photos=admin['photos']
@@ -247,14 +256,17 @@ ledger['sources']['admin']='public/data/admin-photos.json'
 ledger['policy']+=' 管理者追加写真は独立マニフェストから復元し、原資料の写真とは区別。'
 ledger['policy']+=' ユーザー指定の72A・72BCは独立した追加マニフェストから登録し、写真・定員は未提供のまま。'
 ledger['summary'].update({'roomCount':42,'primaryPhotoSlots':84,'originalWorkbookRoomCount':37,'addedPdfRooms':['33J','21A','22H'],'addedUserRooms':[room['id'] for room in custom_rooms],'existingPhotosPreserved':16,'interiorAvailable':sum(room['images']['interior'] is not None for room in rooms),'interiorMissing':[r['id'] for r in rooms if not r['images']['interior']],'exteriorAvailable':sum(room['images']['exterior'] is not None for room in rooms),'pdfInteriorAdded':148,'legacyPdfInteriorAdded':31,'pdfPhotographs':148,'adminPhotographs':len(admin_photos),'galleryPhotoCount':len(available),'webpCount':len(available),'webpBytes':sum(record['webp']['bytes'] for record in available),'excludedPdfSymbols':6,'pdfRotationAppliedCount':rotated})
-# Apply the persisted non-destructive order/exclusion overlay only after every
-# source/admin photo has been rebuilt; hidden WebP and source records stay intact.
+# Apply ordering, comments and permanent deletion after rebuilding source data.
 from photo_gallery_edits import apply_gallery_edits
 edits_path=ROOT/'public/data/photo-edits.json'
 edits=load('public/data/photo-edits.json') if edits_path.exists() else {'schemaVersion':1,'rooms':{}}
 rooms,ledger,edits=apply_gallery_edits(rooms,ledger,edits)
+active_paths={photo['webp']['src'] for photo in ledger['photos'] if photo.get('webp')}
+for photo in edits.get('deleted', []):
+    if photo['src'] not in active_paths:
+        (ROOT/'public'/photo['src']).unlink(missing_ok=True)
 ledger['sources']['edits']='public/data/photo-edits.json'
-ledger['policy']+=' 並び替え・非表示はphoto-edits.jsonの非破壊編集として最後に適用し、元画像と出典記録は保持。'
+ledger['policy']+=' photo-edits.jsonの並び順・コメント・削除記録を最後に適用し、完全削除された公開用画像を除去。原資料は保持。'
 dump('public/data/rooms.json',rooms)
 dump('public/data/photo-sources.json',ledger)
 dump('public/data/photo-edits.json',edits)

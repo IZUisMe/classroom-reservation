@@ -79,7 +79,7 @@ function roomPhotos(id, index) {
     const label = `${room.name}の${image.kind === 'exterior' ? '外観' : '室内'}写真 ${photoIndex + 1}`;
     const dimensions = Number(image.width) > 0 && Number(image.height) > 0 ? `width="${Number(image.width)}" height="${Number(image.height)}"` : '';
     return `<figure class="photo-slide"><button type="button" class="photo-open" data-action="photo" data-index="${index}" data-photo-index="${photoIndex}" aria-label="${h(label)}を拡大"><img src="${h(safeAsset(image.src))}" alt="${h(label)}" ${dimensions} loading="lazy" decoding="async" draggable="false"></button></figure>`;
-  }).join('') : `<div class="photo-empty">${room ? '写真なし' : '教室を選択'}</div>`}</div>`;
+  }).join('') : `<div class="photo-empty">${room ? '写真なし' : '教室を選択'}</div>`}</div>${room?.comment ? `<p class="room-comment">${h(room.comment)}</p>` : ''}`;
 }
 function capacityWarning(index) {
   const entry = state.entries[index];
@@ -356,13 +356,38 @@ function bindEvents() {
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') persist(); });
   window.addEventListener('pagehide', () => { persist(); if (pdfUrl) URL.revokeObjectURL(pdfUrl); });
 }
+let refreshingRooms = false;
+async function loadRooms() {
+  const url = new URL('data/rooms.json', document.baseURI);
+  url.searchParams.set('updated', Date.now());
+  const response = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(15000) });
+  if (!response.ok) throw new Error('教室データの読み込みに失敗しました。');
+  const data = await response.json();
+  if (!Array.isArray(data) || !data.length || data.some(room => typeof room.id !== 'string')) throw new Error('教室データが不正です。');
+  return data.sort((a, b) => a.id.localeCompare(b.id, 'en', { numeric: true }));
+}
+async function refreshRooms() {
+  if (refreshingRooms || document.hidden) return;
+  refreshingRooms = true;
+  try {
+    const data = await loadRooms();
+    if (JSON.stringify(data) === JSON.stringify(rooms)) return;
+    rooms = data;
+    // Update only catalog-dependent elements; preserve every entered value and focus.
+    state.entries.forEach((entry, i) => {
+      $(`photos-${i}`).innerHTML = roomPhotos(entry.roomId, i);
+      $(`entry-${i}-roomId`).innerHTML = roomOptions(entry.roomId);
+      $(`capacity-warning-${i}`).innerHTML = capacityWarning(i);
+    });
+    if ($('photo-dialog').open) { $('photo-dialog').close(); $('photo-dialog-body').replaceChildren(); }
+    preview?.update(state, rooms);
+    notify('教室の写真・情報を最新の内容に更新しました。');
+  } catch { /* A temporary connection failure keeps the form available. Retry on the next tick. */ }
+  finally { refreshingRooms = false; }
+}
 async function init() {
   try {
-    const response = await fetch(new URL('data/rooms.json', document.baseURI));
-    if (!response.ok) throw new Error('教室データの読み込みに失敗しました。');
-    const data = await response.json();
-    if (!Array.isArray(data) || !data.length) throw new Error('教室データが不正です。');
-    rooms = data;
+    rooms = await loadRooms();
     const storedProfile = readStorage(STORAGE_KEYS.profile);
     const draft = readStorage(STORAGE_KEYS.draft);
     const preferences = readStorage(STORAGE_KEYS.settings);
@@ -377,6 +402,11 @@ async function init() {
     $('remember-draft').checked = rememberDraft; $('remember-profile').checked = rememberProfile;
     renderCommon(); renderEntries(); renderHistory(); bindEvents();
     $('app').hidden = false; $('load-status').hidden = true;
+    setInterval(refreshRooms, 5000);
+    window.addEventListener('focus', refreshRooms);
+    window.addEventListener('online', refreshRooms);
+    window.addEventListener('pageshow', refreshRooms);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshRooms(); });
     try { preview = await initPreview($('application-preview')); preview.update(state, rooms); syncFocusedField(); }
     catch { $('application-preview').textContent = 'プレビューを表示できませんでした。'; }
   } catch (error) {

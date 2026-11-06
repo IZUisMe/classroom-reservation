@@ -4,7 +4,7 @@ import { readFile, writeFile, mkdir, mkdtemp, rm, readdir } from 'node:fs/promis
 import { resolve, join } from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { applyGalleryEdits, emptyPhotoEdits, galleryRoomState, validateGalleryUpdate, photoFilePath } from '../tools/photo_gallery_edits.mjs';
-import { applyAdminPhotos, addAdminPhoto, updatePhotoGallery, recoverAdminPhotoTransaction, inspectWebP } from '../tools/apply_admin_photos.mjs';
+import { applyAdminPhotos, addAdminPhoto, updatePhotoGallery, updateRoomContent, recoverAdminPhotoTransaction, inspectWebP } from '../tools/apply_admin_photos.mjs';
 import { createAdminServer } from '../tools/admin-server.mjs';
 
 const root = resolve('test-results');
@@ -33,6 +33,63 @@ function updatePayload(state, order = ['source-c', 'source-b', 'source-a'], hidd
   return { roomId: 'R1', order, hidden, revision: galleryRoomState(room, state.sources, state.edits).revision };
 }
 const uploadPayload = () => ({ roomId: 'R1', kind: 'interior', image: { data: bytes.toString('base64'), ...dimensions } });
+
+test('permanent deletion removes source and upload bytes and survives regeneration overlays', async () => {
+  const data = await fixture();
+  try {
+    const initial = galleryRoomState(data.rooms[0], data.sources, data.edits);
+    const commented = await updateRoomContent(data.path, { roomId: 'R1', revision: initial.revision, action: 'comment', comment: '明るい教室 <script>\n静かです' });
+    assert.equal(commented.room.comment, '明るい教室 <script>\n静かです');
+    const deleted = await updateRoomContent(data.path, { roomId: 'R1', revision: commented.room.revision, action: 'delete', photoId: 'source-a' });
+    assert.equal(deleted.room.photos.some(photo => photo.id === 'source-a'), false);
+    await assert.rejects(readFile(join(data.path, 'public/images/rooms/source-a.webp')), { code: 'ENOENT' });
+    const edits = await readJson(join(data.path, 'public/data/photo-edits.json'));
+    const regenerated = applyGalleryEdits({ ...data, edits });
+    assert.equal(regenerated.rooms[0].gallery.some(photo => photo.sourceId === 'source-a'), false);
+    assert.equal(regenerated.rooms[0].comment, commented.room.comment);
+    const added = await addAdminPhoto(data.path, uploadPayload());
+    const removedUpload = await updateRoomContent(data.path, { roomId: 'R1', revision: added.room.revision, action: 'delete', photoId: added.photo.id });
+    assert.equal(removedUpload.room.comment, commented.room.comment);
+    assert.equal((await readJson(join(data.path, 'public/data/admin-photos.json'))).photos.length, 0);
+    await assert.rejects(readFile(join(data.path, 'public', added.photo.src)), { code: 'ENOENT' });
+    await assert.rejects(updateRoomContent(data.path, { roomId: 'R1', revision: added.room.revision, action: 'comment', comment: 'stale' }), error => error.status === 409);
+  } finally { await data.cleanup(); }
+});
+
+test('deletion rolls back on failed writes, and comments survive reordering and uploads', async () => {
+  const data = await fixture();
+  try {
+    const payload = { roomId: 'R1', action: 'delete', photoId: 'source-b', revision: galleryRoomState(data.rooms[0], data.sources, data.edits).revision };
+    const before = await Promise.all(files.map(file => readFile(join(data.path, 'public/data', file))));
+    await assert.rejects(updateRoomContent(data.path, payload, { beforeReplace(i) { if (i === 3) throw new Error('failed delete'); } }), /failed delete/);
+    assert.deepEqual(await readFile(join(data.path, 'public/images/rooms/source-b.webp')), bytes);
+    for (const [i, file] of files.entries()) assert.deepEqual(await readFile(join(data.path, 'public/data', file)), before[i]);
+    const commented = await updateRoomContent(data.path, { ...payload, action: 'comment', comment: '窓際にコンセント' });
+    await assert.rejects(updateRoomContent(data.path, { ...payload, action: 'comment', revision: commented.room.revision, comment: 'x'.repeat(301) }), error => error.status === 400);
+    const reordered = await updatePhotoGallery(data.path, { ...updatePayload(data), revision: commented.room.revision });
+    assert.equal(reordered.room.comment, '窓際にコンセント');
+    const added = await addAdminPhoto(data.path, uploadPayload());
+    assert.equal(added.room.comment, '窓際にコンセント');
+  } finally { await data.cleanup(); }
+});
+
+test('interrupted deletion recovers removed bytes and all metadata from a v3 journal', async () => {
+  const data = await fixture();
+  try {
+    const before = await Promise.all(files.map(file => readFile(join(data.path, 'public/data', file))));
+    await mkdir(join(data.path, 'tools/admin/.state'), { recursive: true });
+    await json(join(data.path, 'tools/admin/.state/transaction.json'), {
+      version: 3, imageId: null, before: before.map(bytes => bytes.toString('base64')),
+      removed: [{ src: 'images/rooms/source-a.webp', bytes: bytes.toString('base64') }],
+    });
+    await rm(join(data.path, 'public/images/rooms/source-a.webp'));
+    await json(join(data.path, 'public/data/rooms.json'), []);
+    assert.equal(await recoverAdminPhotoTransaction(data.path), true);
+    assert.deepEqual(await readFile(join(data.path, 'public/images/rooms/source-a.webp')), bytes);
+    for (const [i, file] of files.entries()) assert.deepEqual(await readFile(join(data.path, 'public/data', file)), before[i]);
+    await assert.rejects(readFile(join(data.path, 'tools/admin/.state/transaction.json')), { code: 'ENOENT' });
+  } finally { await data.cleanup(); }
+});
 
 test('source photos reorder, hide and restore without changing ledger or raw bytes', async () => {
   const data = await fixture();

@@ -3,6 +3,11 @@ import { resolve, sep } from 'node:path';
 
 export class GalleryError extends Error { constructor(message, status = 400) { super(message); this.status = status; } }
 export const emptyPhotoEdits = () => ({ schemaVersion: 1, rooms: {} });
+export function deletedPhotos(edits) {
+  const list = edits.deleted || [];
+  if (!Array.isArray(list) || list.some(photo => !photo || typeof photo.id !== 'string' || !/^[A-Za-z0-9-]+$/.test(photo.id) || !validSrc(photo.src))) throw new GalleryError('削除記録が不正です。', 500);
+  return list;
+}
 const own = (object, key) => Object.hasOwn(object, key);
 const validSrc = value => typeof value === 'string' && /^images\/rooms\/[A-Za-z0-9-]+\.webp$/.test(value);
 const clone = value => structuredClone(value);
@@ -20,6 +25,7 @@ export function roomPhotoRecords(sources, roomId) {
 export function validatePhotoEdits(edits, rooms, sources) {
   if (!edits || edits.schemaVersion !== 1 || !edits.rooms || typeof edits.rooms !== 'object' || Array.isArray(edits.rooms)) throw new GalleryError('写真編集台帳の形式が不正です。', 500);
   const clean = emptyPhotoEdits();
+  if (edits.deleted) clean.deleted = clone(deletedPhotos(edits));
   for (const [roomId, value] of Object.entries(edits.rooms)) {
     if (!rooms.some(room => room.id === roomId) || !value || !Array.isArray(value.order) || !Array.isArray(value.hidden)) throw new GalleryError('写真編集台帳の教室が不正です。', 500);
     const known = new Set(roomPhotoRecords(sources, roomId).map(photo => photo.id));
@@ -28,6 +34,10 @@ export function validatePhotoEdits(edits, rooms, sources) {
     }
     if (value.hidden.some(id => !value.order.includes(id))) throw new GalleryError('除外写真が並び順に含まれていません。', 500);
     clean.rooms[roomId] = { order: [...value.order], hidden: [...value.hidden] };
+    if (value.comment !== undefined) {
+      if (typeof value.comment !== 'string' || value.comment.length > 300) throw new GalleryError('コメントは300文字以内で入力してください。');
+      clean.rooms[roomId].comment = value.comment;
+    }
   }
   return clean;
 }
@@ -42,11 +52,13 @@ function effectiveOrder(room, records, edit) {
 function galleryItem(record) {
   return { src: record.webp.src, kind: record.kind, source: record.source, ...(record.page !== undefined ? { page: record.page } : {}), sourceId: record.id, width: record.webp.width, height: record.webp.height };
 }
-/** Non-destructive overlay. Source records and every physical WebP remain intact. */
+/** Apply ordering, comments and persisted deletion tombstones. */
 export function applyGalleryEdits({ rooms, sources, edits = emptyPhotoEdits() }) {
   if (!Array.isArray(rooms)) throw new GalleryError('教室台帳の形式が不正です。', 500);
   const resultRooms = clone(rooms);
   const resultSources = clone(sources);
+  const deleted = new Set(deletedPhotos(edits).map(photo => photo.id));
+  resultSources.photos = resultSources.photos.filter(photo => !deleted.has(photo.id));
   const clean = validatePhotoEdits(edits, resultRooms, resultSources);
   let total = 0;
   let visible = 0;
@@ -54,6 +66,7 @@ export function applyGalleryEdits({ rooms, sources, edits = emptyPhotoEdits() })
     const records = roomPhotoRecords(resultSources, room.id);
     const lookup = new Map(records.map(photo => [photo.id, photo]));
     const edit = clean.rooms[room.id];
+    if (edit?.comment !== undefined) room.comment = edit.comment;
     const hidden = new Set(edit?.hidden || []);
     const order = effectiveOrder(room, records, edit);
     // Newly uploaded source IDs are appended and persisted on the next write.
@@ -85,8 +98,9 @@ export function galleryRoomState(room, sources, edits = emptyPhotoEdits()) {
     return { id, kind: record.kind, width: record.webp.width, height: record.webp.height, source: record.source, ...(record.page !== undefined ? { page: record.page } : {}), sourceType: record.sourceType, hidden: hidden.has(id), url: `/photos/${encodeURIComponent(id)}` };
   });
   const content = records.map(photo => [photo.id, photo.webp.sha256, photo.kind, photo.webp.src]).sort((a, b) => a[0].localeCompare(b[0]));
-  const revision = createHash('sha256').update(JSON.stringify({ content, order, hidden: [...hidden].sort() })).digest('hex');
-  return { id: room.id, name: room.name, displayName: room.displayName || room.name, photoCount: photos.filter(photo => !photo.hidden).length, photos, revision };
+  const comment = room.comment || '';
+  const revision = createHash('sha256').update(JSON.stringify({ content, order, hidden: [...hidden].sort(), comment })).digest('hex');
+  return { id: room.id, name: room.name, displayName: room.displayName || room.name, comment, photoCount: photos.filter(photo => !photo.hidden).length, photos, revision };
 }
 export function validateGalleryUpdate(payload, room, sources, edits) {
   if (!payload || typeof payload.roomId !== 'string' || !Array.isArray(payload.order) || !Array.isArray(payload.hidden) || typeof payload.revision !== 'string') throw new GalleryError('教室・並び順・除外写真・更新番号を指定してください。');

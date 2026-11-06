@@ -1,7 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { readFile, writeFile, rename, unlink, mkdir, open } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
-import { applyGalleryEdits, emptyPhotoEdits, galleryRoomState, validateGalleryUpdate, GalleryError } from './photo_gallery_edits.mjs';
+import { applyGalleryEdits, emptyPhotoEdits, galleryRoomState, validateGalleryUpdate, photoFilePath, GalleryError } from './photo_gallery_edits.mjs';
 
 export const ADMIN_LIMITS = Object.freeze({ maxFileBytes: 4 * 1024 * 1024, maxBodyBytes: 6 * 1024 * 1024, maxWidth: 1440, maxHeight: 1080, maxPixels: 1440 * 1080 });
 const ADMIN_ID = /^admin-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
@@ -136,7 +136,11 @@ async function recoverLocked(store) {
   const journal = JSON.parse(raw);
   const legacy = journal.version === 1;
   const count = legacy ? 3 : 4;
-  if ((!legacy && journal.version !== 2) || !Array.isArray(journal.before) || journal.before.length !== count || !(ADMIN_ID.test(journal.imageId) || (!legacy && journal.imageId === null)) || journal.before.some(value => value !== null && (typeof value !== 'string' || Buffer.from(value, 'base64').toString('base64') !== value))) throw new AdminError('回復用記録が不正です。管理用サーバーを停止して確認してください。', 500);
+  if ((!legacy && ![2, 3].includes(journal.version)) || !Array.isArray(journal.before) || journal.before.length !== count || !(ADMIN_ID.test(journal.imageId) || (!legacy && journal.imageId === null)) || journal.before.some(value => value !== null && (typeof value !== 'string' || Buffer.from(value, 'base64').toString('base64') !== value))) throw new AdminError('回復用記録が不正です。管理用サーバーを停止して確認してください。', 500);
+  if (journal.version === 3) {
+    if (!Array.isArray(journal.removed) || journal.removed.some(photo => !/^images\/rooms\/[A-Za-z0-9-]+\.webp$/.test(photo.src) || typeof photo.bytes !== 'string' || Buffer.from(photo.bytes, 'base64').toString('base64') !== photo.bytes)) throw new AdminError('画像の回復用記録が不正です。', 500);
+    for (const photo of journal.removed) await atomicWrite(resolve(store.projectRoot, 'public', photo.src), Buffer.from(photo.bytes, 'base64'));
+  }
   for (let i = 0; i < count; i++) {
     const file = resolve(store.data, DATA_FILES[i]);
     if (journal.before[i] === null) await unlink(file).catch(error => { if (error.code !== 'ENOENT') throw error; });
@@ -160,9 +164,10 @@ async function mutateStore(projectRoot, mutate, hooks = {}) {
     const before = await Promise.all(DATA_FILES.map(name => optionalRead(resolve(store.data, name))));
     if (!before[0] || !before[1]) throw new AdminError('教室・写真データが見つかりません。', 500);
     const state = { rooms: JSON.parse(before[0].toString('utf8')), sources: JSON.parse(before[1].toString('utf8')), manifest: before[2] ? JSON.parse(before[2].toString('utf8')) : { schemaVersion: 1, photos: [] }, edits: before[3] ? JSON.parse(before[3].toString('utf8')) : emptyPhotoEdits() };
-    const { merged, image, result } = await mutate(state);
+    const { merged, image, result, removed = [] } = await mutate(state);
+    const backups = await Promise.all(removed.map(async record => ({ src: record.webp.src, bytes: (await readFile(photoFilePath(projectRoot, record))).toString('base64') })));
     const journalPath = resolve(store.state, 'transaction.json');
-    await atomicWrite(journalPath, jsonBytes({ version: 2, imageId: image?.id || null, before: before.map(value => value?.toString('base64') ?? null) }));
+    await atomicWrite(journalPath, jsonBytes({ version: 3, imageId: image?.id || null, removed: backups, before: before.map(value => value?.toString('base64') ?? null) }));
     journalWritten = true;
     if (image) { await mkdir(store.images, { recursive: true }); await writeFile(resolve(store.images, `${image.id}.webp`), image.bytes, { flag: 'wx' }); }
     const after = [merged.rooms, merged.sources, merged.manifest, merged.edits];
@@ -170,6 +175,7 @@ async function mutateStore(projectRoot, mutate, hooks = {}) {
       await hooks.beforeReplace?.(i, DATA_FILES[i]);
       await atomicWrite(resolve(store.data, DATA_FILES[i]), jsonBytes(after[i]));
     }
+    for (const record of removed) await unlink(photoFilePath(projectRoot, record));
     await unlink(journalPath);
     journalWritten = false;
     return result;
@@ -207,9 +213,43 @@ export async function updatePhotoGallery(projectRoot, payload, hooks = {}) {
     const current = applyAdminPhotos(state);
     const room = current.rooms.find(room => room.id === payload.roomId);
     const edit = validateGalleryUpdate(payload, room, current.sources, current.edits);
+    if (current.edits.rooms[payload.roomId]?.comment !== undefined) edit.comment = current.edits.rooms[payload.roomId].comment;
     current.edits.rooms[payload.roomId] = edit;
     const merged = applyAdminPhotos(current);
     const updated = merged.rooms.find(room => room.id === payload.roomId);
     return { merged, result: { room: galleryRoomState(updated, merged.sources, merged.edits), summary: merged.sources.summary } };
+  }, hooks);
+}
+
+export async function updateRoomContent(projectRoot, payload, hooks = {}) {
+  return mutateStore(projectRoot, state => {
+    const current = applyAdminPhotos(state);
+    const room = current.rooms.find(room => room.id === payload?.roomId);
+    if (!room) throw new GalleryError('登録されていない教室です。');
+    const snapshot = galleryRoomState(room, current.sources, current.edits);
+    if (payload.revision !== snapshot.revision) throw new GalleryError('別の画面で更新されました。再読み込みしてください。', 409);
+    const edit = current.edits.rooms[room.id] ||= { order: snapshot.photos.map(photo => photo.id), hidden: snapshot.photos.filter(photo => photo.hidden).map(photo => photo.id) };
+    let removed = [];
+    if (payload.action === 'comment') {
+      if (typeof payload.comment !== 'string' || payload.comment.length > 300) throw new GalleryError('コメントは300文字以内で入力してください。');
+      edit.comment = payload.comment.trim();
+    } else if (payload.action === 'delete') {
+      const record = current.sources.photos.find(photo => photo.id === payload.photoId && photo.roomId === room.id && photo.webp);
+      if (!record) throw new GalleryError('写真が見つかりません。', 404);
+      // Remove aliases together so no other record points at a deleted file.
+      removed = current.sources.photos.filter(photo => photo.webp?.src === record.webp.src);
+      const ids = new Set(removed.map(photo => photo.id));
+      current.edits.deleted ||= [];
+      current.edits.deleted.push(...removed.map(photo => ({ id: photo.id, src: photo.webp.src, roomId: photo.roomId, sourceType: photo.sourceType, preservedExisting: !!photo.preservedExisting, ...(photo.page !== undefined ? { page: photo.page, pdfImageIndex: photo.pdfImageIndex } : {}) })));
+      current.sources.photos = current.sources.photos.filter(photo => !ids.has(photo.id));
+      current.manifest.photos = current.manifest.photos.filter(photo => !ids.has(photo.id));
+      for (const value of Object.values(current.edits.rooms)) {
+        value.order = value.order.filter(id => !ids.has(id));
+        value.hidden = value.hidden.filter(id => !ids.has(id));
+      }
+    } else throw new GalleryError('操作が不正です。');
+    const merged = applyAdminPhotos(current);
+    const updated = merged.rooms.find(item => item.id === room.id);
+    return { merged, removed: [...new Map(removed.map(photo => [photo.webp.src, photo])).values()], result: { room: galleryRoomState(updated, merged.sources, merged.edits), summary: merged.sources.summary } };
   }, hooks);
 }

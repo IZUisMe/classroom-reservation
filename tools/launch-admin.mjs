@@ -5,7 +5,7 @@ async function existingServer() {
   try {
     const response = await fetch(`${url}/api/bootstrap`, { signal: AbortSignal.timeout(1000) });
     const data = await response.json();
-    return response.ok && Array.isArray(data.rooms) && typeof data.csrfToken === 'string';
+    return response.ok && Array.isArray(data.rooms) && typeof data.csrfToken === 'string' ? data : null;
   } catch { return false; }
 }
 function openBrowser() {
@@ -16,7 +16,9 @@ function openBrowser() {
   } else console.log(`ブラウザで ${url} を開いてください。`);
 }
 try {
-  if (await existingServer()) {
+  const existing = await existingServer();
+  if (existing && existing.version !== 3) throw new Error('旧バージョンの管理サーバーが起動中です。以前の管理画面の起動用ウィンドウで Ctrl+C を押して終了してから、もう一度「管理画面.cmd」を起動してください。');
+  if (existing) {
     console.log(`管理画面は起動済みです: ${url}`); openBrowser();
   } else {
     const app = await createAdminServer();

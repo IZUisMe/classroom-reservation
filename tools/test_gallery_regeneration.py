@@ -32,7 +32,7 @@ with tempfile.TemporaryDirectory(prefix='gallery-regeneration-', dir=results) as
         source, target = ROOT / relative, fixture / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, target)
-    for relative in ['tools/build_room_galleries.py', 'tools/validate_room_sources.py', 'tools/photo_gallery_edits.py', 'inspection/pdf-report.json', 'inspection/room-pdf-mapping.json', 'inspection/room-gallery-classification.json']:
+    for relative in ['tools/build_room_galleries.py', 'tools/build_rooms_data.py', 'tools/validate_room_sources.py', 'tools/photo_gallery_edits.py', 'inspection/xlsx-rooms.json', 'inspection/pdf-report.json', 'inspection/room-pdf-mapping.json', 'inspection/room-gallery-classification.json']:
         copy(relative)
     for path in (ROOT / 'public/data').glob('*.json'):
         copy(path.relative_to(ROOT))
@@ -90,5 +90,32 @@ with tempfile.TemporaryDirectory(prefix='gallery-regeneration-', dir=results) as
     assert restored_sources['summary']['hiddenPhotoCount'] == 0
     assert sum(len(room['gallery']) for room in restored_rooms) == 164 + len(manifest['photos'])
     print('Isolated regeneration, original/admin hide+restore, new upload append and byte idempotence: PASS')
+    # Permanently deleted original primaries, PDF detail images and uploads must
+    # stay absent after both entry points rebuild their original sources.
+    delete_records = [next(photo for photo in generated_sources['photos'] if photo['id'] == '31A-interior'),
+                      next(photo for photo in generated_sources['photos'] if photo['id'].startswith('31A-pdf-')),
+                      next(photo for photo in generated_sources['photos'] if photo['id'] == new_id)]
+    deleted_ids = {photo['id'] for photo in delete_records}
+    generated_edits['deleted'] = [{'id': photo['id'], 'src': photo['webp']['src'], 'roomId': photo['roomId'], 'sourceType': photo['sourceType'], 'preservedExisting': bool(photo.get('preservedExisting')), **({'page': photo['page'], 'pdfImageIndex': photo['pdfImageIndex']} if 'pdfImageIndex' in photo else {})} for photo in delete_records]
+    for edit in generated_edits['rooms'].values():
+        edit['order'] = [sid for sid in edit['order'] if sid not in deleted_ids]
+        edit['hidden'] = [sid for sid in edit['hidden'] if sid not in deleted_ids]
+    generated_edits['rooms']['31A'] = {'order': [], 'hidden': [], 'comment': '管理者の一言コメント'}
+    generated_rooms, generated_sources, generated_edits = apply_gallery_edits(generated_rooms, generated_sources, generated_edits)
+    manifest['photos'] = [photo for photo in manifest['photos'] if photo['id'] not in deleted_ids]
+    write(fixture, 'public/data/admin-photos.json', manifest)
+    write(fixture, 'public/data/rooms.json', generated_rooms)
+    write(fixture, 'public/data/photo-sources.json', generated_sources)
+    write(fixture, 'public/data/photo-edits.json', generated_edits)
+    for photo in delete_records:
+        (fixture / 'public' / photo['webp']['src']).unlink()
+    for entry in ['build_room_galleries.py', 'build_rooms_data.py']:
+        subprocess.run([sys.executable, str(fixture / 'tools' / entry)], cwd=fixture, env=env, check=True, stdout=subprocess.DEVNULL)
+        rebuilt = read(fixture, 'public/data/rooms.json')
+        assert not deleted_ids.intersection(photo['sourceId'] for room in rebuilt for photo in room['gallery'])
+        assert next(room for room in rebuilt if room['id'] == '31A')['comment'] == '管理者の一言コメント'
+        assert all(not (fixture / 'public' / photo['webp']['src']).exists() for photo in delete_records)
+        subprocess.run([sys.executable, str(fixture / 'tools/validate_room_sources.py')], cwd=fixture, env=env, check=True, stdout=subprocess.DEVNULL)
+    print('Permanent source/upload deletions and comments survive both regeneration entry points: PASS')
 assert before == {str(path): sha(path) for path in protected}, 'Production data changed during isolated test'
 print(f'Production data preserved: {len(protected)} files, {len(read(ROOT, "public/data/admin-photos.json")["photos"])} administrator photos')

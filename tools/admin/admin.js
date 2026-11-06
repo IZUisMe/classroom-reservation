@@ -9,7 +9,6 @@ let publishAvailable = false;
 let publishJob = null;
 let publishTimer;
 let disposed = false;
-let dragId = null;
 const galleryMessages = new Map();
 const busy = () => processing || uploading || saving || checkingPublish || publishJob?.state === 'running';
 const currentRoom = () => bootstrap?.rooms.find(room => room.id === $('room').value);
@@ -132,11 +131,11 @@ function updateControls() {
   $('publish').textContent = publishJob?.state === 'running' ? '公開中…' : '公開サイトへ反映';
   $('queue').querySelectorAll('select').forEach(select => select.disabled = locked || select.dataset.uploaded === 'true');
   $('queue').querySelectorAll('button').forEach(button => button.disabled = locked);
-  document.querySelectorAll('#gallery button, #deleted-gallery button').forEach(button => button.disabled = locked || button.dataset.edge === 'true');
-  $('gallery').querySelectorAll('.gallery-photo').forEach(card => card.draggable = !locked);
+  document.querySelectorAll('#gallery button, #save-comment, #room-comment').forEach(button => button.disabled = locked || button.dataset.edge === 'true');
+  $('gallery').querySelectorAll('.drag-handle').forEach(handle => handle.disabled = locked);
   const room = currentRoom();
   const photos = Array.isArray(room?.photos) ? room.photos : [];
-  $('room-info').textContent = room ? `${room.displayName || room.name} ／ 公開 ${photos.length ? photos.filter(photo => !photo.hidden).length : room.photoCount || 0}枚${photos.some(photo => photo.hidden) ? ` ／ 削除済み ${photos.filter(photo => photo.hidden).length}枚` : ''}` : '';
+  $('room-info').textContent = room ? `${room.displayName || room.name} ／ 公開 ${photos.length ? photos.filter(photo => !photo.hidden).length : room.photoCount || 0}枚${photos.some(photo => photo.hidden) ? ` ／ 旧・非表示 ${photos.filter(photo => photo.hidden).length}枚` : ''}` : '';
 }
 function renderQueue() {
   $('queue').replaceChildren();
@@ -163,117 +162,88 @@ function galleryMessage(message, failed = false) {
   $('gallery-status').textContent = message;
   $('gallery-status').classList.toggle('failed', failed);
 }
-function columns() { return Math.max(1, getComputedStyle($('gallery')).gridTemplateColumns.split(/\s+/).filter(Boolean).length); }
 function renderGallery() {
   const room = currentRoom();
   $('gallery-panel').hidden = !room;
-  $('gallery').replaceChildren(); $('deleted-gallery').replaceChildren();
+  $('gallery').replaceChildren();
   if (!room) { updateControls(); return; }
-  const photos = Array.isArray(room.photos) ? room.photos : [];
-  const visible = photos.filter(photo => !photo.hidden);
-  const hidden = photos.filter(photo => photo.hidden);
-  $('gallery-count').textContent = `${visible.length}枚`;
-  $('deleted-count').textContent = String(hidden.length);
-  if (!visible.length) $('gallery').append(node('p', 'empty-gallery', '登録写真はありません。'));
-  if (!hidden.length) $('deleted-gallery').append(node('p', 'empty-gallery', '削除済みの写真はありません。'));
-  for (const [list, deleted] of [[visible, false], [hidden, true]]) list.forEach((photo, index) => {
+  $('room-comment').value = room.comment || '';
+  const photos = room.photos || [];
+  $('gallery-count').textContent = `${photos.filter(photo => !photo.hidden).length}枚`;
+  if (!photos.length) $('gallery').append(node('p', 'empty-gallery', '登録写真はありません。'));
+  photos.forEach((photo, index) => {
     const id = photoId(photo);
     const card = node('article', 'gallery-photo'); card.dataset.photoId = id;
     const image = node('img'); image.alt = `${room.name}の写真 ${index + 1}`; image.loading = 'lazy'; image.draggable = false;
     if (safePhoto(photo)) image.src = photo.url;
-    else { image.hidden = true; card.append(node('p', 'hint', '画像を表示できません。')); }
     const body = node('div', 'gallery-body');
-    body.append(node('p', 'gallery-number', deleted ? '削除済み' : `${index + 1}枚目`));
-    body.append(node('p', 'gallery-source', `${photo.source || '教室資料'}${photo.page ? ` p.${photo.page}` : ''} ／ ${photo.kind === 'exterior' ? '外観' : '室内'}`));
-    if (deleted) {
-      const restore = node('button', 'restore-gallery', '公開ギャラリーへ復元'); restore.type = 'button'; restore.dataset.restoreId = id;
-      restore.addEventListener('click', () => changeHidden(id, false)); body.append(restore);
-    } else {
-      const controls = node('div', 'gallery-controls');
-      for (const [direction, symbol, label] of [['left','←','左'],['right','→','右'],['up','↑','上'],['down','↓','下']]) {
-        const move = node('button', '', symbol); move.type = 'button'; move.dataset.move = direction; move.dataset.photoId = id;
-        move.setAttribute('aria-label', `${index + 1}枚目を${label}へ移動`); move.addEventListener('click', () => movePhoto(id, direction)); controls.append(move);
-      }
-      const remove = node('button', 'delete-gallery', '公開ギャラリーから削除'); remove.type = 'button'; remove.dataset.deleteId = id;
-      remove.addEventListener('click', async () => {
-        if (busy() || !await confirmAction({ title: '公開ギャラリーから削除', message: 'この写真を公開ギャラリーから非表示にします。\n画像ファイル・原本は残り、「削除済み」から復元できます。', label: '削除', destructive: true })) return;
-        await changeHidden(id, true);
-      });
-      body.append(controls, remove);
-      card.addEventListener('dragstart', event => { if (busy()) { event.preventDefault(); return; } dragId = id; event.dataTransfer.setData('text/plain', id); event.dataTransfer.effectAllowed = 'move'; card.classList.add('dragging'); });
-      card.addEventListener('dragover', event => { if (!busy() && dragId && dragId !== id) { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; card.classList.add('drop-target'); } });
-      card.addEventListener('dragleave', () => card.classList.remove('drop-target'));
-      card.addEventListener('drop', event => { event.preventDefault(); event.stopPropagation(); card.classList.remove('drop-target'); const source = dragId; dragId = null; if (source && source !== id && !busy()) movePhotoTo(source, id); });
-      card.addEventListener('dragend', () => { dragId = null; document.querySelectorAll('.gallery-photo').forEach(item => item.classList.remove('dragging', 'drop-target')); });
-    }
-    card.append(image, body); (deleted ? $('deleted-gallery') : $('gallery')).append(card);
+    const handle = node('button', 'drag-handle', `⠿ ${index + 1}枚目${photo.hidden ? '（旧・非表示写真）' : ''}`);
+    handle.type = 'button'; handle.setAttribute('aria-label', `${index + 1}枚目を掴んで移動。キーボードは左右矢印キー`);
+    handle.addEventListener('keydown', event => {
+      if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key) || busy()) return;
+      event.preventDefault();
+      const ids = room.photos.map(photoId); const at = ids.indexOf(id);
+      const columns = Math.max(1, getComputedStyle($('gallery')).gridTemplateColumns.split(/\s+/).length);
+      const target = at + ({ ArrowLeft: -1, ArrowRight: 1, ArrowUp: -columns, ArrowDown: columns }[event.key]);
+      if (target < 0 || target >= ids.length) return;
+      ids.splice(at, 1); ids.splice(target, 0, id);
+      saveGallery(ids, id);
+    });
+    handle.addEventListener('pointerdown', event => {
+      if (busy() || event.button !== 0) return;
+      event.preventDefault(); const surface = $('gallery'); surface.setPointerCapture(event.pointerId);
+      const before = room.photos.map(photoId); let order = [...before]; let frame; let y = event.clientY;
+      card.classList.add('dragging'); handle.setAttribute('aria-pressed', 'true');
+      const scroll = () => { const delta = y < 90 ? -12 : y > innerHeight - 90 ? 12 : 0; if (delta) window.scrollBy(0, delta); frame = requestAnimationFrame(scroll); }; scroll();
+      const move = event => {
+        y = event.clientY;
+        const target = document.elementFromPoint(event.clientX, event.clientY)?.closest('.gallery-photo');
+        if (!target || target === card || !target.parentElement?.isSameNode($('gallery'))) return;
+        const from = order.indexOf(id); const to = order.indexOf(target.dataset.photoId);
+        order.splice(from, 1); order.splice(to, 0, id);
+        for (const key of order) $('gallery').append($('gallery').querySelector(`[data-photo-id="${CSS.escape(key)}"]`));
+      };
+      const finish = event => {
+        cancelAnimationFrame(frame); surface.removeEventListener('pointermove', move); surface.removeEventListener('pointerup', finish); surface.removeEventListener('pointercancel', finish); surface.removeEventListener('lostpointercapture', finish);
+        card.classList.remove('dragging'); handle.removeAttribute('aria-pressed');
+        if (event.type === 'pointerup' && order.join() !== before.join()) saveGallery(order, id);
+        else if (event.type !== 'pointerup') renderGallery();
+      };
+      surface.addEventListener('pointermove', move); surface.addEventListener('pointerup', finish); surface.addEventListener('pointercancel', finish); surface.addEventListener('lostpointercapture', finish);
+    });
+    body.append(handle, node('p', 'gallery-source', `${photo.source || '教室資料'} ／ ${photo.kind === 'exterior' ? '外観' : '室内'}`));
+    const remove = node('button', 'delete-gallery', '画像を完全に削除'); remove.type = 'button'; remove.dataset.deleteId = id;
+    remove.addEventListener('click', async () => {
+      if (busy() || !await confirmAction({ title: '画像を完全に削除', message: '画像ファイルと登録情報を削除します。復元できません。公開サイトからの削除は「公開サイトへ反映」の完了後です。', label: '完全に削除', destructive: true })) return;
+      await saveRoom('/api/room', { action: 'delete', photoId: id });
+    });
+    body.append(remove); card.append(image, body); $('gallery').append(card);
   });
   const status = galleryMessages.get(room.id);
   $('gallery-status').textContent = status?.message || '';
   $('gallery-status').classList.toggle('failed', !!status?.failed);
-  updateMoveEdges(); updateControls();
+  updateControls();
 }
-function updateMoveEdges() {
-  const count = currentRoom()?.photos?.filter(photo => !photo.hidden).length || 0;
-  const width = columns();
-  $('gallery').querySelectorAll('.gallery-photo').forEach((card, index) => {
-    for (const button of card.querySelectorAll('[data-move]')) {
-      const target = index + ({ left: -1, right: 1, up: -width, down: width }[button.dataset.move]);
-      button.dataset.edge = String(target < 0 || target >= count);
-      button.disabled = busy() || button.dataset.edge === 'true';
-    }
-  });
-}
-async function saveGallery(order, hidden, focusId, focusMove) {
-  const room = currentRoom();
-  if (!room || busy()) return;
+async function saveRoom(path, payload, focusId) {
+  const room = currentRoom(); if (!room || busy()) return;
   saving = true; galleryMessage('保存中…'); updateControls();
   try {
-    const result = await api('/api/gallery', { method: 'POST', payload: { roomId: room.id, order, hidden, revision: room.revision } });
-    if (!result.room || result.room.id !== room.id) throw new Error('保存結果を確認できませんでした。');
-    const position = bootstrap.rooms.findIndex(item => item.id === room.id);
-    bootstrap.rooms[position] = result.room;
+    const result = await api(path, { method: 'POST', payload: { ...payload, roomId: room.id, revision: room.revision } });
+    if (result.room?.id !== room.id) throw new Error('保存結果を確認できませんでした。');
+    bootstrap.rooms[bootstrap.rooms.findIndex(item => item.id === room.id)] = result.room;
     galleryMessages.set(room.id, { message: '保存済み・公開待ち', failed: false });
   } catch (failure) {
-    try { await refresh(); } catch { /* Keep the last known local view if reconnection also fails. */ }
-    galleryMessage(failure.status === 409 ? '別の画面で更新されました。最新の一覧を表示しました。もう一度操作してください。' : `${failure.message} 最新の一覧を確認してから操作してください。`, true);
+    try { await refresh(); } catch { /* Keep last known state on network failure. */ }
+    galleryMessage(failure.status === 409 ? '別の画面で更新されました。最新の一覧を確認してやり直してください。' : failure.message, true);
   } finally {
     saving = false; renderGallery();
-    if (focusId) {
-      const card = $('gallery').querySelector(`[data-photo-id="${CSS.escape(focusId)}"]`);
-      const preferred = focusMove && card?.querySelector(`[data-move="${focusMove}"]:not(:disabled)`);
-      (preferred || card?.querySelector('button:not(:disabled)'))?.focus();
-    }
+    if (focusId) $('gallery').querySelector(`[data-photo-id="${CSS.escape(focusId)}"] .drag-handle`)?.focus();
   }
 }
-function reordered(visibleIds) {
-  let index = 0;
-  return currentRoom().photos.map(photo => photo.hidden ? photoId(photo) : visibleIds[index++]);
+async function saveGallery(order, focusId) {
+  await saveRoom('/api/gallery', { order, hidden: currentRoom().photos.filter(photo => photo.hidden).map(photoId) }, focusId);
 }
-async function movePhoto(id, direction) {
-  if (busy()) return;
-  const visible = currentRoom()?.photos?.filter(photo => !photo.hidden).map(photoId) || [];
-  const index = visible.indexOf(id);
-  const target = index + ({ left: -1, right: 1, up: -columns(), down: columns() }[direction]);
-  if (index < 0 || target < 0 || target >= visible.length) return;
-  visible.splice(index, 1); visible.splice(target, 0, id);
-  await saveGallery(reordered(visible), currentRoom().photos.filter(photo => photo.hidden).map(photoId), id, direction);
-}
-async function movePhotoTo(id, targetId) {
-  if (busy()) return;
-  const visible = currentRoom()?.photos?.filter(photo => !photo.hidden).map(photoId) || [];
-  const index = visible.indexOf(id); const target = visible.indexOf(targetId);
-  if (index < 0 || target < 0) return;
-  visible.splice(index, 1); visible.splice(target, 0, id);
-  await saveGallery(reordered(visible), currentRoom().photos.filter(photo => photo.hidden).map(photoId), id);
-}
-async function changeHidden(id, hidden) {
-  if (busy()) return;
-  const room = currentRoom(); if (!room?.photos?.some(photo => photoId(photo) === id)) return;
-  const removed = new Set(room.photos.filter(photo => photo.hidden).map(photoId));
-  if (hidden) removed.add(id); else removed.delete(id);
-  await saveGallery(room.photos.map(photoId), [...removed], hidden ? null : id);
-}
+$('save-comment').addEventListener('click', () => saveRoom('/api/room', { action: 'comment', comment: $('room-comment').value }));
 function confirmAction({ title, message, label, destructive = false }) {
   const dialog = $('confirm-dialog');
   if (dialog.open) return Promise.resolve(false);
@@ -299,11 +269,12 @@ async function dataUrl(blob) {
 }
 async function refresh() {
   const data = await api('/api/bootstrap');
+  if (data.version !== 3) throw new Error('管理サーバーが旧バージョンです。管理画面の起動用ウィンドウで Ctrl+C を押して終了し、「管理画面.cmd」を起動し直してください。');
   if (!Array.isArray(data.rooms)) throw new Error('教室データの形式が正しくありません。');
   bootstrap = data;
   const selected = $('room').value;
   $('room').replaceChildren(new Option('選択してください', ''));
-  for (const room of data.rooms) $('room').append(new Option(room.displayName || room.name, room.id));
+  for (const room of data.rooms.sort((a, b) => a.id.localeCompare(b.id, 'en', { numeric: true }))) $('room').append(new Option(room.displayName || room.name, room.id));
   $('room').value = selected;
   renderGallery(); updateControls();
 }
@@ -339,7 +310,7 @@ async function checkPublish() {
   if (publishJob?.state === 'running' && !disposed) publishTimer = setTimeout(checkPublish, 1500);
 }
 $('publish').addEventListener('click', async () => {
-  if (busy() || !publishAvailable || !await confirmAction({ title: '公開サイトへ反映', message: '現在保存されている写真の並び順・削除・追加を公開します。\n追加待ちの写真は含まれません。', label: '公開する' })) return;
+  if (busy() || !publishAvailable || !await confirmAction({ title: '公開サイトへ反映', message: '現在保存されている写真の並び順・削除・追加とコメントを公開します。\n追加待ちの写真は含まれません。', label: '公開する' })) return;
   checkingPublish = true; updateControls(); $('publish-error').hidden = true;
   try {
     const result = await api('/api/publish', { method: 'POST', payload: {} });
@@ -387,7 +358,7 @@ $('upload-form').addEventListener('submit', async event => {
   uploading = false; renderQueue();
   try { await refresh(); } catch (failure) { error(failure.message); }
 });
-new ResizeObserver(updateMoveEdges).observe($('gallery'));
+
 window.addEventListener('pagehide', () => { disposed = true; clearTimeout(publishTimer); queue.forEach(item => URL.revokeObjectURL(item.url)); });
 window.addEventListener('pageshow', event => { if (event.persisted) { disposed = false; checkingPublish = true; updateControls(); checkPublish(); } });
 try { await refresh(); $('connection').hidden = true; $('upload-form').hidden = false; await checkPublish(); }

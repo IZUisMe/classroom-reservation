@@ -3,7 +3,7 @@ import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ADMIN_LIMITS, AdminError, addAdminPhoto, recoverAdminPhotoTransaction, updatePhotoGallery } from './apply_admin_photos.mjs';
+import { ADMIN_LIMITS, AdminError, addAdminPhoto, recoverAdminPhotoTransaction, updatePhotoGallery, updateRoomContent } from './apply_admin_photos.mjs';
 import { GalleryError, applyGalleryEdits, emptyPhotoEdits, galleryRoomState, photoFilePath } from './photo_gallery_edits.mjs';
 import { createPublishController } from './admin_publish.mjs';
 
@@ -66,7 +66,7 @@ export async function createAdminServer({ projectRoot = resolve(HERE, '..'), por
       if (url.search || url.hash) throw new AdminError('指定されたURLは利用できません。', 404);
       if (req.method === 'GET' && url.pathname === '/api/bootstrap') {
         const state = await snapshot();
-        return json(res, 200, { appId: 'classroom-photo-admin', version: 2, rooms: state.rooms.map(room => galleryRoomState(room, state.sources, state.edits)), csrfToken: nonce, limits: { inputBytes: 20 * 1024 * 1024, inputPixels: 40_000_000, inputDimension: 16384, ...ADMIN_LIMITS } });
+        return json(res, 200, { appId: 'classroom-photo-admin', version: 3, rooms: state.rooms.map(room => galleryRoomState(room, state.sources, state.edits)), csrfToken: nonce, limits: { inputBytes: 20 * 1024 * 1024, inputPixels: 40_000_000, inputDimension: 16384, ...ADMIN_LIMITS } });
       }
       if (req.method === 'GET' && url.pathname === '/api/publish') {
         return json(res, 200, { ok: true, job: publisher.getStatus() });
@@ -96,13 +96,13 @@ export async function createAdminServer({ projectRoot = resolve(HERE, '..'), por
         res.writeHead(200, { ...HEADERS, 'Content-Type': 'image/webp', 'Content-Length': bytes.length });
         res.end(req.method === 'HEAD' ? undefined : bytes); return;
       }
-      if (req.method === 'POST' && ['/api/photos', '/api/gallery'].includes(url.pathname)) {
+      if (req.method === 'POST' && ['/api/photos', '/api/gallery', '/api/room'].includes(url.pathname)) {
         assertWriteRequest(req, actualPort);
         assertNotPublishing();
         const payload = await body(req);
         const result = await enqueue(() => {
           assertNotPublishing();
-          return url.pathname === '/api/photos' ? addAdminPhoto(root, payload, commitHooks) : updatePhotoGallery(root, payload, commitHooks);
+          return url.pathname === '/api/photos' ? addAdminPhoto(root, payload, commitHooks) : url.pathname === '/api/room' ? updateRoomContent(root, payload, commitHooks) : updatePhotoGallery(root, payload, commitHooks);
         });
         return json(res, url.pathname === '/api/photos' ? 201 : 200, { ok: true, ...result });
       }

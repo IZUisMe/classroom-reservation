@@ -4,6 +4,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { deletedPhotos } from './photo_gallery_edits.mjs';
 const repo = 'IZUisMe/classroom-reservation';
 const site = 'https://izuisme.github.io/classroom-reservation/';
 const portable = resolve('tools/github-cli/portable/bin/gh.exe');
@@ -41,9 +42,17 @@ export async function verifyPublishedGallery(rooms, fetcher = fetch) {
   if (!Array.isArray(published) || published.length !== rooms.length) throw new Error('公開教室一覧が一致しません。');
   for (const room of rooms) {
     const actual = published.find(item => item.id === room.id);
-    if (!actual || JSON.stringify((actual.gallery || []).map(image => image.sourceId)) !== JSON.stringify((room.gallery || []).map(image => image.sourceId))) throw new Error(`写真の並び順・削除が反映されていません: ${room.name}`);
+    if (!actual || (actual.comment || '') !== (room.comment || '') || JSON.stringify((actual.gallery || []).map(image => image.sourceId)) !== JSON.stringify((room.gallery || []).map(image => image.sourceId))) throw new Error(`写真の並び順・削除・コメントが反映されていません: ${room.name}`);
   }
   return rooms.reduce((count, room) => count + (room.gallery?.length || 0), 0);
+}
+export async function verifyPublishedDeletions(edits, fetcher = fetch) {
+  const paths = new Set(deletedPhotos(edits).map(photo => photo.src));
+  for (const path of paths) {
+    const response = await fetcher(`${site}${path}?verify=${Date.now()}`, { method: 'HEAD', cache: 'no-store', signal: AbortSignal.timeout(30_000) });
+    if (![404, 410].includes(response.status)) throw new Error(`削除画像が公開先から除去されていません (${response.status}): ${path}`);
+  }
+  return paths.size;
 }
 export async function publish() {
   const dataFiles = ['public/data/admin-photos.json', 'public/data/rooms.json', 'public/data/photo-sources.json', 'public/data/photo-edits.json'];
@@ -59,6 +68,12 @@ export async function publish() {
     return `public/${photo.src}`;
   });
   const allowed = new Set([...dataFiles, ...photoFiles]);
+  const edits = JSON.parse(snapshots.get('public/data/photo-edits.json'));
+  for (const photo of edits.deleted || []) {
+    if (!/^images\/rooms\/[A-Za-z0-9-]+\.webp$/.test(photo.src)) throw new Error('削除画像の保存先が不正です。');
+    const path = `public/${photo.src}`;
+    if (!existsSync(path) && run('git', ['ls-files', '--', path], true)) { photoFiles.push(path); allowed.add(path); }
+  }
   const staged = run('git', ['diff', '--cached', '--name-only'], true).split('\n').filter(Boolean);
   if (staged.some(path => !allowed.has(path))) throw new Error('写真以外のファイルがステージされています。別途コミットするか、ステージから外してください。');
   console.log(`実行環境: Node ${process.version}`);
@@ -93,6 +108,7 @@ export async function publish() {
   console.log('\n[6/6] 公開サイトの写真を確認しています…');
   const count = await verifyPublishedPhotos(manifest);
   const visible = await verifyPublishedGallery(expectedRooms);
+  await verifyPublishedDeletions(edits);
   console.log(`\n公開が完了しました。管理者追加写真 ${count} 枚、公開ギャラリー ${visible} 枚の追加・並び順・削除を確認しました。\n${site}\nブラウザで再読み込みしてください。`);
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

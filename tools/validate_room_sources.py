@@ -16,6 +16,11 @@ expected_photo_count=164+len(admin_lookup)
 from photo_gallery_edits import apply_gallery_edits
 edits_path=ROOT/'public/data/photo-edits.json'
 edits=read('public/data/photo-edits.json') if edits_path.exists() else {'schemaVersion':1,'rooms':{}}
+deleted_originals=[photo for photo in edits.get('deleted', []) if not photo['id'].startswith('admin-')]
+deleted_ids={photo['id'] for photo in deleted_originals}
+expected_photo_count-=len(deleted_originals)
+expected_pdf_count=148-sum(photo.get('sourceType')=='pdf' for photo in deleted_originals)
+expected_workbook_count=16-sum(bool(photo.get('preservedExisting')) for photo in deleted_originals)
 expected_rooms,expected_data,normalized_edits=apply_gallery_edits(rooms,data,edits)
 expected_by_room={room['id']:room for room in expected_rooms}
 hidden_ids={sid for edit in normalized_edits['rooms'].values() for sid in edit['hidden']}
@@ -33,7 +38,8 @@ assert custom['schemaVersion']==1
 assert [r['id'] for r in custom['rooms']]==[r['id'] for r in user_rooms]
 for template,room in zip(custom['rooms'],user_rooms):
     for key in template:
-        if key not in ['images','photoStatus','gallery']: assert template[key]==room[key]
+        if key not in ['images','photoStatus','gallery','comment']: assert template[key]==room[key]
+    assert room['comment']==edits['rooms'].get(room['id'], {}).get('comment', template['comment'])
     assert template['images']=={'interior':None,'exterior':None}
     assert template['photoStatus']=={'interior':'missing','exterior':'missing'}
     assert template['gallery']==[]
@@ -62,7 +68,7 @@ assert {r['id'] for r in new_rooms}=={'21A','22H','33J'}
 assert all(c.value is None for c in ws[38])
 for room in workbook_rooms:
     row=room['source']['xlsx']['row']
-    assert room['comment']==(ws.cell(row,8).value or '')
+    assert room['comment']==edits['rooms'].get(room['id'], {}).get('comment', ws.cell(row,8).value or '')
 for room in new_rooms:
     assert room['source']['addedFromPdf'] is True
     assert room['source']['locationEvidence']['page'] in [2,3]
@@ -71,8 +77,8 @@ for room in new_rooms:
 available=[source for source in data['photos'] if source['status']=='available']
 assert len(available)==expected_photo_count
 assert {s['id'] for s in available if s.get('sourceType')=='admin'}==set(admin_lookup)
-assert len([s for s in available if s.get('sourceType')=='pdf'])==148
-assert len([s for s in available if s.get('preservedExisting')])==16
+assert len([s for s in available if s.get('sourceType')=='pdf'])==expected_pdf_count
+assert len([s for s in available if s.get('preservedExisting')])==expected_workbook_count
 verified=0; legacy=0; workbook_verified=0
 with zipfile.ZipFile(ROOT/data['sources']['xlsx']) as z:
     for source in available:
@@ -114,7 +120,7 @@ with zipfile.ZipFile(ROOT/data['sources']['xlsx']) as z:
         verified+=1
 
 referenced=[]
-legacy=sum(lookup[f'{room["id"]}-{kind}']['status']=='available' for room in workbook_rooms for kind in ['interior','exterior'])
+legacy=sum(lookup.get(f'{room["id"]}-{kind}', {}).get('status')=='available' for room in workbook_rooms for kind in ['interior','exterior'])
 for room in rooms:
     expected=expected_by_room[room['id']]
     assert [photo['sourceId'] for photo in room['gallery']]==[photo['sourceId'] for photo in expected['gallery']]
@@ -138,22 +144,24 @@ for room in rooms:
         for key in ['src','width','height']: assert image[key]==source['webp'][key]
         assert image['source']==source['source'] and image.get('page')==source.get('page')
         referenced.append(image['sourceId'])
-assert verified==expected_photo_count and legacy==47 and workbook_verified==16
+expected_legacy=47-sum(photo['id'] in {f'{room["id"]}-{kind}' for room in workbook_rooms for kind in ['interior','exterior']} for photo in deleted_originals)
+assert verified==expected_photo_count and legacy==expected_legacy and workbook_verified==expected_workbook_count
 assert len(referenced)==expected_visible_count and set(referenced)=={s['id'] for s in available}-hidden_ids
 assert [r['id'] for r in rooms if not r['images']['interior']]==missing_interiors
 assert {r['id'] for r in data['pdfOnlyRooms']}=={'21A','22H','33J'}
 assert all(r['status']=='included' for r in data['pdfOnlyRooms'])
 assert len(list((ROOT/'public/images/rooms').glob('*.webp')))==expected_photo_count
-assert len({(s['anchor']['row'],s['anchor']['column']) for s in available if s.get('preservedExisting')})==16
+assert len({(s['anchor']['row'],s['anchor']['column']) for s in available if s.get('preservedExisting')})==expected_workbook_count
 included={(x['page'],x['index']) for x in classification['items'] if x['classification']=='interior-photograph'}
 excluded={(x['page'],x['index']) for x in classification['items'] if x['classification']=='excluded-symbol'}
 actual={(s['page'],s['pdfImageIndex']) for s in available if s['sourceType']=='pdf'}
 all_embedded={(page['page'],i['index']) for page in pdf['pages'] for i in page['images']}
-assert included==actual and len(included)==148 and len(excluded)==6
+deleted_occurrences={(photo['page'],photo['pdfImageIndex']) for photo in deleted_originals if photo.get('sourceType')=='pdf'}
+assert included==actual|deleted_occurrences and len(included)==148 and len(excluded)==6
 assert included.isdisjoint(excluded) and included|excluded==all_embedded
 assert len(mapping['rooms'])==37
 for rid,m in mapping['rooms'].items():
-    assert len(m['photos'])==len([s for s in available if s['roomId']==rid and s['sourceType']=='pdf'])
+    assert len(m['photos'])==len([s for s in available if s['roomId']==rid and s['sourceType']=='pdf'])+sum(photo.get('roomId')==rid and photo.get('sourceType')=='pdf' for photo in deleted_originals)
 
 summary=data['summary']
 assert summary['roomCount']==42 and summary['primaryPhotoSlots']==84
@@ -166,11 +174,11 @@ assert summary['adminPhotographs']==len(admin_lookup)
 assert summary['galleryPhotoCount']==expected_visible_count
 assert summary.get('hiddenPhotoCount',0)==len(hidden_ids)
 assert summary['webpCount']==expected_photo_count
-assert len([p for p in data['photos'] if p['id'] in {f'{r["id"]}-{kind}' for r in rooms for kind in ['interior','exterior']}])==84
-assert len(data['photos'])==198+len(admin_lookup)
+assert len([p for p in data['photos'] if p['id'] in {f'{r["id"]}-{kind}' for r in rooms for kind in ['interior','exterior']}])==84-sum(photo['id'] in {f'{r["id"]}-{kind}' for r in rooms for kind in ['interior','exterior']} for photo in deleted_originals)
+assert len(data['photos'])==198+len(admin_lookup)-len(deleted_originals)
 for source in data['sourceFiles']:
     assert hashlib.sha256((ROOT/source['file']).read_bytes()).hexdigest()==source['sha256']
-report={'roomCount':42,'primaryPhotoSlots':84,'originalWorkbookRoomCount':37,'addedPdfRooms':['33J','21A','22H'],'addedUserRooms':['72A','72BC'],'photoRecords':len(data['photos']),'galleryPhotos':expected_visible_count,'hiddenPhotoCount':len(hidden_ids),'webpCount':expected_photo_count,'adminPhotographs':len(admin_lookup),'workbookOriginalsByteIdentical':16,'legacyPrimaryPhotosMaintained':47,'pdfPhotosAdded':148,'pdfPhotographOccurrencesCovered':148,'excludedPdfSymbols':6,'allEmbeddedOccurrencesClassified':154,'allCommentsPreserved':True,'pdfTitleMatches':37,'missingInteriors':missing_interiors,'webpBytes':sum(s['webp']['bytes'] for s in available),'metadataConflicts':mapping['metadataConflicts'],'passed':True}
+report={'roomCount':42,'primaryPhotoSlots':84,'originalWorkbookRoomCount':37,'addedPdfRooms':['33J','21A','22H'],'addedUserRooms':['72A','72BC'],'photoRecords':len(data['photos']),'galleryPhotos':expected_visible_count,'hiddenPhotoCount':len(hidden_ids),'webpCount':expected_photo_count,'adminPhotographs':len(admin_lookup),'workbookOriginalsByteIdentical':expected_workbook_count,'legacyPrimaryPhotosMaintained':expected_legacy,'pdfPhotosAdded':expected_pdf_count,'pdfPhotographOccurrencesCovered':148,'excludedPdfSymbols':6,'allEmbeddedOccurrencesClassified':154,'allCommentsPreserved':True,'pdfTitleMatches':37,'missingInteriors':missing_interiors,'webpBytes':sum(s['webp']['bytes'] for s in available),'metadataConflicts':mapping['metadataConflicts'],'passed':True}
 (ROOT/'inspection/room-data-validation.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 
 doc=['# 教室・全写真の出典整理','','## 概要','',

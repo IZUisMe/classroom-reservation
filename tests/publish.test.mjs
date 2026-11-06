@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
-import { workflowRunId, verifyPublishedPhotos, verifyPublishedGallery } from '../tools/publish.mjs';
+import { workflowRunId, verifyPublishedPhotos, verifyPublishedGallery, verifyPublishedDeletions } from '../tools/publish.mjs';
 
 test('Windows launchers retain CRLF without a UTF-8 BOM', async () => {
   for (const file of ['写真を公開.cmd', '管理画面.cmd', '起動.cmd']) {
@@ -60,4 +60,14 @@ test('live gallery verification rejects stale order and stale deleted photos', a
   const staleDelete = [{ ...expected[0], gallery: [{ sourceId: 'b' }, { sourceId: 'a' }, { sourceId: 'deleted' }] }];
   await assert.rejects(verifyPublishedGallery(expected, async () => Response.json(staleDelete)), /並び順・削除/);
   await assert.rejects(verifyPublishedGallery(expected, async () => Response.json([])), /一覧/);
+  await assert.rejects(verifyPublishedGallery([{ ...expected[0], comment: '新しいコメント' }], async () => Response.json(expected)), /コメント/);
+});
+
+test('publication checks that deleted image URLs no longer serve images', async () => {
+  const edits = { deleted: [{ id: 'source-a', src: 'images/rooms/source-a.webp' }] };
+  assert.equal(await verifyPublishedDeletions(edits, async (url, options) => {
+    assert.ok(url.includes('?verify=')); assert.equal(options.method, 'HEAD'); assert.equal(options.cache, 'no-store');
+    return new Response(null, { status: 404 });
+  }), 1);
+  await assert.rejects(verifyPublishedDeletions(edits, async () => new Response(null, { status: 200 })), /除去されていません/);
 });

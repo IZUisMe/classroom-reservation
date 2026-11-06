@@ -1,4 +1,4 @@
-"""Non-destructive gallery ordering/exclusion shared by regeneration and audits."""
+"""Gallery ordering, comments and permanent deletion overlay for regeneration and audits."""
 from copy import deepcopy
 import re
 
@@ -8,10 +8,18 @@ def apply_gallery_edits(rooms, sources, edits):
     assert edits.get('schemaVersion') == 1 and isinstance(edits.get('rooms'), dict)
     output_rooms, output_sources = deepcopy(rooms), deepcopy(sources)
     clean = {'schemaVersion': 1, 'rooms': {}}
+    if 'deleted' in edits:
+        assert isinstance(edits['deleted'], list)
+        for photo in edits['deleted']:
+            assert isinstance(photo.get('id'), str) and re.fullmatch(r'[A-Za-z0-9-]+', photo['id'])
+            assert re.fullmatch(r'images/rooms/[A-Za-z0-9-]+\.webp', photo['src'])
+        clean['deleted'] = deepcopy(edits['deleted'])
+    deleted = {photo['id'] for photo in edits.get('deleted', [])}
+    output_sources['photos'] = [photo for photo in output_sources['photos'] if photo['id'] not in deleted]
     room_ids = {room['id'] for room in rooms}
     for rid, edit in edits['rooms'].items():
         assert rid in room_ids and isinstance(edit, dict)
-        known = {record['id'] for record in sources['photos'] if record['roomId'] == rid and record['status'] == 'available' and record.get('webp')}
+        known = {record['id'] for record in output_sources['photos'] if record['roomId'] == rid and record['status'] == 'available' and record.get('webp')}
         for key in ['order', 'hidden']:
             values = edit.get(key)
             assert isinstance(values, list) and len(values) <= 10000
@@ -19,6 +27,9 @@ def apply_gallery_edits(rooms, sources, edits):
             assert len(set(values)) == len(values) and set(values) <= known
         assert set(edit['hidden']) <= set(edit['order'])
         clean['rooms'][rid] = {'order': list(edit['order']), 'hidden': list(edit['hidden'])}
+        if 'comment' in edit:
+            assert isinstance(edit['comment'], str) and len(edit['comment'].encode('utf-16-le')) // 2 <= 300
+            clean['rooms'][rid]['comment'] = edit['comment']
     total = visible = 0
     for room in output_rooms:
         records = [record for record in output_sources['photos'] if record['roomId'] == room['id'] and record['status'] == 'available' and record.get('webp')]
@@ -28,6 +39,8 @@ def apply_gallery_edits(rooms, sources, edits):
             assert record['kind'] in ['interior', 'exterior']
             assert re.fullmatch(r'images/rooms/[A-Za-z0-9-]+\.webp', record['webp']['src'])
         edit = clean['rooms'].get(room['id'])
+        if edit is not None and 'comment' in edit:
+            room['comment'] = edit['comment']
         order = []
         for sid in (edit['order'] if edit else []) + [photo['sourceId'] for photo in room.get('gallery', [])] + [record['id'] for record in records]:
             if sid in lookup and sid not in order:

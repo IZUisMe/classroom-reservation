@@ -163,3 +163,4 @@ dialog::backdrop { background: #101b3380; }
   .dialog-actions .button { flex: 1; padding: 10px; }
 }
 @media (prefers-reduced-motion: reduce) { .entry { transition: none; } }
+ .room-comment{margin:10px 2px 16px;color:#626975;font-size:.8125rem;line-height:1.7;white-space:pre-line;overflow-wrap:anywhere}

@@ -11,6 +11,7 @@ const edits = JSON.parse(await readFile('public/data/photo-edits.json', 'utf8'))
 const overlaid = applyGalleryEdits({ rooms, sources, edits });
 const hiddenIds = new Set(Object.values(overlaid.edits.rooms).flatMap(edit => edit.hidden));
 const missingInteriors = overlaid.rooms.filter(room => !room.images.interior).map(room => room.id);
+const deletedOriginals = (edits.deleted || []).filter(photo => !photo.id.startsWith('admin-'));
 
 test('42 rooms retain original source facts and overlay-aware primary slots', () => {
   assert.equal(rooms.length, 42);
@@ -24,7 +25,7 @@ test('42 rooms retain original source facts and overlay-aware primary slots', ()
   assert.equal(sources.summary.workbookRowSlots, 38);
   assert.deepEqual(sources.summary.blankWorkbookRows, [38]);
   assert.deepEqual(sources.summary.interiorMissing, missingInteriors);
-  assert.equal(sources.photos.length, 198 + admin.photos.length);
+  assert.equal(sources.photos.length, 198 - deletedOriginals.length + admin.photos.length);
   for (const room of rooms) {
     const expected = overlaid.rooms.find(item => item.id === room.id);
     assert.deepEqual(room.gallery.map(photo => photo.sourceId), expected.gallery.map(photo => photo.sourceId));
@@ -40,7 +41,8 @@ test('72A and 72BC remain user-provided and never acquire invented source facts'
   assert.deepEqual(sources.summary.addedUserRooms, ['72A', '72BC']);
   for (const entry of custom.rooms) {
     const room = rooms.find(room => room.id === entry.id);
-    for (const field of ['id', 'name', 'displayName', 'building', 'floor', 'code', 'description', 'comment', 'capacity', 'equipment', 'source']) assert.deepEqual(room[field], entry[field]);
+    for (const field of ['id', 'name', 'displayName', 'building', 'floor', 'code', 'description', 'capacity', 'equipment', 'source']) assert.deepEqual(room[field], entry[field]);
+    assert.equal(room.comment, edits.rooms[entry.id]?.comment ?? entry.comment);
     assert.equal(room.displayName, `${room.name}(7号館2階)`);
     assert.equal(room.source.type, 'user-provided');
     assert.equal(room.source.xlsx, null);
@@ -57,9 +59,9 @@ test('72A and 72BC remain user-provided and never acquire invented source facts'
 });
 test('all physical photos, including hidden originals, retain hashes and dimensions', async () => {
   const available = sources.photos.filter(photo => photo.status === 'available');
-  assert.equal(available.length, 164 + admin.photos.length);
-  assert.equal(available.filter(photo => photo.preservedExisting).length, 16);
-  assert.equal(available.filter(photo => photo.sourceType === 'pdf').length, 148);
+  assert.equal(available.length, 164 - deletedOriginals.length + admin.photos.length);
+  assert.equal(available.filter(photo => photo.preservedExisting).length, 16 - deletedOriginals.filter(photo => photo.preservedExisting).length);
+  assert.equal(available.filter(photo => photo.sourceType === 'pdf').length, 148 - deletedOriginals.filter(photo => photo.sourceType === 'pdf').length);
   assert.equal(available.filter(photo => photo.sourceType === 'admin').length, admin.photos.length);
   const gallery = rooms.flatMap(room => room.gallery.map(photo => ({ ...photo, roomId: room.id })));
   assert.equal(gallery.length, available.length - hiddenIds.size);
