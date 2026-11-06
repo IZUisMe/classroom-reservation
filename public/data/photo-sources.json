@@ -14,15 +14,14 @@
       38
     ],
     "existingPhotosPreserved": 16,
-    "interiorAvailable": 39,
+    "interiorAvailable": 40,
     "interiorMissing": [
       "22A",
-      "22F",
-      "72D"
+      "22F"
     ],
     "exteriorAvailable": 13,
     "pdfInteriorAdded": 148,
-    "webpBytes": 4262620,
+    "webpBytes": 4379400,
     "primaryPhotoSlots": 84,
     "originalWorkbookRoomCount": 37,
     "addedPdfRooms": [
@@ -36,9 +35,9 @@
     ],
     "legacyPdfInteriorAdded": 31,
     "pdfPhotographs": 148,
-    "adminPhotographs": 9,
-    "galleryPhotoCount": 172,
-    "webpCount": 173,
+    "adminPhotographs": 10,
+    "galleryPhotoCount": 173,
+    "webpCount": 174,
     "excludedPdfSymbols": 6,
     "pdfRotationAppliedCount": 32,
     "hiddenPhotoCount": 1
@@ -6666,6 +6665,23 @@
         "bytes": 165460,
         "width": 1440,
         "height": 811
+      }
+    },
+    {
+      "id": "admin-340ef9da-a713-4446-9fc2-c96485cea9cd",
+      "roomId": "72D",
+      "roomName": "72D教室",
+      "kind": "interior",
+      "status": "available",
+      "sourceType": "admin",
+      "source": "管理者追加",
+      "addedAt": "2026-11-06T04:42:28.614Z",
+      "webp": {
+        "src": "images/rooms/admin-340ef9da-a713-4446-9fc2-c96485cea9cd.webp",
+        "sha256": "96bcde5aa0c6ccd0cb76aed20d28cd612d54d3cbaaa821f41cde76391604a998",
+        "bytes": 116780,
+        "width": 1101,
+        "height": 506
       }
     }
   ],

@@ -3354,11 +3354,15 @@
     "capacity": null,
     "equipment": null,
     "images": {
-      "interior": null,
+      "interior": {
+        "src": "images/rooms/admin-340ef9da-a713-4446-9fc2-c96485cea9cd.webp",
+        "source": "管理者追加",
+        "sourceId": "admin-340ef9da-a713-4446-9fc2-c96485cea9cd"
+      },
       "exterior": null
     },
     "photoStatus": {
-      "interior": "missing",
+      "interior": "available",
       "exterior": "missing"
     },
     "source": {
@@ -3376,7 +3380,16 @@
       "pdfLabel": null,
       "metadataEvidence": null
     },
-    "gallery": []
+    "gallery": [
+      {
+        "src": "images/rooms/admin-340ef9da-a713-4446-9fc2-c96485cea9cd.webp",
+        "kind": "interior",
+        "source": "管理者追加",
+        "sourceId": "admin-340ef9da-a713-4446-9fc2-c96485cea9cd",
+        "width": 1101,
+        "height": 506
+      }
+    ]
   },
   {
     "id": "33J",
