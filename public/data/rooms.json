@@ -3563,7 +3563,7 @@
     "floor": "2",
     "code": "H",
     "description": "",
-    "comment": "",
+    "comment": "2号館の利用は非推奨です",
     "capacity": 100,
     "equipment": null,
     "images": {
