@@ -3,23 +3,32 @@
   "rooms": {
     "72A": {
       "order": [
-        "admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de",
         "admin-fb5c25ed-22ef-4cb5-85eb-ae885a891674",
         "admin-d8370ef4-6a49-40fb-a21c-caa0e3636b63",
         "admin-a540e6c4-5987-4efc-bc45-afa1c2e5abc6",
         "admin-04e21d18-14dd-4446-b237-5f7f2eca4fcc"
       ],
-      "hidden": [
-        "admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de"
-      ]
+      "hidden": []
     },
     "72D": {
-      "order": [
-        "admin-340ef9da-a713-4446-9fc2-c96485cea9cd"
-      ],
-      "hidden": [
-        "admin-340ef9da-a713-4446-9fc2-c96485cea9cd"
-      ]
+      "order": [],
+      "hidden": []
     }
-  }
+  },
+  "deleted": [
+    {
+      "id": "admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de",
+      "src": "images/rooms/admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de.webp",
+      "roomId": "72A",
+      "sourceType": "admin",
+      "preservedExisting": false
+    },
+    {
+      "id": "admin-340ef9da-a713-4446-9fc2-c96485cea9cd",
+      "src": "images/rooms/admin-340ef9da-a713-4446-9fc2-c96485cea9cd.webp",
+      "roomId": "72D",
+      "sourceType": "admin",
+      "preservedExisting": false
+    }
+  ]
 }

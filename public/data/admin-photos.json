@@ -50,18 +50,6 @@
       "addedAt": "2026-11-05T09:16:32.014Z"
     },
     {
-      "id": "admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de",
-      "roomId": "72A",
-      "src": "images/rooms/admin-3b56ea48-3339-42c7-8fc9-4b2bd5a4e5de.webp",
-      "kind": "interior",
-      "source": "管理者追加",
-      "width": 496,
-      "height": 595,
-      "sha256": "2fb15808d4977a9a0312457b20ab11f794cc50bd568eade3404f3b6a918cac32",
-      "bytes": 20506,
-      "addedAt": "2026-11-05T09:36:50.670Z"
-    },
-    {
       "id": "admin-fb5c25ed-22ef-4cb5-85eb-ae885a891674",
       "roomId": "72A",
       "src": "images/rooms/admin-fb5c25ed-22ef-4cb5-85eb-ae885a891674.webp",
@@ -108,18 +96,6 @@
       "sha256": "55c1c0212b3cfed5ec6d89a89b8bd80421c067dcde040a9d0e95602e41ded8b9",
       "bytes": 165460,
       "addedAt": "2026-11-06T00:58:03.555Z"
-    },
-    {
-      "id": "admin-340ef9da-a713-4446-9fc2-c96485cea9cd",
-      "roomId": "72D",
-      "src": "images/rooms/admin-340ef9da-a713-4446-9fc2-c96485cea9cd.webp",
-      "kind": "interior",
-      "source": "管理者追加",
-      "width": 1101,
-      "height": 506,
-      "sha256": "96bcde5aa0c6ccd0cb76aed20d28cd612d54d3cbaaa821f41cde76391604a998",
-      "bytes": 116780,
-      "addedAt": "2026-11-06T04:42:28.614Z"
     }
   ]
 }
