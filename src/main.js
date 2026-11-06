@@ -28,6 +28,7 @@ function notify(message) {
 function profilelessSnapshot() {
   const copy = structuredClone(state);
   delete copy.profile;
+  delete copy.issueDate;
   return copy;
 }
 function savePreferences() {
@@ -299,7 +300,7 @@ function bindEvents() {
       if (busy) return;
       const item = history[Number(button.dataset.history)];
       if (item && await confirmAction('この履歴を読み込みますか？')) {
-        state = { ...sanitizeState(item.data), profile: state.profile }; activeEntry = null;
+        state = { ...sanitizeState(item.data), issueDate: todayJst(), profile: state.profile }; activeEntry = null;
         renderCommon(); renderEntries(); changed(); $('purpose').focus();
       }
       return;
@@ -394,6 +395,7 @@ async function init() {
     rememberProfile = typeof preferences?.rememberProfile === 'boolean' ? preferences.rememberProfile : true;
     rememberDraft = typeof preferences?.rememberDraft === 'boolean' ? preferences.rememberDraft : true;
     if (rememberDraft && draft?.version === 1 && draft.data) state = sanitizeState(draft.data);
+    state.issueDate = todayJst();
     state.profile = rememberProfile && storedProfile?.version === 1 && storedProfile.profile ? sanitizeState({ profile: storedProfile.profile }).profile : blankProfile();
     if (rememberDraft) {
       const rawHistory = readStorage(STORAGE_KEYS.history, []);

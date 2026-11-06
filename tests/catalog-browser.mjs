@@ -32,9 +32,26 @@ try {
   for (const width of [1280, 390]) {
     current = structuredClone(catalog);
     const page = await browser.newPage({ viewport: { width, height: 900 } });
+    await page.addInitScript(() => {
+      if (!localStorage.getItem('classroom.draft.v1')) localStorage.setItem('classroom.draft.v1', JSON.stringify({ version: 1, data: { issueDate: '2000-01-01', purpose: '保存した使用目的' } }));
+    });
     const errors = []; page.on('pageerror', error => errors.push(error.message));
     await page.goto(`http://127.0.0.1:${server.address().port}`);
     await page.locator('#app').waitFor({ state: 'visible' });
+    const today = await page.evaluate(() => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()));
+    assert.equal(await page.locator('#issueDate').inputValue(), today, 'An old draft must not restore the application date');
+    assert.equal(await page.locator('#purpose').inputValue(), '保存した使用目的');
+    await page.locator('#issueDate').fill('2001-02-03');
+    await page.locator('#purpose').fill('編集した使用目的');
+    await page.waitForFunction(() => {
+      const saved = JSON.parse(localStorage.getItem('classroom.draft.v1'))?.data;
+      return saved?.purpose === '編集した使用目的' && !Object.hasOwn(saved, 'issueDate');
+    });
+    assert.equal(await page.locator('#issueDate').inputValue(), '2001-02-03', 'Manual edits remain available for this document');
+    await page.reload();
+    await page.locator('#app').waitFor({ state: 'visible' });
+    assert.equal(await page.locator('#issueDate').inputValue(), today);
+    assert.equal(await page.locator('#purpose').inputValue(), '編集した使用目的');
     await page.locator('#entry-0-roomId').selectOption('31A');
     await page.locator('#profile-name').fill('入力を保持');
     const ids = await page.locator('#entry-0-roomId option').evaluateAll(options => options.map(option => option.value).filter(Boolean));
