@@ -1,0 +1,13 @@
+# Effective only when served at the host root /robots.txt.
+# For GitHub project Pages, deploy docs/search-policy/robots.txt at
+# https://izuisme.github.io/robots.txt instead.
+# Allow HTML crawling so search engines can read its noindex meta tag.
+User-agent: *
+Disallow: /images/
+Disallow: /data/
+Disallow: /templates/
+Disallow: /favicon.svg
+Disallow: /classroom-reservation/images/
+Disallow: /classroom-reservation/data/
+Disallow: /classroom-reservation/templates/
+Disallow: /classroom-reservation/favicon.svg

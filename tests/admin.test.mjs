@@ -116,6 +116,7 @@ test('loopback API enforces Host/Origin/CSRF/type/body limits and commits UUID-o
     const shell = await fetch(base); assert.equal(shell.status, 200); assert.ok((await shell.text()).includes('管理者PC専用'));
     assert.ok(shell.headers.get('content-security-policy').includes("connect-src 'self'"));
     assert.equal(shell.headers.get('access-control-allow-origin'), null);
+    assert.ok(shell.headers.get('x-robots-tag').includes('noindex'));
     const init = await (await fetch(`${base}/api/bootstrap`)).json(); assert.equal(init.rooms.length, 42); assert.match(init.csrfToken, /^[a-f0-9]{64}$/);
     const headers = { Origin: base, 'X-CSRF-Token': init.csrfToken, 'Content-Type': 'application/json' };
     const post = async (value, change = {}) => fetch(`${base}/api/photos`, { method: 'POST', headers: { ...headers, ...change }, body: JSON.stringify(value) });

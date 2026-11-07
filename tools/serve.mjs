@@ -9,6 +9,7 @@ const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; ch
 const cache = new Map();
 await stat(resolve(root, 'index.html')).catch(() => { console.error('Build first: pnpm build'); process.exit(1); });
 const server = http.createServer(async (req, res) => {
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow, noimageindex, nosnippet, noarchive, max-image-preview:none');
   try {
     if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405); res.end(); return; }
     const url = new URL(req.url, 'http://localhost');
@@ -27,4 +28,4 @@ const server = http.createServer(async (req, res) => {
     res.end(req.method === 'HEAD' ? undefined : bytes);
   } catch { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }); res.end('Not found'); }
 });
-server.listen(port, host, () => console.log(`Classroom app: http://${host}:${port}\nServing only ${root}\nStop: Ctrl+C`));
+server.listen(port, host, () => console.log(`Classroom app: http://${host}:${server.address().port}\nServing only ${root}\nStop: Ctrl+C`));

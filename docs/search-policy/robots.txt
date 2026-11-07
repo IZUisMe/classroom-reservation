@@ -1,0 +1,8 @@
+# Host-root policy for https://izuisme.github.io/robots.txt.
+# Keep the application HTML crawlable so its noindex tag can be read.
+# Limit these rules to classroom-reservation; leave other projects alone.
+User-agent: *
+Disallow: /classroom-reservation/images/
+Disallow: /classroom-reservation/data/
+Disallow: /classroom-reservation/templates/
+Disallow: /classroom-reservation/favicon.svg

@@ -135,6 +135,17 @@ SQL等のデータベースサーバーは使用せず、Gitで履歴管理す�
 
 [公開処理](<.github/workflows/pages.yml>)は**手動実行のみ**です。ビルド済みフォルダだけを公開し、元資料を含む作業フォルダ全体をWebサーバーに載せません。相対パスで構成しているため、リポジトリ名付きURLにも対応します。GitHub Pagesは認証によるメンバー制限を提供せず、URLと公開写真は誰でも閲覧可能です。
 
+## 検索への露出を抑える設定
+
+- HTMLの `robots` メタタグに `noindex, nofollow, noimageindex, nosnippet, noarchive, max-image-preview:none` を設定し、ページ・掲載画像の検索登録とプレビューを抑えます。`referrer` も `no-referrer` にしています。
+- ローカル配信・Vite開発／プレビューでは、画像・PDF・JSONを含む応答にも同じ `X-Robots-Tag` を付けます。GitHub Pagesには任意のHTTP応答ヘッダーを設定できないため、公開時はHTMLメタタグとドメイン直下の `robots.txt` を併用します。
+- 公開画像・データ・用紙の巡回拒否は **https://izuisme.github.io/robots.txt** に配置します。配置用ファイルは [docs/search-policy/robots.txt](<docs/search-policy/robots.txt>)、配信元は `IZUisMe/izuisme.github.io` の `main` 直下です。このルールは本アプリのパスだけに適用します。
+- `public/robots.txt` はホスト直下で配信する場合用です。GitHub Pagesの `/classroom-reservation/robots.txt` 単体にはドメイン全体の巡回を制御する効果がありません。ページ本体を巡回拒否すると `noindex` を読み取れなくなるため、画像等だけを拒否します。
+
+直URLでのページ・画像の閲覧は引き続き可能です。これらは検索エンジンへの指示であり、アクセス制限ではありません。検索結果からの反映には再巡回まで時間がかかり、指示を守らない収集や転載までは防げません。公開GitHubリポジトリとその画像は別の経路で閲覧できます。
+
+設定の根拠：[Googleのrobotsメタタグ仕様](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag)、[画像の検索除外](https://developers.google.com/search/docs/crawling-indexing/prevent-images-on-your-page)、[robots.txtの配置場所](https://developers.google.com/crawling/docs/robots-txt/create-robots-txt)。
+
 ## デザイン
 
 [デジタル庁デザインシステム](https://design.digital.go.jp/dads/)を参考に、青・白・グレー、明確なラベル、フォーカス表示、44〜48px以上の主要操作部品、入力エラーの案内を採用した独自実装です。公式コンポーネントの利用・公式認証・完全な適合を示すものではありません。
